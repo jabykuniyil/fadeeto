@@ -1,0 +1,55 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+<div style=" padding: 4rem; padding-top: 2rem;">
+    <form style="padding: 7rem; padding-top: 3rem;" method="POST" action="/turfadmin/editcategory/{{category.id}}/" enctype="multipart/form-data">
+      {% csrf_token %} 
+      <h1 class="h3 mb-3 font-weight-normal" style="color: rgb(151, 10, 10); font-weight: bold;">Edit Category</h1>
+        <!-- <label for="inputEmail" class="sr-only">Email address</label> -->
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-md-12 col-12">
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder;color: seagreen;">Sport Name</span>
+
+        <input type="text" id="category" name="category" value="{{category.sport}}" class="form-control"   required autofocus>
+        <br>
+        <br>
+        <h6 style="color: rgb(83, 35, 35);">Click on the images to edit</h6>
+        <br>
+        <img src="{{ category.ImageURL3 }}" width="100rem" id="icon" height="70rem" alt="" srcset="">
+        <input type="file" name="iconfile" id="iconfile" hidden >
+        <br>
+        <input type="submit" class="btn btn-lg  btn-block"  id="save" style="margin-top: 2rem; background-color: seagreen; color: seashell;" value="Save" >
+
+      </div>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
+
+      <script>
+        $('#icon').click(function(){
+            console.log('hello')
+            $('#iconfile').click()
+            function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                $('#icon').attr('src', e.target.result);
+                }
+                
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+        
+        $("#iconfile").change(function() {
+            readURL(this);
+        });
+        
+          })
+         
+        </script>
+    {% endblock %}

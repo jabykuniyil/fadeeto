@@ -1,0 +1,45 @@
+{% extends 'vendors/base.html' %}
+<!-- {% block style %}
+{% endblock %} -->
+{% block  content %}
+<nav class="navbar col-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
+<p style="color: brown;text-align: center; font-size: 4rem; padding: 2rem; font: bolder;">All Users</p>
+<button type="button" class="btn-secondary " style="justify-content: center; width: 8rem; height: 2rem; border: none; border-radius: 1rem; display: flex; padding-right: 2rem; text-align: center; ">Add User</button>
+</nav>
+<table class="table" id="table" style="align-items: center; padding: 2rem;">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Mobile</th>
+        <th scope="col">Email</th>
+        <th scope="col">username</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <th >{{ user.user.id }}</th>
+        <td>{{ user.user.first_name }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.user.email }}</td>
+        <td>{{ user.user.username }}</td>
+        <td ><a href="/vendor/edit/{{user.user.id}}"><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem; border: none; width: 3rem; ">Edit</button></a></td>
+        <td><a href="/vendor/delete/{{user.user.id}}"><button type="button" class="btn-danger" style=" border-radius: 1rem; border: none; width: 3rem;">Delete</button></a></td>
+      </tr> 
+    {% endfor %}
+
+     
+    </tbody>
+  </table>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+      $(document).ready(function() {
+            $('#table').DataTable();
+        });
+  </script>
+  {% endblock %}

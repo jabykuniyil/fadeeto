@@ -1,0 +1,36 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+<nav class="navbar col-12 col-md-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
+  <p style="color: brown;text-align: center; font-size: 3rem; padding: 2rem; font: bolder;">Sports Categories</p>
+  <a href="/turfadmin/addcategory/"><button type="button" class="btn-secondary " style="justify-content: center; width: 8rem; height: 2rem; border: none; border-radius: 1rem; display: block; margin: 2rem;  ">Add Category</button></a>
+  
+  </nav>
+  <div style="padding: 3rem; margin-top: -3rem;">
+<table class="table" style="margin: auto;  ">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" style="width: 4rem;">id</th>
+        <th scope="col" style="width: 10rem;">Sport Name</th>
+        <th scope="col" style="width: 6rem;">Icon</th>
+        <th scope="col" style="width: 6rem;"></th>
+        <th style="width: 6rem;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in categories %}
+
+      <tr>
+        <th scope="row">{{category.id}}</th>
+        <td>{{ category.sport }}</td>
+        
+        <td><img src="{{ category.ImageURL3 }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></td>
+        <td><a href="/turfadmin/editcategory/{{category.id}}/"><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem; border: none; width: 6rem;  ">Edit</button></a></td>
+        <td><a href="/turfadmin/deletecategory/{{category.id}}/"><button type="button" class="btn-danger" style= "text-align: center; border-radius: 1rem; border: none; width: 6rem;  ">Remove</button></a></td>
+      </tr>
+      {% endfor %}
+
+     
+    </tbody>
+  </table>
+</div>
+{% endblock %}

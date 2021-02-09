@@ -1,0 +1,181 @@
+{% extends 'vendors/base.html' %}
+{% block content %}
+<div style=" padding: 4rem; padding-top: 2rem;">
+    <form class="form-signin" style="padding: 7rem; padding-top: 3rem; " method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal" style="color: rgb(151, 10, 10); font-weight: bold;">Add Turf</h1>
+        <!-- <label for="inputEmail" class="sr-only">Email address</label> -->
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-md-12 col-12">
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder;color: seagreen;">Turf Name</span>
+
+        <input type="text" id="turfname" name="turfName" placeholder="turf name" class="form-control"   required autofocus>
+        <span id="errorfirst_name" style="text-align: center; color: red;"></span>
+    </div>
+    <!-- <div class="col-md-6 col-12">
+
+        <label for="inputPassword" class="sr-only">Password</label> -->
+        <!-- <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Mobile</span>
+
+        <input type="number" name="mobile" id="mobile" class="form-control" placeholder="mobile" required>
+        
+        <span id="errormobile" style="text-align: center; color: red;"></span> -->
+    <!-- </div>  -->
+
+    </div>
+        <div class="row">
+            <!-- <span class="form-label">Min</span> -->
+            <div class="col-md-6 col-12">
+                <br>
+                <span style="color: rgb(4, 5, 4); font-size: larger;  font-weight: bolder ; color: seagreen;">Address</span>
+                <input type="text" style="height: 5rem;" name="address"  id="price" class="form-control" placeholder="address" required>
+
+                <br><br>
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Photos(2)</span>
+                <input type="file" id="image1" name="image1" accept="image/*" class="form-control" required>
+                <input type="file" id="image2" name="image2" accept="image/*" class="form-control" required>
+                
+               </div>
+           
+           
+            
+            <div class="col-md-6 col-12">
+                <br>
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Sports Available</span>
+                <br>
+                <br>
+                {% for sport in sports %}
+                <input type="checkbox" id="cricket" name="cricket" value="cricket" >
+                <label for="cricket" style="text-align: center;">{{ sport.sport }}</label>
+                <input type="number" name="cricketprice" id="inputcricket" class="form-control" placeholder="price" >
+
+                <br>
+                {% endfor %}
+                <!-- <input type="checkbox" id="football" name="football" value="football" >
+                <label for="football" style="text-align: center;">Football</label>
+                <input type="number" name="footballprice" id="inputfootball" class="form-control" placeholder="price" >
+
+                <br>
+                <input type="checkbox" id="badminton" name="badminton" value="badminton" >
+                <label for="badminton" style="text-align: center;">Badminton</label>
+                
+                
+                <input type="number" name="badmintonprice" id="inputbadminton" class="form-control" placeholder="price" >
+                 -->
+                <br>
+                <br>
+                <br>
+
+            </div>
+        </div>
+        <div class="row" style="margin-top: 1rem;">
+            <div class="col-md-6" >
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Time Periods</span>
+                <!-- <input type="time"  id="price" class="form-control" placeholder="price" required> -->
+                <br>
+                <input type="checkbox" id="6 AM - 7 AM" name="6AM-7AM" value="6 AM - 7 AM">
+                <label for="6 AM - 7 AM">6 AM - 7 AM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="7 AM - 8 AM" name="7AM-8AM" value="7 AM - 8 AM">
+                <label for="7 AM - 8 AM">7 AM - 8 AM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="8 AM - 9 AM" name="8AM-9AM" value="8 AM - 9 AM">
+                <label for="8 AM - 9 AM">8 AM - 9 AM</label><br>      
+                <input type="checkbox" id="9 AM - 10 AM" name="9AM-10AM" value="9 AM - 10 AM">
+                <label for="9 AM - 10 AM">9 AM - 10 AM</label>&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="10 AM - 11 AM" name="10AM-11AM" value="10 AM - 11 AM">
+                <label for="10 AM - 11 AM">10 AM - 11 AM</label>&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="11 AM - 12 AM" name="11AM-12AM" value="11 AM - 12 AM">
+                <label for="11 AM - 12 AM">11 AM - 12 AM</label> <br> 
+                <input type="checkbox" id="12 AM - 1 PM" name="12AM-1PM" value="12 AM - 1 PM">
+                <label for="12 AM - 1 PM">12 AM - 1 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="1 PM - 2 PM" name="1PM-2PM" value="1 PM - 2 PM">
+                <label for="1 PM - 2 PM">1 PM - 2 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="2 PM - 3 PM" name="2PM-3PM" value="2 PM - 3 PM">
+                <label for="2 PM - 3 PM">2 PM - 3 PM</label><br>
+                <input type="checkbox" id="3 PM - 4 PM" name="3PM-4PM" value="3 PM - 4 PM">
+                <label for="3 PM - 4 PM">3 PM - 4 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="4 PM - 5 PM" name="4PM-5PM" value="4 PM - 5 PM">
+                <label for="4 PM - 5 PM">4 PM - 5 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="5 PM - 6 PM" name="5PM-6PM" value="5 PM - 6 PM">
+                <label for="5 PM - 6 PM">5 PM - 6 PM</label><br>
+                <input type="checkbox" id="6 PM - 7 PM" name="6PM-7PM" value="6 PM - 7 PM">
+                <label for="6 PM - 7 PM">6 PM - 7 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="7 PM - 8 PM" name="7PM-8PM" value="7 PM - 8 PM">
+                <label for="7 PM - 8 PM">7 PM - 8 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="8 PM - 9 PM" name="8PM-9PM" value="8 PM - 9 PM">
+                <label for="8 PM - 9 PM">8 PM - 9 PM</label><br>
+                <input type="checkbox" id="9 PM - 10 PM" name="9PM-10PM" value="9 PM - 10 PM">
+                <label for="9 PM - 10 PM">9 PM - 10 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="10 PM - 11 PM" name="10PM-11PM" value="10 PM - 11 PM">
+                <label for="10 PM - 11 PM">10 PM - 11 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="11 PM - 12 AM" name="11PM-12AM" value="11 PM - 12 AM">
+                <label for="11 PM - 12 AM">11 PM - 12 AM</label><br>
+
+            </div>
+            <div class="col-md-6">
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder;color: seagreen;">Facilities</span>
+                <br><br>  
+                <input type="checkbox" id="bath" name="bath" value="bath">
+                <label for="bath" style="text-align: center;">bath</label>
+                
+                <input type="checkbox" id="purifiedwater" name="purifiedwater" value="purifiedwater">
+                <label for="purifiedwater" style="text-align: center;">purifiedwater</label>
+                
+                <input type="checkbox" id="washroom" name="washroom" value="washroom">
+                <label for="washroom" style="text-align: center;">washroom</label>
+                <br>
+                <input type="checkbox" id="shower" name="shower" value="shower">
+                <label for="shower" style="text-align: center;">shower</label>
+                <input type="checkbox" id="parking" name="parking" value="parking">
+                <label for="parking" style="text-align: center;">parking</label>
+                
+                <input type="checkbox" id="gallery" name="gallery" value="gallery">
+                <label for="gallery" style="text-align: center;">gallery</label>
+                <br>
+                <input type="checkbox" id="cafteria" name="cafteria" value="cafteria">
+                <label for="cafteria" style="text-align: center;">cafteria</label>
+                
+                <input type="checkbox" id="livescreening" name="livescreening" value="livescreening">
+                <label for="livescreening" style="text-align: center;">livescreening</label>
+                
+                <input type="checkbox" id="locker" name="locker" value="locker">
+                <label for="locker" style="text-align: center;">locker</label>
+                
+                <input type="checkbox" id="mobilecharging" name="mobilecharging" value="mobilecharging">
+                <label for="mobilecharging" style="text-align: center;">mobilecharging</label>
+                <br>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+                
+            <div class="col-md-12">
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Description</span>
+                <input type="text" style="height: 5rem;" name="description" id="description" class="form-control" placeholder="description" required>
+
+            </div>
+        </div>
+        
+    
+        <input  class="btn btn-lg  btn-block" id="addturf" style="margin-top: 2rem; background-color: seagreen; color: seashell;" value="Save" type="submit">
+      </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script> -->
+    
+   
+<script>
+document.getElementById('cricket').onchange = function() {
+document.getElementById('inputcricket').enabled = this.checked;
+};
+document.getElementById('football').onchange = function() {
+document.getElementById('inputfootball').enabled = this.checked;
+};
+document.getElementById('badminton').onchange = function() {
+document.getElementById('inputbadminton').enabled = this.checked;
+};
+</script>
+        
+
+{% endblock %}

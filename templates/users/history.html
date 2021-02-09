@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.80.0">
+  <title>Signin</title>
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/carousel/">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/sign-in/">
+
+
+
+  <!-- Bootstrap core CSS -->
+  {% load static %}
+  <link href="{% static 'css/users/loginstyle.css' %}" rel="stylesheet">
+
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <!-- <link href="signin.css" rel="stylesheet"> -->
+</head>
+
+<body class="text-center bg-light">
+
+  <form class="form-signin">
+    <img class="mb-4"
+      src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-silhouette-of-creative-football-players-png-image_4266550.jpg"
+      alt="" width="72" height="72">
+    <!-- <img class="mb-4"
+      src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-silhouette-of-creative-football-players-png-image_4266550.jpg"
+      alt="" width="72" height="72"> -->
+    <h2 style="color: crimson;">FADEETO</h2>
+    <h1 class="h3 mb-3 font-weight-normal" style="color: olive; font:bolder;">Book History</h1>
+    <h5 style="color: black; text-align: left;">Booking id&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.id }}</h5>
+    <h5 style="color: black; text-align: left;">Name&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.userdata.user.first_name }}</h5>
+    <h5 style="color: black; text-align: left;">Mobile&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.userdata.phone }}</h5>
+    <h5 for=""  style="text-align: left; color: black;">Turf Chosen &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.turf_name}}</h5>
+    <h5 for=""  style="text-align: left; color: black;">Sport Chosen :&nbsp;{{ booking.sport }}</h5>
+    <h5 style="color: black; text-align: left;">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.date }}</h5>
+    <h5 style="color: black; text-align: left;">Time&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.time_period }}</h5>
+    {% for  sport, price in turfs.sport.items %}
+      
+    <h5 style="color: black; text-align: left;">Amount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ price }}</h5>
+    
+    {% endfor %}
+    
+    <h4 style="margin-top: 2rem; color: green;">Thank you for booking !</h4>
+
+    
+    <!-- <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div> -->
+    <br>
+    <span id="error" style="text-align: center; color: red;"></span>
+<br>
+    <a href="/"><button class="btn btn-lg btn-primary btn-block" name="login" id="login" type="button">Back to Home</button></a>
+     </form>
+<script>
+  
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>User Signup</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/carousel/">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/sign-in/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+    {% load static %}
+<link href="{% static 'css/users/Signup.css/' %}" rel="stylesheet">
+
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <!-- <link href="signin.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body class="text-center">
+    
+<form class="form-signin">
+  <img class="mb-4" src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-silhouette-of-creative-football-players-png-image_4266550.jpg" alt="" width="72" height="72">
+  <h1 class="h3 mb-3 font-weight-normal">Manager Sign Up</h1>
+  <!-- <label for="inputEmail" class="sr-only">Email address</label> -->
+  <input type="text" id="first_name" class="form-control" placeholder="Full Name" required autofocus>
+  <!-- <label for="inputPassword" class="sr-only">Password</label> -->
+  <span id="errorfirst_name" style="text-align: center; color: red;"></span>
+
+  <input type="number" style="margin-top: 10px;" id="mobile" class="form-control" placeholder="Mobile" required>
+  <!-- <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div> -->
+  <span id="errormobile" style="text-align: center; color: red;"></span>
+
+  <input type="email" style="margin-top: 10px;" id="email" class="form-control" placeholder="Email" required>
+  <span id="erroremail" style="text-align: center; color: red;"></span>
+
+  <input type="text" style="margin-top: 10px;" id="username" class="form-control" placeholder="username" required>
+  <span id="errorusername" style="text-align: center; color: red;"></span>
+
+  <input type="password" style="margin-top: 10px;" id="password" class="form-control" placeholder="Password" required>
+  <span id="errorpassword" style="text-align: center; color: red;"></span>
+
+  <button class="btn btn-lg btn-primary btn-block" id="signup" type="button">Sign Up</button>
+  <p class="mt-5 mb-3 text-muted">&copy; Already logged in</p><a href="/vendor/login/">Sign in</a>
+</form>
+<script>
+  $('#signup').click(function(){
+    var first_name = $('#first_name').val()
+    var mobile = $('#mobile').val()
+    var email = $('#email').val()
+    var username = $('#username').val()
+    var password = $('#password').val()
+    var data = {
+        'csrfmiddlewaretoken' : '{{ csrf_token }}',
+        'first_name' : first_name,
+        'mobile' : mobile,
+        'email' : email,
+        'username' : username,
+        'password' : password
+    }
+    let error = false
+  
+    if (first_name == ''){
+        $('#errorfirst_name').html("Enter the valid username")
+        error = true
+    }
+    else{
+        $('#errorfirst_name').html('')
+    }
+    if(mobile == ''){
+        $('#errormobile').html("Enter the valid phone number")
+        error =true
+    }
+    else{
+        $('#errormobile').html('')
+    }
+    if(email == ""){
+        $('#erroremail').html('Please enter valid email')
+        error = true
+    }else{
+        $('#erroremail').html('')
+    }
+    if(username == '')
+    {
+        $('#errorusername').html('Enter the valid username')
+        error = true
+    }
+    else{
+        $('#errorusername').html("")
+    }
+    if(password == ''){
+        $('#errorpassword').html("Enter proper password")
+        error = true
+    }
+    else{
+        $('#errorpassword').html('')
+    }
+    if(!error){
+        $.ajax({
+            url : '/vendor/signup/',
+            method : 'POST',
+            data : data,
+            dataType : 'json',
+            success : function(data){
+                if(data == 'true'){
+                    window.location.replace('/vendor/turfs/')
+                }
+                if(data == 'email'){
+                    $('#erroremail').html('Email already exists')
+                }
+                if(data == 'username'){
+                  $('#errorusername').html('username already exists')
+                }
+            }
+        })
+    }
+  })
+  </script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
+</body>
+</html>

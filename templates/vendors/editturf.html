@@ -1,0 +1,270 @@
+{% extends 'vendors/base.html' %}
+{% block content %}
+<div style=" padding: 4rem; padding-top: 2rem;">
+    <form style="padding: 7rem; padding-top: 3rem;" method="post" action="/vendor/editturf/{{turfs.id}}/" enctype="multipart/form-data">
+      {% csrf_token %} 
+      <h1 class="h3 mb-3 font-weight-normal" style="color: rgb(151, 10, 10); font-weight: bold;">Edit Turf</h1>
+        <!-- <label for="inputEmail" class="sr-only">Email address</label> -->
+        <div class="row" style="margin-top: 2rem;">
+            <div class="col-md-12 col-12">
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder;color: seagreen;">Turf Name</span>
+
+        <input type="text" id="turfName" name="turfName" value="{{ turfs.turfName }}" class="form-control"   required autofocus>
+        <span id="errorfirst_name" style="text-align: center; color: red;"></span>
+    </div>
+    <!-- <div class="col-md-6 col-12">
+
+        <label for="inputPassword" class="sr-only">Password</label> -->
+        <!-- <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Mobile</span>
+
+        <input type="number" name="mobile" id="mobile" class="form-control" placeholder="mobile" required>
+        
+        <span id="errormobile" style="text-align: center; color: red;"></span> -->
+    <!-- </div>  -->
+
+    </div>
+        <div class="row">
+            <!-- <span class="form-label">Min</span> -->
+            <div class="col-md-6 col-12">
+                <br>
+                <span style="color: rgb(4, 5, 4); font-size: larger;  font-weight: bolder ; color: seagreen;">Address</span>
+                <input type="text" style="height: 5rem;" name="address" value="{{ turfs.address }}"  id="address" class="form-control" placeholder="address" required>
+
+                <br><br>
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Photos(2)</span>
+                <br>
+                <h6 style="color: rgb(83, 35, 35);">Click on the images to edit</h6>
+                <br>
+                <img src="{{ turfs.ImageURL }}" width="100rem" id="image1" height="70rem" alt="" srcset="">
+                <input type="file" name="inputimage1" id="inputimage1" hidden >
+                <img src="{{ turfs.ImageURL2 }}" width="100rem" id="image2" height="70rem" alt="" srcset="">
+                <input type="file" name="inputimage2" id="inputimage2" hidden >
+               </div>
+           
+           
+            
+            <div class="col-md-6 col-12">
+                <br>
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Sports Available</span>
+                <br>
+                <br>
+                <input type="checkbox" id="cricket" name="cricket" value="cricket" {% if 'cricket' in turfs.sport %} checked {% endif %}>
+                <label for="cricket" style="text-align: center;">Cricket</label>
+                
+                <input type="text" value="{% if cricket is not None %} {{ cricket }}{% endif %} " name="cricketprice" id="inputcricket" class="form-control" placeholder="price" >
+                
+                <br>
+                <input type="checkbox" id="football" name="football" value="football" {% if 'football' in turfs.sport %} checked {% endif %}>
+                <label for="football" style="text-align: center;">Football</label>
+                
+                <input type="text" name="footballprice" id="inputfootball" value="{% if football is not None %}{{football}}{% endif %}" class="form-control" placeholder="price" >
+                
+
+                <br>
+                <input type="checkbox" id="badminton" name="badminton" value="badminton" {% if 'badminton' in turfs.sport %} checked {% endif %}>
+                <label for="badminton" style="text-align: center;">Badminton</label>
+
+                <input type="text" name="badmintonprice" value="{% if badminton is not None %}{{badminton}}{% endif %}" id="inputbadminton" class="form-control" placeholder="price" >
+                
+
+                <br>
+                <br>
+                <br>
+
+            </div>
+        </div>
+        <div class="row" style="margin-top: 1rem;">
+            <div class="col-md-6" >
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Time Periods</span>
+                <!-- <input type="time"  id="price" class="form-control" placeholder="price" required> -->
+                <br>
+                <input type="checkbox" id="6 AM - 7 AM" name="6AM-7AM" value="6 AM - 7 AM"{% if '6 AM - 7 AM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="6 AM - 7 AM">6 AM - 7 AM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="7 AM - 8 AM" name="7AM-8AM" value="7 AM - 8 AM"{% if '7 AM - 8 AM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="7 AM - 8 AM">7 AM - 8 AM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="8 AM - 9 AM" name="8AM-9AM" value="8 AM - 9 AM"{% if '8 AM - 9 AM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="8 AM - 9 AM">8 AM - 9 AM</label><br>      
+                <input type="checkbox" id="9 AM - 10 AM" name="9AM-10AM" value="9 AM - 10 AM"{% if '9 AM - 10 AM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="9 AM - 10 AM">9 AM - 10 AM</label>&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="10 AM - 11 AM" name="10AM-11AM" value="10 AM - 11 AM"{% if '10 AM - 11 AM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="10 AM - 11 AM">10 AM - 11 AM</label>&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="11 AM - 12 AM" name="11AM-12AM" value="11 AM - 12 AM"{% if '11 AM - 12 AM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="11 AM - 12 AM">11 AM - 12 AM</label> <br> 
+                <input type="checkbox" id="12 AM - 1 PM" name="12AM-1PM" value="12 AM - 1 PM"{% if '12 AM - 1 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="12 AM - 1 PM">12 AM - 1 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="1 PM - 2 PM" name="1PM-2PM" value="1 PM - 2 PM"{% if '1 PM - 2 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="1 PM - 2 PM">1 PM - 2 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="2 PM - 3 PM" name="2PM-3PM" value="2 PM - 3 PM"{% if '2 PM - 3 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="2 PM - 3 PM">2 PM - 3 PM</label><br>
+                <input type="checkbox" id="3 PM - 4 PM" name="3PM-4PM" value="3 PM - 4 PM"{% if '3 PM - 4 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="3 PM - 4 PM">3 PM - 4 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="4 PM - 5 PM" name="4PM-5PM" value="4 PM - 5 PM"{% if '4 PM - 5 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="4 PM - 5 PM">4 PM - 5 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="5 PM - 6 PM" name="5PM-6PM" value="5 PM - 6 PM"{% if '5 PM - 6 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="5 PM - 6 PM">5 PM - 6 PM</label><br>
+                <input type="checkbox" id="6 PM - 7 PM" name="6PM-7PM" value="6 PM - 7 PM"{% if '6 PM - 7 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="6 PM - 7 PM">6 PM - 7 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="7 PM - 8 PM" name="7PM-8PM" value="7 PM - 8 PM"{% if '7 PM - 8 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="7 PM - 8 PM">7 PM - 8 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="8 PM - 9 PM" name="8PM-9PM" value="8 PM - 9 PM"{% if '8 PM - 9 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="8 PM - 9 PM">8 PM - 9 PM</label><br>
+                <input type="checkbox" id="9 PM - 10 PM" name="9PM-10PM" value="9 PM - 10 PM"{% if '9 PM - 10 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="9 PM - 10 PM">9 PM - 10 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="10 PM - 11 PM" name="10PM-11PM" value="10 PM - 11 PM"{% if '10 PM - 11 PM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="10 PM - 11 PM">10 PM - 11 PM</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" id="11 PM - 12 AM" name="11PM-12AM" value="11 PM - 12 AM"{% if '11 PM - 12 AM' in turfs.timePeriod %} checked {% endif %}>
+                <label for="11 PM - 12 AM">11 PM - 12 AM</label><br>
+
+            </div>
+            <div class="col-md-6">
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder;color: seagreen;">Facilities</span>
+                <br><br>  
+                <input type="checkbox" id="bath" name="bath" value="bath"{% if 'bath' in turfs.facilities %} checked {% endif %}>
+                <label for="bath" style="text-align: center;">bath</label>
+                
+                <input type="checkbox" id="purifiedwater" name="purifiedwater" value="purifiedwater"{% if 'purifiedwater' in turfs.facilities %} checked {% endif %}>
+                <label for="purifiedwater" style="text-align: center;">purifiedwater</label>
+                
+                <input type="checkbox" id="washroom" name="washroom" value="washroom"{% if 'washroom' in turfs.facilities %} checked {% endif %}>
+                <label for="washroom" style="text-align: center;">washroom</label>
+                <br>
+                <input type="checkbox" id="shower" name="shower" value="shower"{% if 'shower' in turfs.facilities %} checked {% endif %}>
+                <label for="shower" style="text-align: center;">shower</label>
+                <input type="checkbox" id="parking" name="parking" value="parking"{% if 'parking' in turfs.facilities %} checked {% endif %}>
+                <label for="parking" style="text-align: center;">parking</label>
+                
+                <input type="checkbox" id="gallery" name="gallery" value="gallery"{% if 'gallery' in turfs.facilities %} checked {% endif %}>
+                <label for="gallery" style="text-align: center;">gallery</label>
+                <br>
+                <input type="checkbox" id="cafteria" name="cafteria" value="cafteria"{% if 'cafteria' in turfs.facilities %} checked {% endif %}>
+                <label for="cafteria" style="text-align: center;">cafteria</label>
+                
+                <input type="checkbox" id="livescreening" name="livescreening" value="livescreening"{% if 'livescreening' in turfs.facilities %} checked {% endif %}>
+                <label for="livescreening" style="text-align: center;">livescreening</label>
+                
+                <input type="checkbox" id="locker" name="locker" value="locker"{% if 'locker' in turfs.facilities %} checked {% endif %}>
+                <label for="locker" style="text-align: center;">locker</label>
+                
+                <input type="checkbox" id="mobilecharging" name="mobilecharging" value="mobilecharging"{% if 'mobilecharging' in turfs.facilities %} checked {% endif %}>
+                <label for="mobilecharging" style="text-align: center;">mobilecharging</label>
+                <br>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+                
+            <div class="col-md-12">
+                <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Description</span>
+                <input type="text" style="height: 5rem;" name="description" value="{{ turfs.description }}" id="description" class="form-control" placeholder="description" required>
+
+            </div>
+        </div>
+        
+    
+        <input type="submit" class="btn btn-lg  btn-block"  id="save" style="margin-top: 2rem; background-color: seagreen; color: seashell;" value="Save" >
+      </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    
+   
+<script>
+document.getElementById('cricket').onchange = function() {
+document.getElementById('inputcricket').enabled = this.checked;
+};
+document.getElementById('football').onchange = function() {
+document.getElementById('inputfootball').enabled = this.checked;
+};
+document.getElementById('badminton').onchange = function() {
+document.getElementById('inputbadminton').enabled = this.checked;
+};
+</script>
+<!-- <script>
+  $('#save').click(function(){
+    var turfName = $('#turfName').val()
+    var address = $('#address').val()
+    var image1 = $('#image1').val()
+    var image2 = $('#image2').val()
+    var cricketprice = $('#inputcricket').val()
+    var footballprice = $('#inputfootball').val()
+    var badmintonprice = $('#inputbadminton').val()
+    var description = $('#description').val()
+    var data = {
+        'csrfmiddlewaretoken' : '{{ csrf_token }}',
+        'turfName' : turfName,
+        'address' : address,
+        'image1' : image1,
+        'image2' : image2,
+        'cricketprice' : cricketprice,
+        'footballprice' : footballprice,
+        'badmintonprice' : badmintonprice,
+        'description' : description
+    }
+    console.log('hi')
+
+      $.ajax({
+        url : '/vendor/editturf/',
+        method : 'POST',
+        data : data,
+        dataType : 'json',
+        success : function(data){
+          if(data == 'true'){
+            window.location.replace('/vendor/turfs/')
+          }
+          if(data == 'false'){
+            $('#error').html("Invalid credentials")
+          }
+        }
+      })
+  })
+</script> -->
+<script>
+
+
+$('#image1').click(function(){
+    console.log('hello')
+    $('#inputimage1').click()
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+        $('#image1').attr('src', e.target.result);
+        }
+        
+        reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+}
+
+$("#inputimage1").change(function() {
+    readURL(this);
+});
+
+  })
+  $('#image2').click(function(){
+    console.log('hello')
+    $('#inputimage2').click()
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+        $('#image2').attr('src', e.target.result);
+        }
+        
+        reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+}
+
+$("#inputimage2").change(function() {
+    readURL(this);
+});
+
+  })
+ 
+</script>
+        
+
+{% endblock %}

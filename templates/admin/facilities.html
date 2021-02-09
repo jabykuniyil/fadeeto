@@ -1,0 +1,39 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+<nav class="navbar col-12 col-md-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
+  <p style="color: brown;text-align: center; font-size: 3rem; padding: 2rem; font: bolder;">Facilities</p>
+  <a href="/turfadmin/addfacilities/"><button type="button" class="btn-secondary " style="justify-content: center; width: 8rem; height: 2rem; border: none; border-radius: 1rem; display: block; margin: 2rem;  ">Add Facilities</button></a>
+  
+  </nav>
+  <div class="container" style="padding: 5rem; margin-top: -5rem;">
+  <table class="table" id="facilities" style="margin: auto;">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" style="width: 4rem;">No</th>
+        <th scope="col">Facilities</th>
+        <th scope="col" style="width: 6rem;"></th>
+        <th scope="col" style="width: 6rem;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row"></th>
+        <td></td>
+        <td><a href=""><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem; border: none;  ">Edit</button></a></td>
+        <td><a href=""><button type="button" class="btn-danger" style= "text-align: center; border-radius: 1rem; border: none;  ">Delete</button></a></td>
+      </tr>
+     
+      
+    </tbody>
+  </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+          $('#facilities').DataTable();
+      });
+</script>
+
+{% endblock %}

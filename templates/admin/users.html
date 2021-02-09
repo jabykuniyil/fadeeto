@@ -1,0 +1,28 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+<nav class="navbar col-12 col-md-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
+  <p style="color: brown;text-align: center; font-size: 3rem; padding: 2rem; font: bolder;">All Users</p>
+  
+  </nav>
+<table class="table" style="margin: auto;">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Name</th>
+         <th scope="col">username</th>
+        <th scope="col">Mobile</th> 
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+         <td>Otto</td>
+        <td>@mdo</td>
+        <td><a href=""><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem; border: none;  ">Block</button></a></td>
+      </tr>
+      
+    </tbody>
+  </table>
+{% endblock %}

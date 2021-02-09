@@ -1,0 +1,52 @@
+{% extends 'vendors/base.html' %}
+<!-- {% block link %}
+{% endblock %} -->
+{% block  content %}
+<nav class="navbar col-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
+<p style="color: brown;text-align: center; font-size: 4rem; padding: 2rem; font: bolder;">All Turfs</p>
+<a href="/vendor/addturf/"><button type="button" class="btn-secondary " style="justify-content: center; width: 8rem; height: 2rem; border: none; border-radius: 1rem; display: block; padding-right: 2rem;  ">Add Turf</button></a>
+
+</nav>
+<table class="table" id="table" style="align-items: center; padding: 2rem;">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Turf Name</th>
+        <th scope="col">Time Periods</th>
+        <th scope="col">Sports Available</th>
+        <th scope="col">Facilities</th>
+        <th scope="col">Image1</th>
+        <th scope="col">Image2</th>
+        <th scope="col">Address</th>
+        <th scope="col">Description</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for turf in turfs %}
+      <tr>
+        <th scope="row">{{ turf.id }}</th>
+        <td>{{ turf.turfName }}</td>
+        <td>{{ turf.timePeriod }}</td>
+        <td>{{ turf.price }}</td>
+        <td>{{ turf.facilities }}</td>
+        <td ><img src="{{ turf.ImageURL }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></td>
+        <td ><img src="{{ turf.ImageURL2 }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></td>
+        <td>{{ turf.address }}</td>
+        <td>{{ turf.description }}</td>
+        <td><a href="/vendor/editturf/{{ turf.id }}/"><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem; border: none;  ">Edit</button></a></td>
+       <td><a href="/vendor/deleteturf/{{turf.id}}/"><button type="button" class="btn-danger" style="text-align: center; border-radius: 1rem; border: none; ">Delete</button></a></td>
+        </tr> 
+      {% endfor %}
+    </tbody>
+  </table>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+      $(document).ready(function() {
+            $('#table').DataTable();
+        });
+  </script>
+  {% endblock %}

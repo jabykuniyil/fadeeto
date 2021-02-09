@@ -1,0 +1,137 @@
+{% extends 'users/base.html' %}
+{% block content %}
+
+<body>
+  <section style="margin-top: 3rem; margin-left: 5rem; margin-right: 5rem;">
+
+    <div class="container">
+
+      <h1 style="text-align: center; color: maroon;">{{ turf.turfName }}</h1>
+    </div>
+
+    <p style="text-align: center; color: gray;">{{ turf.address }}</p>
+    <!-- <p style="text-align: center; color: gray;">Mahe</p> -->
+    <div class="row">
+      <div class="col-md-4 col-12">
+        <h1 style=" color: firebrick; text-align: center;">GALLERY</h1>
+        <img src="{{ turf.ImageURL }}" width="100%" alt="" srcset="">
+        <img src="{{ turf.ImageURL2 }}" style="margin-top: 1rem;" width="100%" alt="" srcset="">
+        <!-- <h5 style=" color: firebrick; text-align: center; margin-top: 1rem;">Rating</h5>
+            <input type="checkbox" name="review" id="review">       -->
+        <div style="margin-top: 3rem;">
+          <h3 style="text-align: center; color: maroon;">Rating :</h3>
+        </div>
+      </div>
+
+      <div class="col-md-8 col-12">
+
+
+        <div class="row">
+          <div class="col-md-8">
+            <h1 style="text-align: center; color: maroon;">Price</h1>
+            <table class="table">
+              <tbody>
+
+                {% for sport, price in turf.sport.items %}
+                <tr>
+                  <th style="text-align: center; color: olive;" scope="col">{{ sport }}</th>
+                  <td>{{ price }}</td>
+
+                  <!-- <p style="color: olive; text-align: center;">(Booking for 1 hour at a time)</p> -->
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <!-- <p style="color: olive; text-align: center;"></p> -->
+            <table class="table">
+              <thead>
+                <tr>
+                    <h3 style="text-align: center; color: maroon;">Time Periods </h3>
+
+                  <p style="color: olive; text-align: center;">(Booking for 1 hour at a time)</p>
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for time in turf.timePeriod %}
+                <tr>
+                  <button class="rounded" style="border-radius: 1rem; border: none;">{{ time }}</button>&nbsp;
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <h3 style="text-align: center; color: maroon;">Map</h3>
+            <br>
+            <div class="row" >
+              <i class="icofont-rounded-right"></i> <a
+                href="https://maps.google.com/maps?q=Mahe&t=&z=13&ie=UTF8&iwloc=&output=embed"></li></a><iframe
+                src="https://maps.google.com/maps?q=thalassery&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+                style="border:0; display: flex; margin: auto;" allowfullscreen></iframe>
+            </div>
+            <br>
+            <br>
+            <div>
+
+            </div>
+            <div class="container" style="align-items: center; justify-items: center;">
+              <a href="/userbooking/{{ turf.id }}/"><button type="button" class="btn-success"
+                  style="align-items: center; text-align: center; display: grid; margin: auto; border: 0; border-radius: 1rem; height: 5rem; width: 10rem;">BOOK
+                  TURF</button></a>
+            </div>
+
+          </div>
+          <div class="col-md-4">
+            <h3 style="text-align: center; color: maroon;">Sports Available</h3>
+            <div>
+              <br>
+            </div>
+            <div class="row" style="justify-content: center;" >
+              {% load static %}
+              {% if 'cricket' in turf.sport %}
+              <img src="{% static 'images/users/cricketlogo.png' %}" style="margin: auto;" width="30%" height="30%"
+                alt="" srcset="">
+               {{ sport}} {% endif %}
+                {% if 'football' in turf.sport %}
+              <img src="https://as2.ftcdn.net/jpg/01/70/52/91/500_F_170529186_lgdCZeoV7b2OBIMIQPiBzMBJauRLui3W.jpg"
+                style="margin-left: 1rem;" width="30%" height="25%" alt="" srcset="">
+                {% endif %}
+                {% if 'badminton' in turf.sport %}
+              <img src="https://static.thenounproject.com/png/34398-200.png"
+                style="margin-left: 1rem;" width="30%" height="25%" alt="" srcset="">
+                {% endif %}
+            </div>
+            <br>
+            <br>
+            <h3 style="text-align: center; color: maroon; margin: 1rem;">Facilities</h3>
+            {% for facility in turf.facilities %}
+            <div style="text-align: center; ">
+              <h5 style="color: olive;">{{ facility }}</h5>
+            </div>
+            {% endfor %}
+
+
+            <h3 style=" color: firebrick; text-align: center; margin-top: 1rem;">Customer Review</h3>
+            <input type="text" name="textarea" id="textarea" placeholder="Review"
+              style="display: flex; margin-top: 1rem; justify-content: center; border-radius: 1rem;  border-color: rgb(177, 43, 43); margin: auto; width: 16rem; height: 6rem;">
+            <br>
+            <input type="submit" class="btn-primary" name="submit" value="Submit"
+              style="height: 3rem; display: flex; margin: auto; width: 16rem; border-radius: 1rem;  justify-content: center;"
+              id="">
+          </div>
+
+        </div>
+      </div>
+      <!-- <div class="row">
+            <div class="col-md-12 col-12">
+            <div>
+              <button type="button" class="btn-primary" style="margin: auto ; display:block; border: none; cursor: w-resize;  width: 80%; height: 60%;">Book</button>
+            </div>
+          </div> -->
+
+    </div>
+
+    </div>
+    </div>
+  </section>
+  {% endblock %}

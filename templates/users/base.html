@@ -1,0 +1,100 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>user home</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/carousel/">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+
+
+    <!-- Bootstrap core CSS -->
+<!-- <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+
+    <link href="{% static 'css/users/homestyle.css' %}" rel="stylesheet">
+    <link href="{% static 'css/users/turfstyle.css' %}" rel="stylesheet">
+    <link href="{% static 'css/users/booking.css' %}" rel="stylesheet">
+
+  </head>
+  <body>
+    
+<header>
+  <nav  class="navbar navbar-expand-md navbar-dark fixed-top bg-secondary">
+    <img src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-silhouette-of-creative-football-players-png-image_4266550.jpg" class="rounded circle" width="20" height="20" alt="" srcset="">
+    <p>  </p>
+    <a class="navbar-brand" style="color: floralwhite;    " href="#"> FADEETO</a>
+    <button class="navbar-toggler" style="color:  rgb(3, 53, 5);" type= "button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" style="color: floralwhite; " href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="color:  floralwhite; " href="/usersignin/">Login</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="color:floralwhite;" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Category</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <a class="dropdown-item" href="">Football</a>
+            <a class="dropdown-item" href="#">Cricket</a>
+            <a class="dropdown-item" href="#">Badminton</a>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline mt-2 mt-md-0">
+        <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"> -->
+        <a href="/userlogout/"><button class="btn btn-outline-danger my-2 my-sm-0" type="button">LOGOUT</button></a>
+      </form>
+    </div>
+  </nav>
+</header>
+{% block content %}
+{% endblock %}
+<footer class="container">
+    <p class="float-right"><a href="#"><img style="height: 3rem;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOsAAADWCAMAAAAHMIWUAAAAjVBMVEX39/f/fwD/fAD3+vv/eAD/egD38+z3/P//dwD9pGD6z7X3/P3+lkT/dQD/gAD/cgD+mkr8wJn628b7zq/8tYH65db64dD7yav9r339q3D+jSv9qWT71Lr9pVv39fH46+P48Oj+kDT9qFz+nVL/hRL/iR/8v4v+lz/538j7zqb7yJ39p2j8tXn+olL/awABxxxiAAADxklEQVR4nO2ci1raQBCFEza4IsELim1VVLzR1ur7P15J0K/aYmV3spmZnfO/APt/55gJ42pRAAAAAAAAIAHvuE/QH8uZ5z5CX9TVwIrsclgOjMiuVEsjsnWjupIt85ddrlUtJFu/quYvW1flH1Y1znjOLt+qtslmK/umwLknW1fl3wzKqxxl3QbVpsY5yv5T4GyTdYebUs1SdnOB86zxh6m2svsZyX5c4Oxk/1fg3Gr8SaoZJftZgTOS/bzAL7L6R892qWaR7Paqjey1ZtltC/xaY8WyIakqTzZUVbFsuKpaWXcbrrqSvVMoG5Oq0mRjVRXKxhX4RVZXjeNTVSdLU1VVY0qBlSVLV1Uj24WqEtluVFXIdqXayO7Ilu1OVbzsuENV4bJdpipctmtVwbLdFvhF9l6kbPeptrISk02RaisrL9lUqo3spSzZdKriapxSVViy43lK1bIcypFNm2qDmGRTpypItg9VITVOX2Axsv2k2sqeMcv2p8ou26cqc43Hoz5VWZPtW5VRtn9VNlkOVSZZHlUWWS5VBlk+1Ua26FOWU7XnZHlVW1krqivZRU815lftLVkvQLV9QFlRbWucGgkFXpNcVkqqDYllJakmlpVT4DXDRbKnsaxUG5Il6x+lqSaTlVbgNUlk5RV4TQLZ8WgyCIF0/qBPqrqW9Q+LOog7imrYZy3OO/4e4MdhjAjJVtOwz2L+3Yc/3/zX6du5XnD/5iYIuGbqOp8MoznQ5eoujgjo+scplnI19fMKV7jCVQ1+frAbjbLnsJtNCVxxHz8I/zAfRXN7qipXf14FfeF+x0RXh009m+AKV+2u80kVjbb5+v2YwIz7+GFcUuA+fBj+hrIz1dVhU88muMJVu+t8N36PqOzd3/04IaDrO13hKehSddO9eI6V7SUMvQ+beg7DNVNXQ7u1h/owmuVUlWvwvZl3cB8+EEPvEqS9/5Oud0RTzyZTM8eSq6EOn4RdS31/cVTbfKUMWO7Dgw+53CHAffgwsPeHK1z14G8od2r3VLkWTtdxwZY4CtyHD4O099/D3l8qpmaOJVfSXWll8/VqRuCa+/SB2Jk5pjC1949f++O+v1yMzddJNM/a5uspAV3v/pivQD229v770WibOabmq50djJt+IaDsb5Eo41VVqiBbDHUYe/88Z46tv0X6SkDXvqlwhu5KA6Ad7P3z3PsbepdwP7/F86jsrjTmKwBAIqb2/oRd+K6u+Tr+dX8WzZ0u14IyXjFfAQCpwN4/z73/0/NBNNrucpHeEZX9M0gAAAAAAKCX34Jj4Y8botQrAAAAAElFTkSuQmCC" alt="" srcset=""></a></p>
+    <p>&copy; 2017-2021 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+  </footer>
+</main>
+<script src="{% static 'js/users/booking.js' %}"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
+
+      
+  </body>
+</html>

@@ -4,22 +4,54 @@
   <p style="color: brown;text-align: center; font-size: 3rem; padding: 2rem; font: bolder;">All Turfs</p>
   
   </nav>
-<table class="table" style="margin: auto;">
-    <thead class="thead-dark">
+  <table class="table" id="table" style="align-items: center; padding: 2rem;">
+    <thead>
       <tr>
         <th scope="col">id</th>
-        <th scope="col">Name</th>
-        <th scope="col"> </th>
+        <th scope="col">Turf Name</th>
+        <th scope="col">Vendor</th>
+        <th scope="col">Time Periods</th>
+        <th scope="col">Sports Available</th>
+        <th scope="col">Facilities</th>
+        <th scope="col">Images</th>
+        <th scope="col">Address</th>
+        <th scope="col"></th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td><a href=""><button type="button" id="block" class="btn-danger" style= "text-align: center; border-radius: 1rem; border: none;  ">Block</button></a></td>
-      </tr>
-     
-    </tbody>
-  </table>
+  <tbody>
+    {% for turf in turfs %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{ turf.turfName }}</td>
+      <td>{{ turf.vendor.name }}</td>
+      <td>{{ turf.timePeriod }}</td>
+      <td>
+        {% for spopri in sportprice %}
+          {% if spopri.turf.id == turf.id %}
+            {{spopri.category.sport }}:Rs.{{ spopri.price}}/-
+          {% endif %}
+        {% endfor %}
+      </td>
+      <td>
+        {% for facility in turffacility %}
+         {% if facility.turf.id == turf.id %}
+         {{ facility.facilities.facility }} ,
+         {% endif %}
+        {% endfor %}
+      </td>
+      <td><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL2 }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div></td>
+      <td>{{ turf.address }}</td>
+     <td>
+       {% if turf.is_active == True %}
+       <a href="/turfadmin/blockturf/{{turf.id}}/"><button type="button" class="btn-danger" style="text-align: center; border-radius: 1rem; border: none; ">Block</button></a>
+      {% else %}
+      <a href="/turfadmin/blockturf/{{turf.id}}/"><button type="button" class="btn-success" style="text-align: center; border-radius: 1rem; border: none; ">Unblock</button></a>
+      {% endif %}  
+    </td>
+    </tr> 
+    {% endfor %}
+  </tbody>
+</table>
+
   
 {% endblock %}

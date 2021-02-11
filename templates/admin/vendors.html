@@ -10,19 +10,29 @@
         <th scope="col">id</th>
         <th scope="col">Name</th>
         <th scope="col">username</th>
+        <th scope="col">Email</th>
         <th scope="col">Mobile</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
+      {% for vndr in vendor %}
       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td><a href=""><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem; border: none;  ">Block</button></a></td>
-      </tr>
+        <th scope="row">{{ vndr.id }}</th>
+        <td>{{ vndr.name }}</td>
+        <td>{{ vndr.username }}</td>
+        <td>{{ vndr.email }}</td>
+        <td>{{ vndr.mobile }}</td>
+        <td><a href="/turfadmin/blockvendors/{{ vndr.id }}/">
+          {% if vndr.is_active == True %}
+          <button type="button" class="btn-danger" style= "text-align: center; border-radius: 1rem; border: none;  ">Block</button>
+          {% else %}
+          <button type="button" class="btn-success" style= "text-align: center; border-radius: 1rem; border: none;  ">Unblock</button></a></td>
+          {% endif %}
+        </a></td>
       
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
 {% endblock %}

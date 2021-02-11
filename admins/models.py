@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Facilities(models.Model):
-    facillity = models.CharField(max_length=20, null=True, blank=True)
+    facility = models.CharField(max_length=20, null=True, blank=True)
     
     
 class Category(models.Model):
@@ -19,5 +19,4 @@ class Category(models.Model):
         except:
             url = ''
         return url
-    
     

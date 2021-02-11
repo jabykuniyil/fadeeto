@@ -32,10 +32,10 @@
             <table class="table">
               <tbody>
 
-                {% for sport, price in turf.sport.items %}
+                {% for price in sportprice %}
                 <tr>
-                  <th style="text-align: center; color: olive;" scope="col">{{ sport }}</th>
-                  <td>{{ price }}</td>
+                  <th style="text-align: center; color: olive;" scope="col">{{ price.category.sport }}</th>
+                  <td>{{ price.price }}</td>
 
                   <!-- <p style="color: olive; text-align: center;">(Booking for 1 hour at a time)</p> -->
                   
@@ -87,26 +87,25 @@
               <br>
             </div>
             <div class="row" style="justify-content: center;" >
-              {% load static %}
-              {% if 'cricket' in turf.sport %}
-              <img src="{% static 'images/users/cricketlogo.png' %}" style="margin: auto;" width="30%" height="30%"
+              {% for sport in sportprice %}
+              <img src="{{ sport.category.ImageURL3 }}" style="margin: auto;" width="30%" height="30%"
                 alt="" srcset="">
-               {{ sport}} {% endif %}
-                {% if 'football' in turf.sport %}
+              {% endfor %}
+                <!-- {% if 'football' in turf.sport %}
               <img src="https://as2.ftcdn.net/jpg/01/70/52/91/500_F_170529186_lgdCZeoV7b2OBIMIQPiBzMBJauRLui3W.jpg"
                 style="margin-left: 1rem;" width="30%" height="25%" alt="" srcset="">
                 {% endif %}
                 {% if 'badminton' in turf.sport %}
               <img src="https://static.thenounproject.com/png/34398-200.png"
                 style="margin-left: 1rem;" width="30%" height="25%" alt="" srcset="">
-                {% endif %}
+                {% endif %} -->
             </div>
             <br>
             <br>
             <h3 style="text-align: center; color: maroon; margin: 1rem;">Facilities</h3>
-            {% for facility in turf.facilities %}
+            {% for facility in facility %}
             <div style="text-align: center; ">
-              <h5 style="color: olive;">{{ facility }}</h5>
+              <h5 style="color: olive;">{{ facility.facilities.facility }}</h5>
             </div>
             {% endfor %}
 

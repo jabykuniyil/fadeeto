@@ -193,25 +193,40 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
-								<span  class="form-label">Phone</span>
-								<input class="form-control" value="{{ userData.phone }}" type="tel" value="phone">
-								<span style="color: red;" id="errorphone"></span>
-							</div>
-							<div class="form-group">
-								<span  class="form-label">Sport</span>
-                                <select  class="form-control" id="sport" style="text-align: center;">
-                                    <option >choose...</option>
-									{% for sport in turfs.sport %}
-									<option>{{ sport }}</option>
-									{% endfor %}
-									
-									</select>
-									<span style="color: red;" id="errorsport"></span>
-							</div>
+							
 							
 							<div class="row">
-								<div class="col-sm-5">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<span  class="form-label">Phone</span>
+										<input class="form-control" value="{{ userData.phone }}" type="tel" value="phone">
+										<span style="color: red;" id="errorphone"></span>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<span  class="form-label">Sport</span>
+										<select  class="form-control" id="sport" style="text-align: center;">
+											<option >choose...</option>
+											{% for sport in sportprice %}
+											<option value="{{forloop.counter}}">{{ sport.category.sport }}</option>
+											{% endfor %}
+											
+											</select>
+											<span style="color: red;" id="errorsport"></span>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<span  class="form-label " style="text-align: center;">Amount to Pay</span>
+											{% for x in sportprice %}
+											<span class="form-label option" id="price-{{forloop.counter}}" style="display: none; color: rgb(58, 184, 58); text-align: center; font-size: xx-large; font-weight: bolder;">Rs. {{ x.price }}/-</span>
+										{% endfor	 %}
+										</div>
+									</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
 									<div class="form-group">
 										<span  class="form-label">Date</span>
 										<input id="date" class="form-control" type="date" >
@@ -219,35 +234,42 @@
 
 									</div>
 								</div>
-								<div class="col-sm-7">
-									<div class="row">
-										<div class="col-sm-6 ">
-											<div class="form-group">
-												<span   class="form-label">Hour</span>
-												<select class="form-control" id="hour" style="text-align: center;">
-                                                    <option >choose...</option>
-													{% for hour in turfs.timePeriod %}
-													<option>{{ hour }}</option>
-													{% endfor %}
-													
+								
+								<div class="col-sm-4">
+									<div class="form-group">
+										<span   class="form-label">Hour</span>
+										<select class="form-control" id="hour" style="text-align: center;">
+											<option >choose...</option>
+											{% for hour in turfs.timePeriod %}
+											<option>{{ hour }}</option>
+											{% endfor %}
+											
 
-												</select>
-												<span style="color: red;" id="errorhour"></span>
+										</select>
+										<span style="color: red;" id="errorhour"></span>
 
-												
 									</div>
 								</div>
-                            </div>
-                           
-                       
+								<div class="col-sm-4">
+									<div class="form-group">
+										<span   class="form-label">Payment Option</span>
+										<select class="form-control" id="payment" style="text-align: center;">
+											<option >choose...</option>
+										</select>
+										<span style="color: red;" id="errorpayment"></span>
+
+										
+							</div>
+						</div>
                        
                     </div>
                     <div class="col-md-12">
                         <div class="form-btn ">
-                            <button type="button" id="book" style="text-align: center; height: 3rem; display: block; width: 10rem; margin: auto; border-radius: 1rem; border: none; color: floralwhite; background-color: rgb(64, 185, 64);" >Book Now</button>
+                            <button type="button" id="book" onclick="booka('{{turfs.id}}')" style="text-align: center; height: 3rem; display: block; width: 10rem; margin: auto; border-radius: 1rem; border: none; color: floralwhite; background-color: rgb(64, 185, 64);" >Book Now</button>
                         </div>
                     </div>
                 </div>
+
 			</form>
                 
 			</div>
@@ -257,16 +279,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+	
 	<script>
-		$('#book').click(function(){
+		function booka(id){
 			var name = $('#name').val()
 			var email = $('#email').val()
 			var phone = $('#phone').val()
 			var sport = $('#sport').val()
 			var date = $('#date').val()
 			var hour = $('#hour').val()
-			var turf = '{{turfs.id}}'
-			console.log('hi')
+			var price = $('#price').val()
 			var data = {
 				'csrfmiddlewaretoken' : '{{csrf_token}}',
 				'name' : name,
@@ -274,7 +296,8 @@
 				'phone' : phone,
 				'sport' : sport,
 				'hour' : hour,
-				'date' : date
+				'date' : date,
+				'price' : price
 			}
 			let error = false
 			if(name == ''){
@@ -323,13 +346,50 @@
 			
 			if(!error){
 				$.ajax({
-					url : '/userbooking/10/'
+					url : '/userbooking/'+id,
+					method : 'POST',
+					data : data,
+					dataType : 'json',
+					success : function(data){
+						if(data == 'true'){
+							window.location.replace('/bookhistory/')
+						}
+						if(data=='false'){
+							$("#error").html("Invalid credentials")
+						}
+					}
 				})
 			}
 			
-		 }) 
+		 }
 	</script>
-   
+   <script>
+	$(function(){
+			var dtToday = new Date();
+
+			var month = dtToday.getMonth() + 1;
+			var day = dtToday.getDate();
+			var year = dtToday.getFullYear();
+			if(month < 10)
+				month = '0' + month.toString();
+			if(day < 10)
+				day = '0' + day.toString();
+
+			var maxDate = year + '-' + month + '-' + day;
+			$('#date').attr('min', maxDate);
+			});
+			</script>
+	<script>
+		var $list = $( '#sport' );
+var $options = $( '.option' );
+
+$list.on( 'change', function ( e ) {
+  
+  $options.hide();
+  $( '#price-' + this.value ).show();
+  
+} );
+			</script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
 </html>

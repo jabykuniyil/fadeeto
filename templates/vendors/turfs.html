@@ -15,8 +15,7 @@
         <th scope="col">Time Periods</th>
         <th scope="col">Sports Available</th>
         <th scope="col">Facilities</th>
-        <th scope="col">Image1</th>
-        <th scope="col">Image2</th>
+        <th scope="col">Images</th>
         <th scope="col">Address</th>
         <th scope="col">Description</th>
         <th scope="col"></th>
@@ -26,16 +25,27 @@
     <tbody>
       {% for turf in turfs %}
       <tr>
-        <th scope="row">{{ turf.id }}</th>
+        <th scope="row">{{forloop.counter}}</th>
         <td>{{ turf.turfName }}</td>
         <td>{{ turf.timePeriod }}</td>
-        <td>{{ turf.price }}</td>
-        <td>{{ turf.facilities }}</td>
-        <td ><img src="{{ turf.ImageURL }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></td>
-        <td ><img src="{{ turf.ImageURL2 }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></td>
+        <td>
+          {% for spopri in sportprice %}
+            {% if spopri.turf.id == turf.id %}
+              {{spopri.category.sport }}:Rs.{{ spopri.price}}/-
+            {% endif %}
+          {% endfor %}
+        </td>
+        <td>
+          {% for facility in turffacility %}
+           {% if facility.turf.id == turf.id %}
+            {{ facility.facilities.facility }},
+           {% endif %}
+          {% endfor %}
+        </td>
+        <td ><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL2 }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div></td>
         <td>{{ turf.address }}</td>
         <td>{{ turf.description }}</td>
-        <td><a href="/vendor/editturf/{{ turf.id }}/"><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem; border: none;  ">Edit</button></a></td>
+        <td><a href="/vendor/editturf/{{ turf.id }}/"><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem;  border: none;  ">Edit</button></a></td>
        <td><a href="/vendor/deleteturf/{{turf.id}}/"><button type="button" class="btn-danger" style="text-align: center; border-radius: 1rem; border: none; ">Delete</button></a></td>
         </tr> 
       {% endfor %}

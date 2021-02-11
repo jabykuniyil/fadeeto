@@ -9,20 +9,29 @@
       <tr>
         <th scope="col">id</th>
         <th scope="col">Name</th>
+         <th scope="col">email</th>
          <th scope="col">username</th>
         <th scope="col">Mobile</th> 
         <th></th>
       </tr>
     </thead>
     <tbody>
+      {% for userdata in userdata %}
       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-         <td>Otto</td>
-        <td>@mdo</td>
-        <td><a href=""><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem; border: none;  ">Block</button></a></td>
+        <th scope="row">{{ userdata.user.id }}</th>
+        <td>{{ userdata.user.first_name }}</td>
+         <td>{{ userdata.user.email }}</td>
+         <td>{{ userdata.user.username }}</td>
+        <td>{{ userdata.phone }}</td>
+        <td><a href="/turfadmin/blockusers/{{ userdata.user.id }}/">
+          {% if userdata.user.is_active == True %}
+          <button type="button" class="btn-danger" style= "text-align: center; border-radius: 1rem; border: none;  ">Block</button>
+          {% else %}
+          <button type="button" class="btn-success" style= "text-align: center; border-radius: 1rem; border: none;  ">Unblock</button>
+          {% endif %}
+        </a></td>
       </tr>
-      
+      {% endfor %}
     </tbody>
   </table>
 {% endblock %}

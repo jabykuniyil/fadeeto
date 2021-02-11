@@ -8,7 +8,7 @@
         <div class="row" style="margin-top: 2rem;">
             <div class="col-md-12 col-12">
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder;color: seagreen;">Turf Name</span>
-
+              
         <input type="text" id="turfName" name="turfName" value="{{ turfs.turfName }}" class="form-control"   required autofocus>
         <span id="errorfirst_name" style="text-align: center; color: red;"></span>
     </div>
@@ -48,26 +48,13 @@
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Sports Available</span>
                 <br>
                 <br>
-                <input type="checkbox" id="cricket" name="cricket" value="cricket" {% if 'cricket' in turfs.sport %} checked {% endif %}>
-                <label for="cricket" style="text-align: center;">Cricket</label>
-                
-                <input type="text" value="{% if cricket is not None %} {{ cricket }}{% endif %} " name="cricketprice" id="inputcricket" class="form-control" placeholder="price" >
-                
+                {% for sport in sport %}
+                <input type="checkbox" id="{{sport.sport}}" name="category" value="{{sport.id}}" {% if sport.sport in sportpricelist %} checked {% endif %}>
+                <label for="{{sport.sport}}" style="text-align: center;">{{sport.sport}}</label>
+                <input type="number" {% for x in sportprice %}{% if x.category == sport  %} value="{{ x.price }}"{% endif %}{% endfor %} name="{{sport.id}}-price" id="" class="form-control" placeholder="price" >
                 <br>
-                <input type="checkbox" id="football" name="football" value="football" {% if 'football' in turfs.sport %} checked {% endif %}>
-                <label for="football" style="text-align: center;">Football</label>
+                {% endfor %}
                 
-                <input type="text" name="footballprice" id="inputfootball" value="{% if football is not None %}{{football}}{% endif %}" class="form-control" placeholder="price" >
-                
-
-                <br>
-                <input type="checkbox" id="badminton" name="badminton" value="badminton" {% if 'badminton' in turfs.sport %} checked {% endif %}>
-                <label for="badminton" style="text-align: center;">Badminton</label>
-
-                <input type="text" name="badmintonprice" value="{% if badminton is not None %}{{badminton}}{% endif %}" id="inputbadminton" class="form-control" placeholder="price" >
-                
-
-                <br>
                 <br>
                 <br>
 
@@ -118,36 +105,13 @@
             </div>
             <div class="col-md-6">
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder;color: seagreen;">Facilities</span>
-                <br><br>  
-                <input type="checkbox" id="bath" name="bath" value="bath"{% if 'bath' in turfs.facilities %} checked {% endif %}>
-                <label for="bath" style="text-align: center;">bath</label>
+                <br><br> 
+                 {% for fac in facility %}
+                <input type="checkbox" id="{{fac.facility}}" name="facility" value="{{fac.id}}"{% if fac.facility in turffacilitylist %} checked {% endif %}>
+                <label for="{{facility.facility}}" style="text-align: center;">{{fac.facility}}</label>
                 
-                <input type="checkbox" id="purifiedwater" name="purifiedwater" value="purifiedwater"{% if 'purifiedwater' in turfs.facilities %} checked {% endif %}>
-                <label for="purifiedwater" style="text-align: center;">purifiedwater</label>
-                
-                <input type="checkbox" id="washroom" name="washroom" value="washroom"{% if 'washroom' in turfs.facilities %} checked {% endif %}>
-                <label for="washroom" style="text-align: center;">washroom</label>
-                <br>
-                <input type="checkbox" id="shower" name="shower" value="shower"{% if 'shower' in turfs.facilities %} checked {% endif %}>
-                <label for="shower" style="text-align: center;">shower</label>
-                <input type="checkbox" id="parking" name="parking" value="parking"{% if 'parking' in turfs.facilities %} checked {% endif %}>
-                <label for="parking" style="text-align: center;">parking</label>
-                
-                <input type="checkbox" id="gallery" name="gallery" value="gallery"{% if 'gallery' in turfs.facilities %} checked {% endif %}>
-                <label for="gallery" style="text-align: center;">gallery</label>
-                <br>
-                <input type="checkbox" id="cafteria" name="cafteria" value="cafteria"{% if 'cafteria' in turfs.facilities %} checked {% endif %}>
-                <label for="cafteria" style="text-align: center;">cafteria</label>
-                
-                <input type="checkbox" id="livescreening" name="livescreening" value="livescreening"{% if 'livescreening' in turfs.facilities %} checked {% endif %}>
-                <label for="livescreening" style="text-align: center;">livescreening</label>
-                
-                <input type="checkbox" id="locker" name="locker" value="locker"{% if 'locker' in turfs.facilities %} checked {% endif %}>
-                <label for="locker" style="text-align: center;">locker</label>
-                
-                <input type="checkbox" id="mobilecharging" name="mobilecharging" value="mobilecharging"{% if 'mobilecharging' in turfs.facilities %} checked {% endif %}>
-                <label for="mobilecharging" style="text-align: center;">mobilecharging</label>
-                <br>
+                 <br>
+                 {% endfor %}
             </div>
         </div>
         <br>

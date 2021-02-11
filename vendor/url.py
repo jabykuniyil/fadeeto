@@ -13,5 +13,6 @@ urlpatterns = [
     path('deleteturf/<int:id>/', views.deleteTurf, name='delete'),
     path('bookhsitory/', views.bookHistory, name='bookhistory'),
     path('addturf/', views.addTurf, name='addturf'),
+    path('vendorbooking/', views.vendor_booking, name='vendorbooking'),
     path('logout/', views.logout, name='logout')
 ]

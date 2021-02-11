@@ -1,5 +1,6 @@
 {% extends 'users/base.html' %}
 {% block content %}
+
 <main role="main">
 
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -27,9 +28,65 @@
 
         <div class="container">
           <div class="carousel-caption">
+            <style>
+              /* Style The Dropdown Button */
+              .dropbtn {
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+              }
+              
+              /* The container <div> - needed to position the dropdown content */
+              .dropdown {
+                position: relative;
+                display: inline-block;
+              }
+              
+              /* Dropdown Content (Hidden by Default) */
+              .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+              }
+              
+              /* Links inside the dropdown */
+              .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+              }
+              
+              /* Change color of dropdown links on hover */
+              .dropdown-content a:hover {background-color: #24a0ed}
+              
+              /* Show the dropdown menu on hover */
+              .dropdown:hover .dropdown-content {
+                display: block;
+              }
+              
+              /* Change the background color of the dropdown button when the dropdown content is shown */
+              .dropdown:hover .dropbtn {
+                background-color: #3e8e41;
+              }
+              </style>
+              
+              <div class="dropdown">
+                <button class="btn btn-lg btn-primary">Category</button>
+                <div class="dropdown-content">
+                  {% for sport in sport %}
+                  <a href="/category/{{ sport.category.id }}/">{{ sport.category.sport }}</a>
+                  {% endfor %}
+                </div>
+              </div>
             <h1>Another example headline.</h1>
             <p>Some representative placeholder content for the second slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+           
           </div>
         </div>
       </div>
@@ -41,10 +98,12 @@
           <div class="carousel-caption text-right">
             <h1>One more for good measure.</h1>
             <p>Some representative placeholder content for the third slide of this carousel.</p>
+            
           </div>
         </div>
       </div>
     </div>
+    
     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
@@ -54,6 +113,7 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+  
 
 
   <!-- Marketing messaging and featurettes
@@ -62,7 +122,8 @@
 
   <div class="container marketing">
     <div class="row">
-
+     
+  
 {% for turf in turfs %}
     <!-- Three columns of text below the carousel -->
       <div class="col-lg-4 col-md-4" >
@@ -78,9 +139,7 @@
   </div><!-- /.row -->
 
     {% endblock %}
-
-  
-   
+    
   <!-- FOOTER -->
   <!-- <footer class="container">
     <p class="float-right"><a href="#">^</a></p>

@@ -1,0 +1,65 @@
+{% extends 'vendors/base.html' %}
+{% block content %}
+<div style="text-align: center;">
+    <form class="form-signin" method="POST"  style="margin: auto; display: table ; justify-items: center;">
+      {% csrf_token %}
+     
+        <br>
+      <br>
+      <h1 style="color: crimson;" class="h3 mb-3 font-weight-normal">Book From the Spot</h1>
+      <br><br>
+      <div class="row">
+          <div class="col-md-6 col-12">
+      <input type="text" id="name" name="name"   class="form-control" placeholder="name" required autofocus>
+      <span id="erroruser" style="text-align: center; color: red;"></span>
+      <br>
+    </div>
+    <div class="col-md-6 col-12">
+        <input type="number" id="mobile" name="mobile"  class="form-control" placeholder="mobile" required autofocus>
+        <span id="erroruser" style="text-align: center; color: red;"></span>
+        <br>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-12">
+    <input type="email" id="email" name="email"   class="form-control" placeholder="email" required autofocus>
+    <span id="erroruser" style="text-align: center; color: red;"></span>
+    <br>
+  </div>
+  <div class="col-md-6 col-12">
+      <input type="text" id="facility" name="address"  class="form-control" placeholder="address" required autofocus>
+      <span id="erroruser" style="text-align: center; color: red;"></span>
+      <br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-12">
+<input type="date" id="facility" name="date"   class="form-control" placeholder="date" required autofocus>
+<span id="erroruser" style="text-align: center; color: red;"></span>
+<br>
+</div>
+<div class="col-md-6 col-12">
+  <input type="time" id="facility" name="time"  class="form-control" placeholder="time" required autofocus>
+  <span id="erroruser" style="text-align: center; color: red;"></span>
+  <br>
+</div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-12">
+<input type="text" id="sport" name="sport"   class="form-control" placeholder="sport" required autofocus>
+<span id="erroruser" style="text-align: center; color: red;"></span>
+<br>
+</div>
+<div class="col-md-6 col-12">
+  <input type="text" id="turfname" name="turfname"  class="form-control" placeholder="turfname" required autofocus>
+  <span id="erroruser" style="text-align: center; color: red;"></span>
+  <br>
+</div>
+</div>
+      <br>
+  <br>
+      <input class="btn btn-lg btn-primary btn-block" value="Book Now" name="login" id="login" type="submit">
+    
+    </form>
+  </div>
+{% endblock %}

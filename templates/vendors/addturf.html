@@ -1,5 +1,9 @@
 {% extends 'vendors/base.html' %}
 {% block content %}
+<!-- {% block vendor %}
+<a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">edh</a>
+
+{% endblock %} -->
 <div style=" padding: 4rem; padding-top: 2rem;">
     <form class="form-signin" style="padding: 7rem; padding-top: 3rem; " method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -44,13 +48,15 @@
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Sports Available</span>
                 <br>
                 <br>
+               
                 {% for sport in sports %}
-                <input type="checkbox" id="cricket" name="cricket" value="cricket" >
-                <label for="cricket" style="text-align: center;">{{ sport.sport }}</label>
-                <input type="number" name="cricketprice" id="inputcricket" class="form-control" placeholder="price" >
+                <input type="checkbox" id="{{sport.sport}}" name="category" value="{{sport.id}}" >
+                <label for="{{sport.sport}}" style="text-align: center;">{{ sport.sport }}</label>
+                <input type="number" name="{{sport.id}}-price" id="inputcricket" class="form-control" placeholder="price" >
 
                 <br>
                 {% endfor %}
+          
                 <!-- <input type="checkbox" id="football" name="football" value="football" >
                 <label for="football" style="text-align: center;">Football</label>
                 <input type="number" name="footballprice" id="inputfootball" class="form-control" placeholder="price" >
@@ -68,7 +74,7 @@
 
             </div>
         </div>
-        <div class="row" style="margin-top: 1rem;">
+        <div class="row" >
             <div class="col-md-6" >
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Time Periods</span>
                 <!-- <input type="time"  id="price" class="form-control" placeholder="price" required> -->
@@ -114,35 +120,11 @@
             <div class="col-md-6">
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder;color: seagreen;">Facilities</span>
                 <br><br>  
-                <input type="checkbox" id="bath" name="bath" value="bath">
-                <label for="bath" style="text-align: center;">bath</label>
-                
-                <input type="checkbox" id="purifiedwater" name="purifiedwater" value="purifiedwater">
-                <label for="purifiedwater" style="text-align: center;">purifiedwater</label>
-                
-                <input type="checkbox" id="washroom" name="washroom" value="washroom">
-                <label for="washroom" style="text-align: center;">washroom</label>
+                {% for facility in facilities %}
+                <input type="checkbox" id="{{facility.facility}}" name="facility" value="{{facility.id}}">
+                <label for="{{facility.id}}" style="text-align: center;">{{facility.facility}}</label>
                 <br>
-                <input type="checkbox" id="shower" name="shower" value="shower">
-                <label for="shower" style="text-align: center;">shower</label>
-                <input type="checkbox" id="parking" name="parking" value="parking">
-                <label for="parking" style="text-align: center;">parking</label>
-                
-                <input type="checkbox" id="gallery" name="gallery" value="gallery">
-                <label for="gallery" style="text-align: center;">gallery</label>
-                <br>
-                <input type="checkbox" id="cafteria" name="cafteria" value="cafteria">
-                <label for="cafteria" style="text-align: center;">cafteria</label>
-                
-                <input type="checkbox" id="livescreening" name="livescreening" value="livescreening">
-                <label for="livescreening" style="text-align: center;">livescreening</label>
-                
-                <input type="checkbox" id="locker" name="locker" value="locker">
-                <label for="locker" style="text-align: center;">locker</label>
-                
-                <input type="checkbox" id="mobilecharging" name="mobilecharging" value="mobilecharging">
-                <label for="mobilecharging" style="text-align: center;">mobilecharging</label>
-                <br>
+                {% endfor %}
             </div>
         </div>
         <br>
@@ -162,9 +144,9 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     
-   
+<!--    
 <script>
 document.getElementById('cricket').onchange = function() {
 document.getElementById('inputcricket').enabled = this.checked;
@@ -176,6 +158,8 @@ document.getElementById('badminton').onchange = function() {
 document.getElementById('inputbadminton').enabled = this.checked;
 };
 </script>
-        
+         -->
+
+         
 
 {% endblock %}

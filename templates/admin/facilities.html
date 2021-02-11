@@ -16,12 +16,14 @@
       </tr>
     </thead>
     <tbody>
+      {% for facility in facilities %}
       <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td><a href=""><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem; border: none;  ">Edit</button></a></td>
-        <td><a href=""><button type="button" class="btn-danger" style= "text-align: center; border-radius: 1rem; border: none;  ">Delete</button></a></td>
+        <th scope="row">{{ facility.id }}</th>
+        <td scope='row'>{{ facility.facility }}</td>
+        <td ><a href="/turfadmin/editfacilities/{{ facility.id }}"><button type="button" class="btn-primary" style="width: 6rem;text-align: center; border-radius: 1rem; border: none;  ">Edit</button></a></td>
+        <td ><a href="/turfadmin/deletefacility/{{ facility.id }}"><button type="button" class="btn-danger" style="width: 6rem; text-align: center; border-radius: 1rem; border: none;  ">Delete</button></a></td>
       </tr>
+      {% endfor %}
      
       
     </tbody>

@@ -1,0 +1,18 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<div class="container marketing" style="margin-top: 3rem;">
+    <div class="row">
+     
+  
+{% for turf in turf %}
+    <!-- Three columns of text below the carousel -->
+      <div class="col-lg-4 col-md-4" >
+
+        <img src="{{ turf.ImageURL }}" width="140" height="140" class="rounded-circle" alt="" srcset="">
+        <h2>{{ turf.turfName }}</h2>
+        <p>{{ turf.description }}</p>
+        <p><a class="btn btn-lg btn-primary" href="/userturfview/{{ turf.id  }}">View details &raquo;</a></p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+<nav class="navbar col-12 col-md-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
+  <p style="color: brown;text-align: center; font-size: 3rem; padding: 2rem; font: bolder;">Turf Requests</p>
+
+  </nav>
+  <table class="table" id="table" style="align-items: center; padding: 2rem;">
+    <thead>
+      <tr>
+        <th scope="col">S.no</th>
+        <th scope="col">Turf Name</th>
+        <th scope="col">Vendor</th>
+        <th scope="col">Time Periods</th>
+        <th scope="col">Sports Available</th>
+        <th scope="col">Facilities</th>
+        <th scope="col">Images</th>
+        <th scope="col">Address</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+
+      </tr>
+    </thead>
+  <tbody>
+    {% for turf in turf %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{ turf.turfName }}</td>
+      <td>{{ turf.vendor.name }}</td>
+      <td>{{ turf.timePeriod }}</td>
+      <td>
+        {% for spopri in sportprice %}
+          {% if spopri.turf.id == turf.id %}
+            {{spopri.category.sport }}:Rs.{{ spopri.price}}/-
+          {% endif %}
+        {% endfor %}
+      </td>
+      <td>
+        {% for facility in turffacility %}
+         {% if facility.turf.id == turf.id %}
+         {{ facility.facilities.facility }} ,
+         {% endif %}
+        {% endfor %}
+      </td>
+      <td><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL2 }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div></td>
+      <td>{{ turf.address }}</td>
+      <td><a href="{% url 'accept' turf.id %}"><button type="button" class="btn-success" style= "text-align: center; border-radius: 1rem;  border: none;  ">Accept</button></a></td>
+      <td><a href="{% url 'reject' turf.id %}"><button type="button" class="btn-danger" style="text-align: center; border-radius: 1rem; border: none; ">Reject</button></a></td>
+
+    </tr> 
+    {% endfor %}
+  </tbody>
+</table>
+
+  
+{% endblock %}

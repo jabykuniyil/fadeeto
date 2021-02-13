@@ -188,7 +188,7 @@
 								<div class="col-sm-6">
 									<div class="form-group">
 										<span  class="form-label">Email</span>
-										<input class="form-control" type="email" value="{{ user.email }}">
+										<input class="form-control" id="email" type="email" value="{{ user.email }}">
 										<span style="color: red;" id="erroremail"></span>
 									</div>
 								</div>
@@ -199,7 +199,7 @@
 								<div class="col-sm-4">
 									<div class="form-group">
 										<span  class="form-label">Phone</span>
-										<input class="form-control" value="{{ userData.phone }}" type="tel" value="phone">
+										<input class="form-control" id="phone" value="{{ userData.phone }}" type="tel" value="phone">
 										<span style="color: red;" id="errorphone"></span>
 									</div>
 								</div>
@@ -209,7 +209,7 @@
 										<select  class="form-control" id="sport" style="text-align: center;">
 											<option >choose...</option>
 											{% for sport in sportprice %}
-											<option value="{{forloop.counter}}">{{ sport.category.sport }}</option>
+											<option value="{{sport.category.sport}}">{{ sport.category.sport }}</option>
 											{% endfor %}
 											
 											</select>
@@ -220,8 +220,8 @@
 										<div class="form-group">
 											<span  class="form-label " style="text-align: center;">Amount to Pay</span>
 											{% for x in sportprice %}
-											<span class="form-label option" id="price-{{forloop.counter}}" style="display: none; color: rgb(58, 184, 58); text-align: center; font-size: xx-large; font-weight: bolder;">Rs. {{ x.price }}/-</span>
-										{% endfor	 %}
+											<span class="form-label option" id="price-{{x.category.sport}}" style="display: none; color: rgb(58, 184, 58); text-align: center; font-size: xx-large; font-weight: bolder;">Rs. {{ x.price }}/-</span>
+										{% endfor %}
 										</div>
 									</div>
 							</div>
@@ -241,10 +241,8 @@
 										<select class="form-control" id="hour" style="text-align: center;">
 											<option >choose...</option>
 											{% for hour in turfs.timePeriod %}
-											<option>{{ hour }}</option>
+											<option > {{ hour }}</option>
 											{% endfor %}
-											
-
 										</select>
 										<span style="color: red;" id="errorhour"></span>
 
@@ -257,11 +255,8 @@
 											<option >choose...</option>
 										</select>
 										<span style="color: red;" id="errorpayment"></span>
-
-										
 							</div>
 						</div>
-                       
                     </div>
                     <div class="col-md-12">
                         <div class="form-btn ">
@@ -285,10 +280,11 @@
 			var name = $('#name').val()
 			var email = $('#email').val()
 			var phone = $('#phone').val()
-			var sport = $('#sport').val()
+			var sport = $('#sport').find(":selected").text();
 			var date = $('#date').val()
 			var hour = $('#hour').val()
-			var price = $('#price').val()
+			var price = $('#price-'+sport).text()
+			console.log(sport,price);
 			var data = {
 				'csrfmiddlewaretoken' : '{{csrf_token}}',
 				'name' : name,
@@ -301,6 +297,7 @@
 			}
 			let error = false
 			if(name == ''){
+				console.log("ERROR")
 				$('#errorname').html("Name required")
 				error = true
 			}
@@ -343,20 +340,15 @@
 			else{
 				$("#errordate").html("")
 			}
-			
 			if(!error){
 				$.ajax({
-					url : '/userbooking/'+id,
+					url : '/userbooking/'+id+"/",
 					method : 'POST',
-					data : data,
+					data : data, 
 					dataType : 'json',
 					success : function(data){
-						if(data == 'true'){
-							window.location.replace('/bookhistory/')
-						}
-						if(data=='false'){
-							$("#error").html("Invalid credentials")
-						}
+							window.location.replace('/bookhistory/'+data.id+'/')
+						
 					}
 				})
 			}
@@ -389,7 +381,8 @@ $list.on( 'change', function ( e ) {
   $( '#price-' + this.value ).show();
   
 } );
-			</script>
+		
+		</script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
 </html>

@@ -8,17 +8,23 @@ from vendor.models import Vendor
 class userData(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     phone = models.BigIntegerField( null=True, blank=True)
+    photo = models.ImageField(null=True, blank= True)
     
-     
-    
-    
-    
+    @property
+    def ProfileURL(self):
+        try:
+            url = self.photo.url
+        except:
+            url = ''
+        return url
+            
+            
 class Turf(models.Model):
     sport = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     facilities = models.ForeignKey(Facilities, on_delete=models.CASCADE, null=True, blank=True)
     userDetails = models.ForeignKey(userData, on_delete=models.CASCADE, null=True, blank=True)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, null=True, blank=True)
-    turfName = models.TextField(  null=True, blank=True)
+    turfName = models.TextField(null=True, blank=True)
     timePeriod = models.TextField( null=True, blank=True)
     image1 = models.ImageField( null=True, blank=True)
     image2 = models.ImageField(null=True, blank=True)
@@ -26,6 +32,8 @@ class Turf(models.Model):
     description = models.TextField( null=True, blank=True)
     address = models.TextField( null=True, blank=True)
     is_active = models.BooleanField(null=True, blank=True)
+    status = models.CharField(null=True, blank=True, default='pending', max_length=20)
+
     
     @property
     def ImageURL(self):
@@ -58,7 +66,11 @@ class turfFacility(models.Model):
 
 
 class Booking(models.Model):
-    sport = models.ForeignKey(sportPrice, on_delete=models.CASCADE, null=True, blank=True)
+    sport = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    turf = models.ForeignKey(Turf, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    hour = models.CharField(max_length=20, null=True, blank=True)
+    price = models.IntegerField(null=True, blank=True)
     payment_option = models.CharField(max_length = 100, null=True, blank=True)
     date = models.DateField(null=True, blank=True)
     name = models.CharField(max_length=20, null=True, blank=True)

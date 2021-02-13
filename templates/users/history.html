@@ -65,18 +65,16 @@
       alt="" width="72" height="72"> -->
     <h2 style="color: crimson;">FADEETO</h2>
     <h1 class="h3 mb-3 font-weight-normal" style="color: olive; font:bolder;">Book History</h1>
-    <h5 style="color: black; text-align: left;">Booking id&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.id }}</h5>
-    <h5 style="color: black; text-align: left;">Name&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.userdata.user.first_name }}</h5>
-    <h5 style="color: black; text-align: left;">Mobile&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.userdata.phone }}</h5>
-    <h5 for=""  style="text-align: left; color: black;">Turf Chosen &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.turf_name}}</h5>
-    <h5 for=""  style="text-align: left; color: black;">Sport Chosen :&nbsp;{{ booking.sport }}</h5>
-    <h5 style="color: black; text-align: left;">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.date }}</h5>
-    <h5 style="color: black; text-align: left;">Time&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.time_period }}</h5>
-    {% for  sport, price in turfs.sport.items %}
-      
-    <h5 style="color: black; text-align: left;">Amount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ price }}</h5>
+    <h5 style="color: rgb(133, 130, 130); text-align: left;">Booking id&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.id }}</h5>
+    <h5 style="color: rgb(133, 130, 130); text-align: left;">Name&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.name }}</h5>
+    <h5 style="color: rgb(133, 130, 130); text-align: left;">Mobile&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.phone }}</h5>
+    <h5 for=""  style="text-align: left; color: rgb(133, 130, 130);">Turf Chosen &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.turf.turfName}}</h5>
+    <h5 for=""  style="text-align: left; color: rgb(133, 130, 130);">Sport Chosen :&nbsp;{{ booking.sport.sport }}</h5>
+    <h5 style="color: rgb(133, 130, 130); text-align: left;">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.date }}</h5>
+    <h5 style="color: rgb(133, 130, 130); text-align: left;">Time&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.hour }}</h5>
     
-    {% endfor %}
+    <h5 style="color: rgb(133, 130, 130); text-align: left;">Amount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rs. {{ booking.price }}/-</h5>
+    
     
     <h4 style="margin-top: 2rem; color: green;">Thank you for booking !</h4>
 

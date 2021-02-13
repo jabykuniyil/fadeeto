@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from user.models import userData, Turf, sportPrice, turfFacility
+from user.models import userData, Turf, sportPrice, turfFacility, Booking
 from django.contrib.auth.models import  User
 from django.http import JsonResponse
 from . models import Vendor
@@ -61,15 +61,19 @@ def home(request):
 
 def bookHistory(request):
     if request.session.has_key('isVendor'):
-        return render(request, 'vendors/bookhistory.html')
+        vendor_id = request.session['vendor_id']
+        booking = Booking.objects.filter(turf__vendor__id = vendor_id)
+        context = {'booking' : booking}
+        return render(request, 'vendors/bookhistory.html', context)
     else:
         return redirect(signin)
+
 
 
 def turfs(request):
     if request.session.has_key('isVendor'):
         vendor_id = request.session['vendor_id']
-        turf = Turf.objects.filter(vendor_id=vendor_id)
+        turf = Turf.objects.filter(vendor_id=vendor_id, status='accept')
         sport_price = sportPrice.objects.all()
         turf_facility = turfFacility.objects.all()
         return render(request, 'vendors/turfs.html', {'turfs' : turf, 'sportprice' : sport_price, 'turffacility' : turf_facility})
@@ -177,7 +181,7 @@ def addTurf(request):
             timePeriod = am67 + am78 + am89 + am910 + am1011 + am1112 + am121 + pm12 + pm23 + pm34 + pm45 + pm56 + pm67 + pm78 + pm89 + pm910 + pm1011 + pm1112
             turf = Turf.objects.create(turfName=turfName, 
                                 timePeriod=timePeriod, image1=image1, image2=image2,
-                                address=address, description=description, is_active=True,vendor_id=vendor_id)
+                                address=address, description=description, is_active=True,vendor_id=vendor_id, status='pending')
             category = request.POST.getlist('category')            
             for categories in category:
                 name=categories+'-price'
@@ -204,9 +208,21 @@ def deleteTurf(request, id):
         return redirect(signin)
     
     
-def vendor_booking(request):
+def book_specific(request):
     if request.session.has_key('isVendor'):
-        return render(request, 'vendors/vendorbooking.html')
+        vendor_id = request.session['vendor_id']
+        turf = Turf.objects.filter(vendor_id=vendor_id, status='accept')
+        context = {'turf' : turf}
+        return render(request, 'vendors/bookspecific.html', context)
+    else:
+        return redirect(signin)
+    
+    
+def vendor_booking(request, id):
+    if request.session.has_key('isVendor'):
+        turf = Turf.objects.filter(id=id, status='accept')
+        context = {'turf' : turf}
+        return render(request, 'vendors/vendorbooking.html', context)
     else:
         return redirect(signin)
 

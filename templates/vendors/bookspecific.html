@@ -1,0 +1,21 @@
+{% extends 'vendors/base.html' %}
+{% block content %}
+
+<div class="container marketing" style="padding-left: 8rem; margin-top: 2rem;">
+    <div class="row" style="text-align: center;">
+{% for turf in turf %}
+        
+      <div class="col-lg-4 col-md-4" >
+
+        <img src="{{ turf.ImageURL }}" width="140" height="140" class="rounded-circle" alt="" srcset="">
+        <h2>{{ turf.turfName }}</h2>
+        <p>{{ turf.address }}</p>
+        <p><a class="btn btn-lg btn-primary" href="/vendor/vendorbooking/{{ turf.id }}/">Book Here &raquo;</a></p>
+      </div>
+    </div>
+{% endfor %}
+
+</div>
+     
+    {% endblock %}
+    

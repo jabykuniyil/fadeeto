@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User, auth
-from . models  import userData, Turf, Booking, sportPrice, turfFacility
+from . models  import userData, Turf, Booking, sportPrice, turfFacility, Category
 import ast
 import json
+import datetime
 # Create your views here.
 
 def home(request):
-    turf = Turf.objects.all()
+    turf = Turf.objects.filter(status='accept')
     sport_price = sportPrice.objects.all()
     context = {'sport' : sport_price, 'turfs' : turf}
     return render(request, 'users/home.html', context)
@@ -75,26 +76,56 @@ def usersignup(request):
             return render(request, 'users/usersignup.html')
 
 
-def userbooking(request, id):
+def profile(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
+            pass
+        else:
+            user = request.user
+            userdata = userData.objects.get(user=user.id) 
+            print( user)
+            context = {'userdata' : userdata}
+            return render(request, 'users/profile.html', context)
+    else:
+        return redirect(usersignin)
+
+
+def user_history(request):
+    if request.user.is_authenticated:
+        user = request.user
+        booking = Booking.objects.filter(user = user)
+        context = {'booking' : booking}
+        return render(request, 'users/bookhistory.html', context)
+    else:
+        return redirect(usersignin)
+
+
+
+def userbooking(request, id):
+    if request.user.is_authenticated:
+        if request.method =='POST':
+            print("Muth")
             name = request.POST['name']
             phone = request.POST['phone']
             email = request.POST['email']
             sport = request.POST['sport']
             date = request.POST['date']
             hour = request.POST['hour']
-            turf = Turf.objects.get(id=id)
-            sport_price = sportPrice.objects.filter(turf_id=turf.id)
-            booking = Booking.objects.create(name=name, phone=phone, email=email, date=date)
-            
+            price = request.POST['price']
+            price1 = price.strip("Rs. /-")
+            user = request.user
+            sport = Category.objects.get(sport=sport)
+            booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price1, hour=hour, turf_id = id, sport=sport, user=user)
+            data = {'id': booking.id}
+            return JsonResponse(data)
         else:
             user = request.user
             turf = Turf.objects.get(id=id)
             turf.timePeriod = ast.literal_eval(turf.timePeriod)
             userdata = userData.objects.get(id=user.id)
             sport_price = sportPrice.objects.filter(turf_id=turf.id)
-            context = {'user' : user, 'turfs' : turf, 'userData' : userdata, 'sportprice' : sport_price}
+            booking = Booking.objects.all()
+            context = {'user' : user, 'turfs' : turf, 'userData' : userdata, 'sportprice' : sport_price, 'booking' : booking}
             return render(request, 'users/booking.html', context)
     else:
         return redirect(usersignin)
@@ -102,11 +133,10 @@ def userbooking(request, id):
 
 def bookHistory(request, id):
     if request.user.is_authenticated:
-        turf = Turf.objects.get(id=id)
-        print(booking)
-        context = {'booking':booking, 'turfs' : turf}
-        # user = request.user
-        return render(request, 'users/history.html')
+        booking = Booking.objects.get(id=id)
+        price = sportPrice.objects.all()
+        context = {'booking' : booking, 'price' : price}
+        return render(request, 'users/history.html', context)
     else:
         return redirect(usersignin)
 

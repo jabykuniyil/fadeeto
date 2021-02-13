@@ -4,21 +4,38 @@
   <p style="color: brown;text-align: center; font-size: 3rem; padding: 2rem; font: bolder;">Booking Summary</p>
   
   </nav>
-<table class="table" style="margin: auto;">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">id</th>
+  <table class="table" id="table" style="align-items: center; padding: 2rem;">
+    <thead>
+      <tr>       
+        <th scope="col">S. no</th>
+        <th scope="col">Booking id</th>
         <th scope="col">Name</th>
-        <th scope="col"> </th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Turf Name</th>
+        <th scope="col">Turf Owner</th>
+        <th scope="col">Sport Chosen</th>
+        <th scope="col">Date</th>
+        <th scope="col">Hour</th>
+        <th scope="col">Amount Paid</th>
       </tr>
     </thead>
     <tbody>
+      {% for booking in booking %}
       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td><a href=""><button type="button" id="block" class="btn-danger" style= "text-align: center; border-radius: 1rem; border: none;  ">Block</button></a></td>
-      </tr>
-     
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{ booking.id }}</td>
+        <td>{{ booking.name }}</td>
+        <td>{{ booking.email }}</td>
+        <td>{{ booking.phone }}</td>
+        <td >{{ booking.turf.turfName }} </div></td>
+        <td >{{ booking.turf.vendor.name }} </div></td>
+        <td>{{ booking.sport.sport }}</td>
+        <td>{{ booking.date }}</td>
+        <td>{{ booking.hour }}</td>
+        <td>{{  booking.price }}</td>
+        </tr> 
+      {% endfor %}
     </tbody>
   </table>
   

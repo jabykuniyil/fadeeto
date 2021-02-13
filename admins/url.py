@@ -20,6 +20,9 @@ urlpatterns = [
     path('deletecategory/<int:id>/', views.deleteCategory, name='deletecategory'),
     path('editcategory/<int:id>/', views.editCategory, name='editcategory'),
     path('turfs/', views.turfs, name='turfs'),
+    path('turfrequests/', views.turf_requests, name='turfrequests'),
+    path('accept/<int:id>/', views.accept_turf, name='accept'),
+    path('reject/<int:id>/', views.reject_turf, name='reject'),
     path('blockturf/<int:id>/', views.block_turf, name='blockturf'),
     path('bookingsummary/', views.bookingSummary, name='bookingsummary')
 ]

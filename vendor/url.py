@@ -11,8 +11,9 @@ urlpatterns = [
     path('editturf/<int:id>/', views.editTurf, name='edit'),
     # path('update/<int:id>', views.update, name='update'),
     path('deleteturf/<int:id>/', views.deleteTurf, name='delete'),
-    path('bookhsitory/', views.bookHistory, name='bookhistory'),
+    path('bookhistory/', views.bookHistory, name='bookhistory'),
     path('addturf/', views.addTurf, name='addturf'),
-    path('vendorbooking/', views.vendor_booking, name='vendorbooking'),
+    path('bookspecific/', views.book_specific, name="bookspecific"),
+    path('vendorbooking/<int:id>/', views.vendor_booking, name='vendorbooking'),
     path('logout/', views.logout, name='logout')
 ]

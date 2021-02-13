@@ -1,0 +1,96 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<!-- <div class="container"> -->
+    <form action="/profile/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="row" style="padding: 3rem; margin-top: 4rem;">
+    <div class="col-md-6" style="margin: auto; display: block;">
+            <img src="{{ userdata.ProfileURL }}" width="140" id="profileimage" height="140" class="rounded-circle" alt="" srcset="">
+            <input type="file" name="inputprofileimage" id="inputprofileimage" hidden required>
+            <p><a class="btn btn-lg btn-primary" href="">Edit Photo &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <div class="row container" style="display: table;">
+            <br>
+                <p style="margin: auto;"><a  class="btn btn-lg btn-primary" href="/userhistory/">Booking History &raquo;</a></p>
+    <br>
+        </div>
+        <label for="inputname" style="color: darkslategray;">Name</label>
+    <input type="text" id="name" name="name" value="{{ userdata.user.first_name }}"  class="form-control" placeholder="Name" required autofocus>
+    <span id="errorname" style="text-align: center; color: red;"></span>
+    <br>
+    <label for="inputemail" style="color: darkslategray;">Email</label>
+    <input type="email" id="email" name="email" value="{{ userdata.user.email }}" class="form-control" placeholder="Email" required autofocus>
+    <span id="erroremail" style="text-align: center; color: red;"></span>
+    <br>
+    <label for="inputphone" style="color: darkslategray;" >Phone</label>
+    <input type="number" id="phone" name="phone" value="{{ userdata.phone }}"  class="form-control" placeholder="phone" required autofocus>
+    <span id="errorphone" style="text-align: center; color: red;"></span>
+
+    </div>
+    
+</div>
+<div style="padding: 5rem;">
+<input type="submit" class="btn btn-primary btn-lg  btn-block"  id="update" style="  color: seashell;" value="Update&raquo;" >
+</div>
+</div>
+
+</form>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <!-- <script>
+        $('#update').click(function(){
+          var name = $('#name').val()
+          var phone = $('#phone').val()
+          var email = $('#email').val()
+          data = {
+            'csrfmiddlewaretoken' : '{{csrf_token}}',
+            'name' : name,
+            'phone' : phone,
+            'email' : email,
+           
+          }
+            $.ajax({
+              url : '/profile/',
+              method : 'POST',
+              data : data,
+              dataType : 'json',
+              success : function(data){
+                if(data == 'true'){
+                  window.location.replace('/')
+                }
+                
+                if(data == 'email'){
+                  $('#spanemail').html("Email Already exixts")
+                }
+                
+              }
+            })
+        })
+        </script> -->
+<script>
+    
+$('#profileimage').click(function(){
+    console.log('hello')
+    $('#inputprofileimage').click()
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+        $('#profileimage').attr('src', e.target.result);
+        }
+        
+        reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+}
+
+$("#inputprofileimage").change(function() {
+    readURL(this);
+});
+
+  })
+</script>
+{% endblock %}

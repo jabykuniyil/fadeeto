@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from . models import Category, Facilities
 from django.core.files import File
 from vendor.models import Vendor
-from user.models import userData, Turf, turfFacility, sportPrice
+from user.models import userData, Turf, turfFacility, sportPrice, Booking
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -52,13 +52,34 @@ def vendors(request):
 
 def turfs(request):
     if request.session.has_key('isAdmin'):
-        turf = Turf.objects.all()
+        turf = Turf.objects.filter(status='accept')
         turffacility = turfFacility.objects.all()
         sport_price = sportPrice.objects.all()
         return render(request, 'admin/turfs.html', {'turfs' : turf, 'turffacility' : turffacility, 'sportprice' : sport_price})
     else:
         return redirect(adminsignin)
     
+    
+def accept_turf(request, id):
+    if request.session.has_key('isAdmin'):
+        turf = Turf.objects.get(id=id)
+        if turf.status == 'pending':
+            turf.status = 'accept'
+        else:
+            turf.status = 'pending'
+        turf.save()
+        return redirect(turf_requests)
+    else:
+        return redirect(adminsignin)
+    
+    
+def reject_turf(request, id):
+    if request.session.has_key('isAdmin'):
+        turf = Turf.objects.get(id=id)
+        turf.delete()
+        return redirect(turf_requests)
+    else:
+        return redirect(adminsignin)
     
 
 def facilities(request):
@@ -187,12 +208,22 @@ def block_vendor(request, id):
 def block_turf(request, id):
     if request.session.has_key('isAdmin'):
         turf = Turf.objects.get(id=id)
-        if turf.is_active == True:
-            turf.is_active = False
+        if turf.status == 'accept':
+            turf.status = 'pending'
         else:
-            turf.is_active = True
+            turf.status = 'accept'
         turf.save()
         return redirect(turfs)
+    else:
+        return redirect(adminsignin)
+
+
+def turf_requests(request):
+    if request.session.has_key('isAdmin'):
+        status = Turf.objects.filter(status='pending')
+        print(status)
+        context = {'turf' : status}
+        return render(request, 'admin/turfrequests.html', context)
     else:
         return redirect(adminsignin)
 
@@ -200,7 +231,8 @@ def block_turf(request, id):
 
 def bookingSummary(request):
     if request.session.has_key('isAdmin'):
-        return render(request, 'admin/bookingsummary.html')
+        booking = Booking.objects.all()
+        return render(request, 'admin/bookingsummary.html', {'booking' : booking})
     else:
         return redirect(adminsignin)
 
@@ -211,53 +243,4 @@ def logout(request):
         return redirect(adminsignin)
     else:
         return redirect(adminsignin)
-
-# def edit(request, id):
-#     if request.method == 'POST':
-#         first_name = request.POST['first_name']
-#         mobile = request.POST['mobile']
-#         email = request.POST['email']
-#         username = request.POST['username']
-#         password = request.POST['password']
-        
-#         if User.objects.filter(email=email).exists():
-#             return JsonResponse('email', safe=False)
-#         elif User.objects.filter(username=username).exists():
-#             return JsonResponse('username', safe=False)
-#         else:
-#             user = User.objects.get(id=id)
-#             user1 = userData.objects.get(userData_id=id)
-#             user.first_name = first_name
-#             user.email = email
-#             user.username = username
-#             user.password = password
-#             user1.mobile = mobile
-#             user.save()
-#             user1.save()
-#             return JsonResponse('true', safe=False)
-#     else:
-#         user = userData.objects.get(user_id=id)
-#         return render(request, 'vendors/edit.html', {'users' : user})
-    
-    
-# def update(request, id):
-#     if request.method == 'POST':
-#         user = User.objects.get(id=id)
-#         user1 = userData.objects.get(user=user)
-#         user.first_name = request.POST['first_name']
-#         user1.phone = request.POST['mobile']
-#         user.save()
-#         user1.save()
-#         return JsonResponse('true', safe=False)
-    
-# def delete(request, id):
-#     if request.user.is_authenticated:
-#         user = User.objects.get(id=id)
-#         user1 = userData.objects.get(user=user)
-#         user1.delete()
-#         user.delete()
-#         return redirect(users)
-#     else:
-#         return redirect(home)
-
 

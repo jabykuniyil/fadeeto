@@ -73,7 +73,7 @@ def bookHistory(request):
 def turfs(request):
     if request.session.has_key('isVendor'):
         vendor_id = request.session['vendor_id']
-        turf = Turf.objects.filter(vendor_id=vendor_id, status='accept')
+        turf = Turf.objects.filter(vendor_id=vendor_id)
         sport_price = sportPrice.objects.all()
         turf_facility = turfFacility.objects.all()
         return render(request, 'vendors/turfs.html', {'turfs' : turf, 'sportprice' : sport_price, 'turffacility' : turf_facility})
@@ -116,8 +116,8 @@ def editTurf(request,id):
         pm910 = request.POST.getlist('9PM-10PM')
         pm1011 = request.POST.getlist('10PM-11PM')
         pm1112 = request.POST.getlist('11PM-12PM')
-        address = request.POST['address']
-        description = request.POST['description']
+        turf.address = request.POST['address']
+        turf.description = request.POST['description']
         timePeriod = am67 + am78 + am89 + am910 + am1011 + am1112 + am121 + pm12 + pm23 + pm34 + pm45 + pm56 + pm67 + pm78 + pm89 + pm910 + pm1011 + pm1112
         turf.timePeriod = timePeriod
         facily = turfFacility.objects.filter(turf=turf.id)
@@ -216,15 +216,87 @@ def book_specific(request):
         return render(request, 'vendors/bookspecific.html', context)
     else:
         return redirect(signin)
-    
+
+
+def accept_booking(request, id):
+    if request.session.has_key('isVendor'):
+        booking = Booking.objects.get(id=id)
+        if booking.status == 'pending':
+            booking.status = 'accept'
+        else:
+            booking.status = 'pending'
+        booking.save()
+        return redirect(bookHistory)
+    else:
+        return redirect(signin)
+
+
+def reject_booking(request, id):
+    if request.session.has_key('isVendor'):
+        booking = Booking.objects.get(id=id)
+        if booking.status == 'pending':
+            booking.status = 'Rejected'
+        else:
+            booking.status = 'pending'
+        booking.save()
+        return redirect(book_requests)
+    else:
+        return redirect(signin)
+   
     
 def vendor_booking(request, id):
     if request.session.has_key('isVendor'):
-        turf = Turf.objects.filter(id=id, status='accept')
-        context = {'turf' : turf}
-        return render(request, 'vendors/vendorbooking.html', context)
+        if request.method =='POST':
+            name = request.POST['name']
+            phone = request.POST['phone']
+            email = request.POST['email']
+            sport = request.POST['sport']
+            date = request.POST['date']
+            hour = request.POST['hour']
+            turf = Turf.objects.get(id=id)
+            sport_price = sportPrice.objects.filter(turf_id=turf.id)
+            print(turf.id)
+            for x in sport_price:
+                if x.category.sport == sport:
+                    price = x.price
+            print(price)
+            sport = Category.objects.get(sport=sport)
+            if Booking.objects.filter(date=date) and Booking.objects.filter(hour=hour).exists():
+                return JsonResponse('exists', safe=False)
+            else:
+                booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, exists=False)
+                data = {'id': booking.id}
+                return JsonResponse(data)
+        else:
+            turf = Turf.objects.get(id=id, status='accept')
+            print(turf)
+            turf.timePeriod = ast.literal_eval(turf.timePeriod)
+            sport_price = sportPrice.objects.filter(turf_id = turf.id)
+            context = {'turf' : turf, 'sport' : sport_price}
+            return render(request, 'vendors/vendorbooking.html', context)
     else:
         return redirect(signin)
+    
+
+def book_summary(request, id):
+    if request.session.has_key('isVendor'):
+        turf = Turf.objects.get(id=id)
+        booking = Booking.objects.filter(turf_id = turf.id)
+        context = {'booking' : booking}
+        return render(request, 'vendors/booksummary.html', context)
+    else:
+        return redirect(signin)
+
+
+def book_requests(request):
+    if request.session.has_key('isVendor'):
+        vendor_id = request.session['vendor_id']
+        booking = Booking.objects.filter(turf__vendor__id = vendor_id, status='pending')
+        context = {'booking' : booking}
+        return render(request, 'vendors/booking-requests.html', context)
+    else:
+        return redirect(signin)
+
 
 def logout(request):
     if request.session.has_key('isVendor'):

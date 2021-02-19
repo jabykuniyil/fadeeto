@@ -1,0 +1,43 @@
+{% extends 'vendors/base.html' %}
+{% block content %}
+<section class="text-center bg-light">
+
+    <form class="form-signin">
+      <img class="mb-4"
+        src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-silhouette-of-creative-football-players-png-image_4266550.jpg"
+        alt="" width="72" height="72">
+      <!-- <img class="mb-4"
+        src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-silhouette-of-creative-football-players-png-image_4266550.jpg"
+        alt="" width="72" height="72"> -->
+      <h2 style="color: crimson;">FADEETO</h2>
+      <h1 class="h3 mb-3 font-weight-normal" style="color: olive; font:bolder;">Book History</h1>
+      <h5 style="color: rgb(133, 130, 130); text-align: left;">Booking id&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.id }}</h5>
+      <h5 style="color: rgb(133, 130, 130); text-align: left;">Name&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.name }}</h5>
+      <h5 style="color: rgb(133, 130, 130); text-align: left;">Mobile&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.phone }}</h5>
+      <h5 for=""  style="text-align: left; color: rgb(133, 130, 130);">Turf Chosen &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.turf.turfName}}</h5>
+      <h5 for=""  style="text-align: left; color: rgb(133, 130, 130);">Sport Chosen :&nbsp;{{ booking.sport.sport }}</h5>
+      <h5 style="color: rgb(133, 130, 130); text-align: left;">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.date }}</h5>
+      <h5 style="color: rgb(133, 130, 130); text-align: left;">Time&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.hour }}</h5>
+      
+      <h5 style="color: rgb(133, 130, 130); text-align: left;">Amount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rs. {{ booking.price }}/-</h5>
+      
+      
+      <h4 style="margin-top: 2rem; color: green;">Thank you for booking !</h4>
+  
+      
+      <!-- <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div> -->
+      <br>
+      <span id="error" style="text-align: center; color: red;"></span>
+  <br>
+      <a href="/"><button class="btn btn-lg btn-primary btn-block" name="login" id="login" type="button">Back to Home</button></a>
+       </form>
+  <script>
+    
+  </script>
+  
+</section>
+{% endblock %}

@@ -17,6 +17,8 @@
         <th scope="col">Sport Chosen</th>
         <th scope="col">Date</th>
         <th scope="col">Hour</th>
+        <th scope="col">Payment Option</th>
+        <th scope="col">Status</th>
         <th scope="col">Amount Paid</th>
       </tr>
     </thead>
@@ -32,6 +34,8 @@
         <td>{{ booking.sport.sport }}</td>
         <td>{{ booking.date }}</td>
         <td>{{ booking.hour }}</td>
+        <td>{{ booking.payment_option }}</td>
+        <td>{{ booking.status }}</td>
         <td>{{  booking.price }}</td>
         </tr> 
       {% endfor %}

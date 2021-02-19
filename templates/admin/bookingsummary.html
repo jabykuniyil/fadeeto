@@ -18,6 +18,7 @@
         <th scope="col">Date</th>
         <th scope="col">Hour</th>
         <th scope="col">Amount Paid</th>
+        <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +35,8 @@
         <td>{{ booking.date }}</td>
         <td>{{ booking.hour }}</td>
         <td>{{  booking.price }}</td>
+        <td>{{  booking.status }}</td>
+
         </tr> 
       {% endfor %}
     </tbody>

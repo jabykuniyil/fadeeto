@@ -9,6 +9,7 @@ class userData(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     phone = models.BigIntegerField( null=True, blank=True)
     photo = models.ImageField(null=True, blank= True)
+    otp = models.CharField(max_length=6, null=True, blank=True)
     
     @property
     def ProfileURL(self):
@@ -20,7 +21,7 @@ class userData(models.Model):
             
             
 class Turf(models.Model):
-    sport = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    # sport = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     facilities = models.ForeignKey(Facilities, on_delete=models.CASCADE, null=True, blank=True)
     userDetails = models.ForeignKey(userData, on_delete=models.CASCADE, null=True, blank=True)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, null=True, blank=True)
@@ -69,6 +70,7 @@ class Booking(models.Model):
     sport = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     turf = models.ForeignKey(Turf, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, null=True, blank=True)
     hour = models.CharField(max_length=20, null=True, blank=True)
     price = models.IntegerField(null=True, blank=True)
     payment_option = models.CharField(max_length = 100, null=True, blank=True)
@@ -76,6 +78,9 @@ class Booking(models.Model):
     name = models.CharField(max_length=20, null=True, blank=True)
     phone = models.BigIntegerField(null= True, blank=True)
     email = models.EmailField(null=True, blank=True)
+    exists = models.BooleanField(default=False)
+    status = models.CharField(null=True, blank=True, default='pending', max_length=20)
+    # exists = models.CharField(max_length=20, null=True, blank=True, default='not')
     
  
     

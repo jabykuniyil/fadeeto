@@ -101,7 +101,7 @@ $('#signup').click(function(){
   if(firstName == ''){
     $('#errorfirstname').html("Enter the valid name")
   }
-  else if(mobile == ''){
+  else if(mobile.length != 10){
     $('#errormobile').html("Enter the proper mobile number")
   }
   else if(email == ''){
@@ -121,14 +121,17 @@ $('#signup').click(function(){
       dataType : 'json',
       success : function(data){
         if(data == 'true'){
-          window.location.replace('/usersignin/')
+          window.location.replace('/otpsignin/')
         }
         
         if(data == 'email'){
-          $('#spanemail').html("Email Already exixts")
+          $('#spanemail').html("Email Already exists")
         }
         if(data == 'username'){
-          $('#spanusername').html("username Already exixts")
+          $('#spanusername').html("username Already exists")
+        }
+        if(data == 'mobile'){
+          $('#errormobile').html('Mobile Number already exists')
         }
       }
     })

@@ -1,17 +1,56 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.models import User, auth
 from . models  import userData, Turf, Booking, sportPrice, turfFacility, Category
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
 import ast
 import json
 import datetime
-# Create your views here.
+import requests
+import random
+import http.client
+from django.conf import settings
+from django.contrib import messages
 
 def home(request):
-    turf = Turf.objects.filter(status='accept')
-    sport_price = sportPrice.objects.all()
-    context = {'sport' : sport_price, 'turfs' : turf}
-    return render(request, 'users/home.html', context)
+    if request.method == 'POST':
+        location = request.POST['location']
+        geolocator = Nominatim(user_agent='user')
+        destination = geolocator.geocode(location)
+        d_lon = destination.longitude
+        d_lat = destination.latitude
+        point_a = (d_lat, d_lon)
+        print(point_a)
+        
+        turf = Turf.objects.filter(status='accept')
+        values = []
+        for x in turf:
+            turf_place = x.address
+            print(x.address)
+            destiny = geolocator.geocode(turf_place)
+            print(destiny)
+            destiny_lat = destiny.latitude
+            destiny_lon = destiny.longitude
+            point_b = (destiny_lat, destiny_lon)
+            x.distance = round(geodesic(point_a, point_b).km, 2)
+            # print(distance)
+            
+            if x.distance <= 50:
+                values.append(x)
+        print(values)    
+        
+        sport_price = sportPrice.objects.all()
+        for x in values:
+            print(x.address)
+            
+        context = {'turfs' : values, 'sport' : sport_price}
+        return render(request, 'users/home.html', context)
+    else:
+        turf = Turf.objects.filter(status='accept')
+        sport_price = sportPrice.objects.all()
+        context_ = {'sport' : sport_price, 'turfs' : turf}
+        return render(request, 'users/home.html', context_)
 
 
 def category(request, id):
@@ -53,27 +92,172 @@ def usersignin(request):
             return render(request, 'users/login.html')
 
 
+def phone(request):
+    if request.user.is_authenticated:
+        return redirect(home)
+    else:
+        if request.method == 'POST':
+            phone = request.POST['phone']
+            if userData.objects.filter(phone=phone).exists():
+                request.session['phone'] = phone
+                url = "https://d7networks.com/api/verifier/send"
+                phone1 = '91'+str(phone)
+                payload = {'mobile': phone1,
+                'sender_id': 'SMSINFO',
+                'message': 'Your Fadeeto verification code is {code}',
+                'expiry': '900'} 
+                files = [
+
+                ]
+                headers = {
+                'Authorization': 'Token 0826e09c83c02826d9767d57fed74ead46c7660a'
+                }
+
+                response = requests.request("POST", url, headers=headers, data = payload, files = files)
+                data = response.text.encode('utf8')
+                dict=json.loads(data.decode('utf8'))
+                otp_id = dict["otp_id"]
+                request.session['otp_id']=otp_id
+                print(request.session['otp_id'])
+                print(response.text.encode('utf8'))
+                return JsonResponse('true',safe=False)
+            else:
+                return JsonResponse('false',safe=False)
+        else:
+            return render(request, 'users/phone.html')
+        
+
+def otp(request):
+    if request.user.is_authenticated:
+        return redirect(home)
+    else:
+        if request.method == 'POST':
+            phone = request.session['phone']
+            url = "https://d7networks.com/api/verifier/verify"
+            otp = request.POST['otp']
+            print(otp)
+            print(phone)
+            userDat = userData.objects.get(phone=phone)
+            user = User.objects.get(id=userDat.user_id)
+            otp_id = request.session['otp_id']
+            print(otp_id)
+            payload = {'otp_id': otp_id , 'otp_code': otp}
+            files = [
+
+            ]
+            headers = {
+            'Authorization': 'Token 0826e09c83c02826d9767d57fed74ead46c7660a'
+            }
+
+            response = requests.request("POST", url, headers=headers, data = payload, files = files)
+            
+            print(response.text.encode('utf8'))
+            data = response.text.encode('utf8')
+            dict=json.loads(data.decode('utf8'))
+            status = dict['status']
+            if status == 'success':
+                auth.login(request,user)
+                return JsonResponse('true', safe=False)
+            else:
+                return JsonResponse('false', safe=False)
+        else:
+            if request.session.has_key('otp_id'):
+                phone = request.session['phone']
+                context = {'phone':phone}
+                return render(request,'users/otp.html',context)
+            else:
+                return redirect(home)
+
+
+
 def usersignup(request):
     if request.user.is_authenticated:
         return redirect(home)
     else:
         if request.method == 'POST':
             firstName = request.POST['firstName']
-            mobile = request.POST['mobile']
+            phone = request.POST['mobile']
             email = request.POST['email']
             username = request.POST['username']
             password = request.POST['password']
+            # otp = str(random.randint(1000, 9999))            
             if User.objects.filter(email=email).exists():
                 return JsonResponse('email', safe=False)
             elif User.objects.filter(username=username).exists():
                 return JsonResponse('username', safe=False)
+            elif userData.objects.filter(phone=phone).exists():
+                return JsonResponse('mobile', safe=False)
             else:
+                request.session['phone_signup'] = phone
+                url = "https://d7networks.com/api/verifier/send"
+                phone1 = '91'+str(phone)
+                payload = {'mobile': phone1,
+                'sender_id': 'SMSINFO',
+                'message': 'Your Fadeeto verification code is {code}',
+                'expiry': '900'} 
+                files = [
+
+                ]
+                headers = {
+                'Authorization': 'Token 0826e09c83c02826d9767d57fed74ead46c7660a'
+                }
+
+                response = requests.request("POST", url, headers=headers, data = payload, files = files)
+                data = response.text.encode('utf8')
+                dict=json.loads(data.decode('utf8'))
+                otp_id = dict["otp_id"]
+                request.session['otp_id_signup']=otp_id
+                print(request.session['otp_id_signup'])
+                print(response.text.encode('utf8'))
                 user = User.objects.create_user(first_name=firstName, email=email, username=username, password=password)
-                userData.objects.create(user=user, phone=mobile)
+                userData.objects.create(user=user, phone=phone)
+                # send_otp(mobile, otp)
+                # request.session['mobile'] = mobile
                 return JsonResponse('true', safe=False)
-            
         else:    
             return render(request, 'users/usersignup.html')
+
+
+def otp_signin(request):
+    if request.user.is_authenticated:
+        return redirect(home)
+    else:
+        if request.method == 'POST':
+            phone = request.session['phone_signup']
+            url = "https://d7networks.com/api/verifier/verify"
+            otp = request.POST['otp']
+            print(otp)
+            print(phone)
+            userDat = userData.objects.get(phone=phone)
+            user = User.objects.get(id=userDat.user_id)
+            otp_id = request.session['otp_id_signup']
+            print(otp_id)
+            payload = {'otp_id': otp_id , 'otp_code': otp}
+            files = [
+
+            ]
+            headers = {
+            'Authorization': 'Token 0826e09c83c02826d9767d57fed74ead46c7660a'
+            }
+
+            response = requests.request("POST", url, headers=headers, data = payload, files = files)
+            
+            print(response.text.encode('utf8'))
+            data = response.text.encode('utf8')
+            dict=json.loads(data.decode('utf8'))
+            status = dict['status']
+            if status == 'success':
+                auth.login(request,user)
+                return JsonResponse('true', safe=False)
+            else:
+                return JsonResponse('false', safe=False)
+        else:
+            if request.session.has_key('otp_id_signup'):
+                phone = request.session['phone_signup']
+                context = {'phone':phone}
+                return render(request,'users/otp-signin.html',context)
+            else:
+                return redirect(home)   
 
 
 def profile(request):
@@ -88,6 +272,8 @@ def profile(request):
             return render(request, 'users/profile.html', context)
     else:
         return redirect(usersignin)
+
+
 
 
 def user_history(request):
@@ -111,18 +297,30 @@ def userbooking(request, id):
             sport = request.POST['sport']
             date = request.POST['date']
             hour = request.POST['hour']
-            price = request.POST['price']
-            price1 = price.strip("Rs. /-")
+            payment_option = request.POST['payment']
+            print(payment_option)
+            turf = Turf.objects.get(id=id)
+            sport_price = sportPrice.objects.filter(turf_id=turf.id)
+            for x in sport_price:
+                if x.category.sport == sport:
+                    price = x.price
+            print(type(price))
             user = request.user
+            print(user)
+            context = {'price' : price}
             sport = Category.objects.get(sport=sport)
-            booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price1, hour=hour, turf_id = id, sport=sport, user=user)
-            data = {'id': booking.id}
-            return JsonResponse(data)
+            if Booking.objects.filter(status='accept', turf_id = turf.id).exists() and Booking.objects.filter(status='pending', turf_id = turf.id).exists:
+                messages.error(request, 'Not Available')
+                return JsonResponse('exists', safe=False)
+            else:
+                booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, user=user, exists=False, payment_option=payment_option)
+                data = {'id': booking.id, 'price' : booking.price}
+                return JsonResponse(data)
         else:
             user = request.user
             turf = Turf.objects.get(id=id)
             turf.timePeriod = ast.literal_eval(turf.timePeriod)
-            userdata = userData.objects.get(id=user.id)
+            userdata = userData.objects.get(user_id=user.id)
             sport_price = sportPrice.objects.filter(turf_id=turf.id)
             booking = Booking.objects.all()
             context = {'user' : user, 'turfs' : turf, 'userData' : userdata, 'sportprice' : sport_price, 'booking' : booking}

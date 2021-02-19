@@ -176,6 +176,7 @@ def deleteCategory(request, id):
         return redirect(adminsignin)
     
 
+
 def block_user(request, id):
     if request.session.has_key('isAdmin'):
         user = User.objects.get(id=id)
@@ -208,12 +209,32 @@ def block_vendor(request, id):
 def block_turf(request, id):
     if request.session.has_key('isAdmin'):
         turf = Turf.objects.get(id=id)
+        if turf.is_active == True:
+            turf.is_active = False
+        else:
+            turf.is_active = True
+        turf.save()
         if turf.status == 'accept':
-            turf.status = 'pending'
+            turf.status = 'Blocked'
         else:
             turf.status = 'accept'
         turf.save()
         return redirect(turfs)
+    else:
+        return redirect(adminsignin)
+
+
+
+def blocked_turfs(request):
+    if request.session.has_key('isAdmin'):
+        status = Turf.objects.filter(status='Blocked')
+        for x in status:
+            x.is_active = False
+            x.save()
+        context = {'turfs' : status}
+        for x in status:
+            print(x.status)
+        return render(request, 'admin/blocked-turfs.html', context)
     else:
         return redirect(adminsignin)
 

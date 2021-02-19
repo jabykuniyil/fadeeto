@@ -24,5 +24,6 @@ urlpatterns = [
     path('accept/<int:id>/', views.accept_turf, name='accept'),
     path('reject/<int:id>/', views.reject_turf, name='reject'),
     path('blockturf/<int:id>/', views.block_turf, name='blockturf'),
+    path('blockedturfs/', views.blocked_turfs, name='blockedturfs'),
     path('bookingsummary/', views.bookingSummary, name='bookingsummary')
 ]

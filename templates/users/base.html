@@ -63,15 +63,19 @@
         <li class="nav-item active">
           <a class="nav-link" style="color: floralwhite; " href="/">Home <span class="sr-only">(current)</span></a>
         </li>
+        {% if not request.user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" style="color:  floralwhite; " href="/usersignin/">Login</a>
         </li>
+        {% endif %}
         
       </ul>
+      {% if request.user.is_authenticated %}
       <form class="form-inline mt-2 mt-md-0">
         <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"> -->
         <a href="/userlogout/"><button class="btn btn-outline-danger my-2 my-sm-0" type="button">LOGOUT</button></a>
       </form>
+      {% endif %}
     </div>
   </nav>
 </header>
@@ -94,3 +98,5 @@
       
   </body>
 </html>
+{% block link %}
+{% endblock %}

@@ -1,8 +1,7 @@
 {% extends 'vendors/base.html' %}
 {% block content %}
 <div class="container" style="text-align: center;">
-    <form class="form-signin" method="POST"  style="margin: auto; display: table ; justify-items: center;">
-      {% csrf_token %}
+    <form >
      
         <br>
       <br>
@@ -12,24 +11,24 @@
       <div class="row">
           <div class="col-md-6 col-12">
       <input type="text" id="name" name="name"   class="form-control" placeholder="name" required autofocus>
-      <span id="erroruser" style="text-align: center; color: red;"></span>
+      <span id="errorname" style="text-align: center; color: red;"></span>
       <br>
     </div>
     <div class="col-md-6 col-12">
         <input type="number" id="mobile" name="mobile"  class="form-control" placeholder="mobile" required autofocus>
-        <span id="erroruser" style="text-align: center; color: red;"></span>
+        <span id="errorphone" style="text-align: center; color: red;"></span>
         <br>
       </div>
     </div>
     <div class="row">
         <div class="col-md-6 col-12">
     <input type="email" id="email" name="email"   class="form-control" placeholder="email" required autofocus>
-    <span id="erroruser" style="text-align: center; color: red;"></span>
+    <span id="erroremail" style="text-align: center; color: red;"></span>
     <br>
   </div>
   <div class="col-md-6 col-12">
       <textarea  id="address" name="address"  class="form-control" placeholder="address" required autofocus></textarea>
-      <span id="erroruser" style="text-align: center; color: red;"></span>
+      <span id="erroraddress" style="text-align: center; color: red;"></span>
       <br>
     </div>
   </div>
@@ -38,23 +37,30 @@
      
         <select  class="form-control" id="sport" style="text-align: center;">
           <option >choose sport...</option>
-         <option value="{{  }}"></option>
+          {% for sport in sport %}
+         <option value="{{ sport.category.sport }}">{{  sport.category.sport }}</option>
+         {% endfor %}
           </select>
-       
+          <span style="color: red;" id="errorsport"></span>
+
         </div>
       <br>
     
     <div class="col-md-6 col-12">
       
-     
+      <span  class="form-label " style="text-align: center; color: darkred;">Amount to Pay</span>
+     <br>
+      {% for x in sport %}
+      <span class="form-label option" id="price-{{x.category.sport}}" style="display: none; color: rgb(97, 3, 3); text-align: center; font-size: medium; font-weight: bolder;">Rs. {{ x.price }}/-</span>
+    {% endfor %}
       </div>
 
 </div>
 <br>
 <div class="row">
     <div class="col-md-6 col-12">
-      <input type="date" id="facility" name="date"   class="form-control" placeholder="date" required autofocus>
-      <span id="erroruser" style="text-align: center; color: red;"></span>
+      <input type="date" id="date" name="date"   class="form-control" placeholder="date" required autofocus>
+      <span id="errordate" style="text-align: center; color: red;"></span>
       <br>
      
       
@@ -62,7 +68,10 @@
 <div class="col-md-6 col-12">
   <select class="form-control" id="hour" style="text-align: center;">
     <option >choose hour...</option>
-
+    {% for hour in turf.timePeriod %}
+    <option >{{ hour }}</option>
+    {% endfor %}
+    <span style="color: red;text-align: center; " id="errorhour"></span>
 
   </select>
  
@@ -70,8 +79,101 @@
 </div>
 
   <br>
-      <input class="btn btn-lg btn-primary btn-block" value="Book Now" name="login" id="login" type="submit">
-    
+  <div class="form-btn ">
+
+      <button class="btn btn-lg btn-primary btn-block"   onclick="books('{{turf.id}}')"   name="book" id="book" type="button">Book Now</Button>
+  </div>
     </form>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+  function books(id){
+    var name = $('#name').val()
+    var email = $('#email').val()
+    var phone = $('#mobile').val()
+    var address = $('#address').val()
+    var sport = $('#sport').find(":selected").text();
+    var date = $('#date').val()
+    var hour = $('#hour').val()
+    var data = {
+      'csrfmiddlewaretoken' : '{{csrf_token}}',
+      'name' : name,
+      'email' : email,
+      'phone' : phone,
+      'sport' : sport,
+      'hour' : hour,
+      'date' : date,
+    }
+    if(name == ''){
+      $('#errorname').html("Name required")
+    }
+    else if(phone == ''){
+      $('#errorphone').html("phone required")
+    }
+    else if(email == ''){
+      $('#erroremail').html("Email required")
+    }
+    else if(address == ''){
+      $('#erroraddress').html("Address required")
+    }
+    else if(sport == 'choose sport...'){
+      $("#errorsport").html("Please choose any of the sport")
+    }
+    
+    else if(hour =='choose hour...'){
+      $('#errorhour').html('Please choose a hour to book')
+    }
+    
+    else if(date == ""){
+      console.log("hello")
+      $("#errordate").html("Please choose a date")
+    }
+    
+    else{
+      console.log('ho');
+      $.ajax({
+        url : '/vendor/vendorbooking/'+id+"/",
+        method : 'POST',
+        data : data, 
+        dataType : 'json',
+        success : function(data){
+            window.location.replace('/vendor/booksummary/'+data.id+'/')
+          
+        }
+      })
+    }
+    
+   }
+</script>
+  <script>
+    $(function(){
+        var dtToday = new Date();
+  
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+          month = '0' + month.toString();
+        if(day < 10)
+          day = '0' + day.toString();
+  
+        var maxDate = year + '-' + month + '-' + day;
+        $('#date').attr('min', maxDate);
+        });
+        </script>
+    <script>
+      var $list = $( '#sport' );
+  var $options = $( '.option' );
+  
+  $list.on( 'change', function ( e ) {
+    
+    $options.hide();
+    $( '#price-' + this.value ).show();
+    
+  } );
+      
+      </script>
 {% endblock %}

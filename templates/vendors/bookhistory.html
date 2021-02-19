@@ -2,7 +2,8 @@
 {% block content %}
 <nav class="navbar col-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
     <p style="color: brown;text-align: center; font-size: 4rem; padding: 2rem; font: bolder;">Book History</p>
-    
+    <a href="/vendor/bookrequests/"><button type="button" class="btn-secondary " style="justify-content: center; width: 12rem; height: 2rem; border: none; border-radius: 1rem; display: block; padding-right: 2rem;  ">Book Requests</button></a>
+
     </nav>
 <table class="table" id="table" style="align-items: center; padding: 2rem;">
     <thead>
@@ -17,6 +18,8 @@
         <th scope="col">Date</th>
         <th scope="col">Hour</th>
         <th scope="col">Amount Paid</th>
+        <th scope="col">Payment Mode</th>
+        <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +35,9 @@
         <td>{{ booking.date }}</td>
         <td>{{ booking.hour }}</td>
         <td>{{  booking.price }}</td>
+        <td>{{  booking.payment_option }}</td>
+        <td>{{  booking.status }}</td>
+
         </tr> 
       {% endfor %}
     </tbody>

@@ -18,7 +18,9 @@
           <div class="carousel-caption text-left">
             <h1>Example headline.</h1>
             <p>Some representative placeholder content for the first slide of the carousel.</p>
+            {% if  not request.user.is_authenticated %}
             <p><a class="btn btn-lg btn-primary" href="/usersignup/">Sign up today</a></p>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -84,6 +86,7 @@
                   {% endfor %}
                 </div>
               </div>
+              
             <h1>Another example headline.</h1>
             <p>Some representative placeholder content for the second slide of the carousel.</p>
            
@@ -96,6 +99,7 @@
 
         <div class="container">
           <div class="carousel-caption text-right">
+            <p><a class="btn btn-lg btn-primary" href="/usersignup/">Search for the Turf</a></p>
             <h1>One more for good measure.</h1>
             <p>Some representative placeholder content for the third slide of this carousel.</p>
             
@@ -119,11 +123,22 @@
   <!-- Marketing messaging and featurettes
   ================================================== -->
   <!-- Wrap the rest of the page in another container to center all the content. -->
-
+  <div class="row">
+  <div class="container-fluid col-md-4 " >
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+    <input class="form-control" name="location" id="location" type="text"style="margin: auto; display: list-item ;" placeholder="Search Within 50 km" >
+    <br>
+    <div class=" col-md-6">
+    <input type="submit" class="btn btn-lg btn-primary btn-block" style="margin: auto; display: list-item;" value="Search Locations">
+  </form>
+</div>
+  </div>
+  </div>
+ <br>
   <div class="container marketing">
+    
     <div class="row">
-     
-  
 {% for turf in turfs %}
     <!-- Three columns of text below the carousel -->
       <div class="col-lg-4 col-md-4" >
@@ -131,13 +146,16 @@
         <img src="{{ turf.ImageURL }}" width="140" height="140" class="rounded-circle" alt="" srcset="">
         <!-- <svg class="bd-placeholder-img rounded-circle"  width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> -->
         <h2>{{ turf.turfName }}</h2>
-        <p>{{ turf.description }}</p>
+        <p>{{ turf.address }}</p>
+        <p>{{ turf.distance }} {% if turf.distance is not None %}Km {% endif %}</p>
+
         <p><a class="btn btn-lg btn-primary" href="/userturfview/{{ turf.id  }}">View details &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
       <!-- /.col-lg-4 -->
     {% endfor %}
   </div><!-- /.row -->
-
+  </div>
+</main>
     {% endblock %}
     
   <!-- FOOTER -->
@@ -154,3 +172,9 @@
       
   </body>
 </html> -->
+{% block link %}
+<div class="container">
+This product includes GeoLite2 data created by MaxMind, available from
+<a href="https://www.maxmind.com">https://www.maxmind.com</a>.
+</div>
+{% endblock %}

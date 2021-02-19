@@ -18,6 +18,7 @@
         <th scope="col">Images</th>
         <th scope="col">Address</th>
         <th scope="col">Description</th>
+        <th scope="col">Status</th>
         <th scope="col"></th>
         <th scope="col"></th>
       </tr>
@@ -45,6 +46,7 @@
         <td ><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL2 }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div></td>
         <td>{{ turf.address }}</td>
         <td>{{ turf.description }}</td>
+        <td>{{ turf.status }}</td>
         <td><a href="/vendor/editturf/{{ turf.id }}/"><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem;  border: none;  ">Edit</button></a></td>
        <td><a href="/vendor/deleteturf/{{turf.id}}/"><button type="button" class="btn-danger" style="text-align: center; border-radius: 1rem; border: none; ">Delete</button></a></td>
         </tr> 

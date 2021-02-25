@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.models import User, auth
-from . models  import userData, Turf, Booking, sportPrice, turfFacility, Category
+from . models  import userData, Turf, Booking, sportPrice, turfFacility, Category, Comment
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 import ast
@@ -12,45 +12,28 @@ import random
 import http.client
 from django.conf import settings
 from django.contrib import messages
+import folium
 
 def home(request):
-    if request.method == 'POST':
-        location = request.POST['location']
+    sport = Category.objects.all()
+    turf = Turf.objects.filter(status='accept')
+    sport_price = sportPrice.objects.all()
+    context_ = {'sport' : sport_price, 'turfs' : turf, 'game' : sport}
+    return render(request, 'users/home.html', context_)
+
+def map(request, id):
+    sport = sportPrice.objects.filter(category_id=id)
+    turf_id_list = []
+    for x in sport:
+        turf_id_list.append(x.turf.id)
+    turf = Turf.objects.filter(id__in=turf_id_list, status='accept')
+    for x in turf:
         geolocator = Nominatim(user_agent='user')
-        destination = geolocator.geocode(location)
-        d_lon = destination.longitude
-        d_lat = destination.latitude
-        point_a = (d_lat, d_lon)
-        print(point_a)
-        
-        turf = Turf.objects.filter(status='accept')
-        values = []
-        for x in turf:
-            turf_place = x.address
-            print(x.address)
-            destiny = geolocator.geocode(turf_place)
-            print(destiny)
-            destiny_lat = destiny.latitude
-            destiny_lon = destiny.longitude
-            point_b = (destiny_lat, destiny_lon)
-            x.distance = round(geodesic(point_a, point_b).km, 2)
-            # print(distance)
-            
-            if x.distance <= 50:
-                values.append(x)
-        print(values)    
-        
-        sport_price = sportPrice.objects.all()
-        for x in values:
-            print(x.address)
-            
-        context = {'turfs' : values, 'sport' : sport_price}
-        return render(request, 'users/home.html', context)
-    else:
-        turf = Turf.objects.filter(status='accept')
-        sport_price = sportPrice.objects.all()
-        context_ = {'sport' : sport_price, 'turfs' : turf}
-        return render(request, 'users/home.html', context_)
+        x.destination = geolocator.geocode(x.address)
+        x.latitude = x.destination.latitude
+        x.longitude = x.destination.longitude
+    context = {'turf' : turf}
+    return render(request, 'users/map.html', context)
 
 
 def category(request, id):
@@ -67,12 +50,18 @@ def category(request, id):
 
 
 def turfview(request, id):
-    turf = Turf.objects.get(id=id)
-    sport_price = sportPrice.objects.filter(turf_id=turf.id )
-    facility = turfFacility.objects.filter(turf_id=turf.id)
-    # turf_facility = turfFacility.objects.get(id=id)'turffacility' : turf_facility,
-    turf.timePeriod = ast.literal_eval(turf.timePeriod)
-    return render(request, 'users/turf.html', {'turf' : turf,   'sportprice' : sport_price, 'facility' : facility})
+    if request.method == 'POST':
+        review = request.POST['review']
+        user = request.user
+        Comment.objects.create(comment=review, user=user)
+        return redirect(home)
+    else:
+        turf = Turf.objects.get(id=id)
+        sport_price = sportPrice.objects.filter(turf_id=turf.id )
+        facility = turfFacility.objects.filter(turf_id=turf.id)
+        # turf_facility = turfFacility.objects.get(id=id)'turffacility' : turf_facility,
+        turf.timePeriod = ast.literal_eval(turf.timePeriod)
+        return render(request, 'users/turf.html', {'turf' : turf,   'sportprice' : sport_price, 'facility' : facility})
 
 
 def usersignin(request):
@@ -260,10 +249,20 @@ def otp_signin(request):
                 return redirect(home)   
 
 
-def profile(request):
+def profile(request, id):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            pass
+            user = userData.objects.get(id = id)
+            user.user.first_name = request.POST['name']
+            user.user.email = request.POST['email']
+            user.phone = request.POST['phone']
+            if 'inputprofileimage' not in request.POST:
+                image = request.FILES.get('inputprofileimage')
+            else:
+                image = user.photo
+            user.photo = image
+            user.save()
+            return redirect(home)
         else:
             user = request.user
             userdata = userData.objects.get(user=user.id) 
@@ -309,8 +308,9 @@ def userbooking(request, id):
             print(user)
             context = {'price' : price}
             sport = Category.objects.get(sport=sport)
-            if Booking.objects.filter(status='accept', turf_id = turf.id).exists() and Booking.objects.filter(status='pending', turf_id = turf.id).exists:
-                messages.error(request, 'Not Available')
+            if Booking.objects.filter(date=date, turf_id = turf.id).exists() and Booking.objects.filter(hour=hour, turf_id = turf.id).exists() and Booking.objects.filter(turf_id = turf.id, status='pending').exists():
+                return JsonResponse('exists', safe=False)
+            if Booking.objects.filter(date=date, turf_id = turf.id).exists() and Booking.objects.filter(hour=hour, turf_id = turf.id).exists() and Booking.objects.filter(turf_id = turf.id, status='accept').exists():
                 return JsonResponse('exists', safe=False)
             else:
                 booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, user=user, exists=False, payment_option=payment_option)

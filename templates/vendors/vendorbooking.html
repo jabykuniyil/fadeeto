@@ -77,6 +77,7 @@
  
 </div>
 </div>
+<span style="color: red;text-align: center; " id="error"></span>
 
   <br>
   <div class="form-btn ">
@@ -140,8 +141,13 @@
         data : data, 
         dataType : 'json',
         success : function(data){
+          if (data == 'exists'){
+            $('#error').html('Not available')
+          }
+          else{
+            console.log(data);
             window.location.replace('/vendor/booksummary/'+data.id+'/')
-          
+          }
         }
       })
     }

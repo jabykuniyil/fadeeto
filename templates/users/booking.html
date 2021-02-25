@@ -221,7 +221,7 @@
 											<span  class="form-label " style="text-align: center;">Amount to Pay</span>
 											{% for x in sportprice %}
 											<span class="form-label option"  id="price-{{x.category.sport}}" style="display: none; color: rgb(58, 184, 58); text-align: center; font-size: xx-large; font-weight: bolder;">Rs. {{ x.price }}/-</span>
-											<input type="text" id="price_new" value="{{x.price}}" hidden>
+											<input type="text" value="{{x.price}}" hidden>
 											{% endfor %}
 										</div>
 									</div>
@@ -287,6 +287,19 @@
 <script src="https://www.paypal.com/sdk/js?client-id=ATQhoFm9Jlb7TegWbtRcvRBj1ukuZLp29IPCFZBTuR1Bn0TmwXkqOd12BkN0tuGDNQrOq_tzhTqtyxYc&currency=USD&disable-funding=credit"></script>
 
 	<script>
+		// var a
+		// // $( document ).ready(function() {
+		// console.log( "ready!" );
+		// var dict = [{sport:"sport", price:"price"}];
+		// // for(i=0;i < sport; i++){
+		// // 	 "newkey";
+		// // 	dict[i].price = "newvalue";
+		// // }
+		// // });
+		// {% for sport in sportprice %}
+		// dict[sport].sport = sport.category.sport
+		// console.log(sport.category.sport);
+		// {% endfor %}
 		function booka(id){
 			document.getElementById("book").disabled = true;
 			var name = $('#name').val()
@@ -306,61 +319,62 @@
 				'date' : date,
 				'payment' : payment
 			}
-			let error = false
+			// let error = false
 			if(name == ''){
 				document.getElementById("book").disabled = false;
 				console.log("ERROR")
 				$('#errorname').html("Name required")
 				error = true
 			}
-			else {
-				$('#errorname').html("")
-			}
-			if(email == ''){
+			// else {
+			// 	$('#errorname').html("")
+			// }
+			else if(email == ''){
 				document.getElementById("book").disabled = false
 				$('#erroremail').html("Email required")
-				error =true
+				// error =true
 			}
-			else{
-				$('#erroremail').html('')
-			}
-			if(phone == ''){
+			// else{
+			// 	$('#erroremail').html('')
+			// }
+			else if(phone == ''){
 				document.getElementById("book").disabled = false
 				$('#errorphone').html("phone required")
-				error = true
+				// error = true
 			}
-			else{
-				$('#errorphone').html('')
-			}
-			if(sport == 'choose...'){
+			// else{
+			// 	$('#errorphone').html('')
+			// }
+			else if(sport == 'choose...'){
 				document.getElementById("book").disabled = false
 				$("#errorsport").html("Please choose any of the sport")
-				error = true
+				// error = true
 			}
-			else{
-				$("#errorsport").html('')
-			}
-			if(hour == 'choose...'){
+			// else{
+			// 	$("#errorsport").html('')
+			// }
+			else if(hour == 'choose...'){
 				document.getElementById("book").disabled = false
 				$('#errorhour').html('Please choose a hour to book')
-				error = true
+				// error = true
 			}
-			else{
-				$("#errorhour").html("")
-			}
-			if(date == ""){
+			// else{
+			// 	$("#errorhour").html("")
+			// }
+			else if(date == ""){
 				document.getElementById("book").disabled = false
 				console.log("hello")
 				$("#errordate").html("Please choose a date")
-				error =true
+				// error =true
 			}
+			// else{
+			// 	$("#errordate").html("")
+			// }
 			else{
-				$("#errordate").html("")
-			}
-			if(payment == 'choose...'){
+				 if(payment == 'choose...'){
 				document.getElementById("book").disabled = false
 				$('#errorpayment').html('please Choose any of the payment option')
-				error = true
+				// error = true
 
 			}
 			else if(payment == 'Razorpay'){
@@ -431,7 +445,7 @@
 				
 
 			// }
-			if(!error){
+			else{
 				$.ajax({
 					url : '/userbooking/'+id+"/",
 					method : 'POST',
@@ -450,6 +464,7 @@
 			}
 			
 		 }
+		}
 	</script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -475,11 +490,11 @@ var options = {
 				razorpay('{{turfs.id}}')
 				// error = false
     },
-    "prefill": {
-        "name": "Gaurav Kumar",
-        "email": "gaurav.kumar@example.com",
-        "contact": "9999999999"
-    },
+    // "prefill": {
+    //     "name": "#name",
+    //     "email": "#email",
+    //     "contact": "#mobile"
+    // },
     "notes": {
         "address": "Razorpay Corporate Office"
     },

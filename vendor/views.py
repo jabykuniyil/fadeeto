@@ -7,6 +7,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.core.files import File
 import json, ast
 from admins.models import Category, Facilities
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
 
 
 def signin(request):
@@ -147,7 +149,9 @@ def editTurf(request,id):
         for x in sport_price:
             sportprice_list.append(x.category.sport)
         return render(request, 'vendors/editturf.html', {'turfs' : turf, 'turffacilitylist' : turf_facility_list, 'facility' : facility, 'sportpricelist' : sportprice_list, 'sportprice' : sport_price, 'sport' : sport} )
-    
+
+
+   
         
 def addTurf(request):
     if request.session.has_key('isVendor'):
@@ -155,6 +159,16 @@ def addTurf(request):
             vendor_id = request.session['vendor_id']
             turfName = request.POST['turfName']
             turfName.capitalize()
+            lat = request.POST['lat']
+            lng = request.POST['lng']
+            geolocator = Nominatim(user_agent='vendor')
+            Latitude = lat
+            Longitude = lng
+            
+            location = geolocator.reverse(Latitude+","+Longitude) 
+            
+            # Display 
+            print(location)
             image1 = request.FILES.get('image1')
             image2 = request.FILES.get('image2')
             am67 = request.POST.getlist('6AM-7AM')
@@ -176,12 +190,12 @@ def addTurf(request):
             pm1011 = request.POST.getlist('10PM-11PM')
             pm1112 = request.POST.getlist('11PM-12PM')
             facility = request.POST.getlist('facility')
-            address = request.POST['address']
+            # address = request.POST['address']
             description = request.POST['description']
             timePeriod = am67 + am78 + am89 + am910 + am1011 + am1112 + am121 + pm12 + pm23 + pm34 + pm45 + pm56 + pm67 + pm78 + pm89 + pm910 + pm1011 + pm1112
             turf = Turf.objects.create(turfName=turfName, 
                                 timePeriod=timePeriod, image1=image1, image2=image2,
-                                address=address, description=description, is_active=True,vendor_id=vendor_id, status='pending')
+                                address=location, description=description, is_active=True,vendor_id=vendor_id, status='pending')
             category = request.POST.getlist('category')            
             for categories in category:
                 name=categories+'-price'
@@ -191,6 +205,8 @@ def addTurf(request):
                 turfFacility.objects.create(facilities_id=facilities, turf_id=turf.id)
             return redirect(turfs)
         else:
+             
+            
             sport = Category.objects.all()
             facility = Facilities.objects.all()
             print('hello')
@@ -261,11 +277,14 @@ def vendor_booking(request, id):
                     price = x.price
             print(price)
             sport = Category.objects.get(sport=sport)
-            if Booking.objects.filter(date=date) and Booking.objects.filter(hour=hour).exists():
+            if Booking.objects.filter(date=date, turf_id = turf.id) and Booking.objects.filter(hour=hour, turf_id = turf.id).exists() and Booking.objects.filter(status='accept', turf_id = turf.id).exists() :
+                return JsonResponse('exists', safe=False)
+            elif Booking.objects.filter(date=date, turf_id = turf.id) and Booking.objects.filter(hour=hour, turf_id = turf.id).exists() and Booking.objects.filter(status='pending', turf_id = turf.id).exists() :
                 return JsonResponse('exists', safe=False)
             else:
-                booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, exists=False)
+                booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, exists=False, status='accept')
                 data = {'id': booking.id}
+                # print(data.id)
                 return JsonResponse(data)
         else:
             turf = Turf.objects.get(id=id, status='accept')
@@ -280,10 +299,10 @@ def vendor_booking(request, id):
 
 def book_summary(request, id):
     if request.session.has_key('isVendor'):
-        turf = Turf.objects.get(id=id)
-        booking = Booking.objects.filter(turf_id = turf.id)
-        context = {'booking' : booking}
-        return render(request, 'vendors/booksummary.html', context)
+        booking = Booking.objects.get(id=id)
+        price = sportPrice.objects.all()
+        context = {'booking' : booking, 'price' : price}
+        return render(request, 'users/history.html', context)
     else:
         return redirect(signin)
 

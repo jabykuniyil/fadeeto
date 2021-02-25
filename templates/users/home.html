@@ -1,6 +1,10 @@
 {% extends 'users/base.html' %}
 {% block content %}
-
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
 <main role="main">
 
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -99,7 +103,7 @@
 
         <div class="container">
           <div class="carousel-caption text-right">
-            <p><a class="btn btn-lg btn-primary" href="/usersignup/">Search for the Turf</a></p>
+            <p><a class="btn btn-lg btn-primary" href="#location">Search for the Turf</a></p>
             <h1>One more for good measure.</h1>
             <p>Some representative placeholder content for the third slide of this carousel.</p>
             
@@ -125,24 +129,31 @@
   <!-- Wrap the rest of the page in another container to center all the content. -->
   <div class="row">
   <div class="container-fluid col-md-4 " >
-    <form action="" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-    <input class="form-control" name="location" id="location" type="text"style="margin: auto; display: list-item ;" placeholder="Search Within 50 km" >
-    <br>
-    <div class=" col-md-6">
-    <input type="submit" class="btn btn-lg btn-primary btn-block" style="margin: auto; display: list-item;" value="Search Locations">
-  </form>
+    <h2 style="padding: 2rem;">Fadeeto here! , Which sport are you looking for?</h2>
+    <div class="row">
+
+    {% for game in game %}
+      <div class="col-lg-4"  style="margin-top: 1rem;">
+        <a href="/map/{{game.id}}/"><input type="button" id="near" class="btn btn-lg btn-primary btn-block" style="margin: auto; display: list-item;" value="{{game.sport}}"></a>
+
+      </div>
+      {% endfor %}
+      
+    </div>
+
+<br>
+    
 </div>
   </div>
   </div>
  <br>
   <div class="container marketing">
-    
+
     <div class="row">
+
 {% for turf in turfs %}
     <!-- Three columns of text below the carousel -->
       <div class="col-lg-4 col-md-4" >
-
         <img src="{{ turf.ImageURL }}" width="140" height="140" class="rounded-circle" alt="" srcset="">
         <!-- <svg class="bd-placeholder-img rounded-circle"  width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> -->
         <h2>{{ turf.turfName }}</h2>
@@ -155,7 +166,12 @@
     {% endfor %}
   </div><!-- /.row -->
   </div>
+  
 </main>
+
+
+
+</script> 
     {% endblock %}
     
   <!-- FOOTER -->
@@ -173,8 +189,10 @@
   </body>
 </html> -->
 {% block link %}
-<div class="container">
+<!-- <div class="container">
 This product includes GeoLite2 data created by MaxMind, available from
 <a href="https://www.maxmind.com">https://www.maxmind.com</a>.
-</div>
+</div> -->
+
+ 
 {% endblock %}

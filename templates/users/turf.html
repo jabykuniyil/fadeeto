@@ -64,7 +64,7 @@
             <div class="row" >
               <i class="icofont-rounded-right"></i> <a
                 href="https://maps.google.com/maps?q=Mahe&t=&z=13&ie=UTF8&iwloc=&output=embed"></li></a><iframe
-                src="https://maps.google.com/maps?q=thalassery&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+                src="https://maps.google.com/maps?q={{turf.address}}&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
                 style="border:0; display: flex; margin: auto;" allowfullscreen></iframe>
             </div>
             <br>
@@ -100,14 +100,18 @@
             </div>
             {% endfor %}
 
-
+{% if request.user.is_authenticated %}
             <h3 style=" color: firebrick; text-align: center; margin-top: 1rem;">Customer Review</h3>
-            <input type="text" name="textarea" id="textarea" placeholder="Review"
+            <form action="" method="POST">
+              {% csrf_token %}
+            <input type="text" name="review" id="review" placeholder="Review"
               style="display: flex; margin-top: 1rem; justify-content: center; border-radius: 1rem;  border-color: rgb(177, 43, 43); margin: auto; width: 16rem; height: 6rem;">
             <br>
-            <input type="submit" class="btn-primary" name="submit" value="Submit"
+            <input type="submit"  class="btn-primary" name="submit" value="Submit"
               style="height: 3rem; display: flex; margin: auto; width: 16rem; border-radius: 1rem;  justify-content: center;"
               id="">
+            </form>
+            {% endif %}
           </div>
 
         </div>

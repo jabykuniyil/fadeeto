@@ -1,11 +1,17 @@
 {% extends 'admin/adminbase.html' %}
 {% block content %}
+<div class="row">
+  <div class="col-lg-3"></div>
+  <div class="col-lg-9" style="padding-right: 13rem;">
+    <!-- <div class="pcoded-main-container">
+      <div class="pcoded-wrapper"> -->
 <nav class="navbar col-12 col-md-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
   <p style="color: brown;text-align: center; font-size: 3rem; padding: 2rem; font: bolder;">All Turfs</p>
-  <a href="/turfadmin/turfrequests/"><button type="button" class="btn-secondary " style="justify-content: center; width: 8rem; height: 2rem; border: none; border-radius: 1rem; display: block; padding-right: 2rem;  ">Turf Requests</button></a>
 
   </nav>
-  <table class="table" id="table" style="align-items: center; padding: 2rem;">
+  
+  <div style="overflow: auto;width: 53rem;">
+  <table class="table" id="table">
     <thead>
       <tr>
         <th scope="col">id</th>
@@ -25,7 +31,8 @@
       <th scope="row">{{forloop.counter}}</th>
       <td>{{ turf.turfName }}</td>
       <td>{{ turf.vendor.name }}</td>
-      <td>{{ turf.timePeriod }}</td>
+      
+        <td >{{ turf.timePeriod }}</td>
       <td>
         {% for spopri in sportprice %}
           {% if spopri.turf.id == turf.id %}
@@ -55,6 +62,9 @@
     {% endfor %}
   </tbody>
 </table>
+  <div>
+<!-- </div> -->
 
-  
+</div>
+</div>
 {% endblock %}

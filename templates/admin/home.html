@@ -1,25 +1,282 @@
 {% extends 'admin/adminbase.html' %}
+{% load static %}
 {% block content %}
+<div class="pcoded-content">
+  <div class="pcoded-inner-content">
+      <div class="main-body">
+          <div class="page-wrapper">
 
-    
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+              <div class="page-body">
+                  <div class="row">
+                      <!-- card1 start -->
+                      <div class="col-md-6 col-xl-3">
+                          <div class="card widget-card-1">
+                              <div class="card-block-small">
+                                  <i class="icofont icofont-ui-user-group bg-c-blue card1-icon"></i>
+                                  <span class="text-c-blue f-w-600">Users</span>
+                                  <h4>{{users}}</h4>
+                                  <div>
+                                      <span class="f-left m-t-10 text-muted">
+                                          <i class="text-c-blue f-16 icofont icofont-warning m-r-10"></i>Get more users
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- card1 end -->
+                      <!-- card1 start -->
+                      <div class="col-md-6 col-xl-3">
+                          <div class="card widget-card-1">
+                              <div class="card-block-small">
+                                  <i class="icofont icofont-football bg-c-pink card1-icon"></i>
+                                  <span class="text-c-pink f-w-600">Turfs</span>
+                                  <h4>{{turfs}}</h4>
+                                  <div>
+                                      <span class="f-left m-t-10 text-muted">
+                                          <i class="text-c-pink f-16 icofont icofont-calendar m-r-10"></i>Last 5 months
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- card1 end -->
+                      <!-- card1 start -->
+                      <div class="col-md-6 col-xl-3">
+                          <div class="card widget-card-1">
+                              <div class="card-block-small">
+                                  <i class="icofont icofont-ui-user-group bg-c-green card1-icon"></i>
+                                  <span class="text-c-green f-w-600">Vendors</span>
+                                  <h4>{{vendors}}</h4>
+                                  <div>
+                                      <span class="f-left m-t-10 text-muted">
+                                          <i class="text-c-green f-16 icofont icofont-tag m-r-10"></i>Tracked microsoft
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- card1 end -->
+                      <!-- card1 start -->
+                      <div class="col-md-6 col-xl-3">
+                          <div class="card widget-card-1">
+                              <div class="card-block-small">
+                                  <i class="icofont icofont-book-mark bg-c-yellow card1-icon"></i>
+                                  <span class="text-c-yellow f-w-600">Bookings</span>
+                                  <h4>{{bookings}}</h4>
+                                  <div>
+                                      <span class="f-left m-t-10 text-muted">
+                                          <i class="text-c-yellow f-16 icofont icofont-refresh m-r-10"></i>Just update
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+
+                      <!-- card1 end -->
+                      <!-- Statestics Start -->
+                      <div class="col-md-12 col-xl-8">
+                          <div class="card">
+                              <div class="card-header">
+                                  <h5>Total Turf Bookings</h5>
+                                  <div class="card-header-left ">
+                                  </div>
+                                  <div class="card-header-right">
+                                      <ul class="list-unstyled card-option">
+                                          <li><i class="icofont icofont-simple-left "></i></li>
+                                          <li><i class="icofont icofont-maximize full-card"></i></li>
+                                          <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                          <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                          <li><i class="icofont icofont-error close-card"></i></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                              <div class="card-block">
+                                  <div id="statestics-chart" style="height:517px;"></div>
+                              </div>
+                          </div>
+                      </div>
+
+
+
+                      <div class="col-md-12 col-xl-4">
+                              <div class="card fb-card">
+                                  <div class="card-header">
+                                      <i class="icofont icofont-match-review"></i>
+                                      <div class="d-inline-block">
+                                          <h5>Reviews</h5>
+                                          <span>User Reviews about Turf</span>
+                                      </div>
+                                  </div>
+                                  <div class="card-block text-center">
+                                      <div class="row">
+                                          <div class="col-6 b-r-default">
+                                              <h2>{{comment}}</h2>
+                                              <p class="text-muted">Total</p>
+                                          </div>
+                                          <div class="col-6">
+                                              <h2>{{comment}}</h2>
+                                              <p class="text-muted">Positive</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="card dribble-card">
+                                  <div class="card-header">
+                                      <i class="icofont icofont-money"></i>
+                                      <div class="d-inline-block">
+                                          <h5>Money Earned</h5>
+                                          <span>Total Sales</span>
+                                      </div>
+                                  </div>
+                                  <div class="card-block text-center">
+                                      <div class="row">
+                                          <div class="col-6 b-r-default">
+                                              <h2>{{price}} /-</h2>
+                                              <p class="text-muted">Till Now</p>
+                                          </div>
+                                          <div class="col-6">
+                                              <h2>{{this_month_price}} /-</h2>
+                                              <p class="text-muted">This Month</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="card twitter-card">
+                                  <div class="card-header">
+                                      <i class="icofont icofont-football-alt"></i>
+                                      <div class="d-inline-block">
+                                          <h5>Turfs</h5>
+                                          <span>Total Turfs</span>
+                                      </div>
+                                  </div>
+                                  <div class="card-block text-center">
+                                      <div class="row">
+                                          <div class="col-6 b-r-default">
+                                              <h2>{{turf_accept}}</h2>
+                                              <p class="text-muted">Turfs Available</p>
+                                          </div>
+                                          <div class="col-6">
+                                              <h2>{{turf_pending}}</h2>
+                                              <p class="text-muted">Turf Requests</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                     
+                      <!-- Email Sent End -->
+                      <!-- Data widget start -->
+                      <div class="col-md-12 col-xl-6">
+                          <div class="card project-task">
+                              <div class="card-header">
+                                  <div class="card-header-left ">
+                                      <h5>Facilities </h5>
+                                  </div>
+                                  <div class="card-header-right">
+                                      <ul class="list-unstyled card-option">
+                                          <li><i class="icofont icofont-simple-left "></i></li>
+                                          <li><i class="icofont icofont-maximize full-card"></i></li>
+                                          <li><i class="icofont icofont-minus minimize-card"></i></li>
+                                          <li><i class="icofont icofont-refresh reload-card"></i></li>
+                                          <li><i class="icofont icofont-error close-card"></i></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                              <div class="card-block p-b-10">
+                                  <div class="table-responsive">
+                                      <table class="table table-hover">
+                                          <thead>
+                                              <tr>
+                                                  <th>Facilities</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% for facility in facilities %}
+
+                                              <tr>
+                                                  <td>
+                                                      <div class="task-contain">
+                                                          <h6 class="bg-c-pink d-inline-block text-center">{{ facility.facility | first}}</h6>
+                                                          <p class="d-inline-block m-l-20">{{facility.facility}}</p>
+                                                      </div>
+                                                  </td>
+                                                  <td>
+                                                    <p class="d-inline-block m-r-20"></p>
+                                                    <div class="progress d-inline-block">
+                                                        <div class="progress-bar bg-c-pink" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:60%">
+                                                        </div>
+                                                    </div>
+                                                </td>                                      
+                                              </tr>
+                                              {% endfor %}
+
+                                              
+                                              
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-12 col-xl-6">
+                          <div class="card add-task-card">
+                              <div class="card-header">
+                                  <div class="card-header-left">
+                                      <h5>Categories</h5>
+                                  </div>
+                                  <div class="card-header-right">
+                                      <a href="/turfadmin/addcategory/"><button class="btn btn-card btn-primary">Add Categories</button></a>
+                                  </div>
+                              </div>
+                              <div class="card-block">
+                                  {% for category in category %}
+                                  <div class="to-do-list">
+                                      <div class="checkbox-fade fade-in-primary d-block">
+                                          <label class="check-task d-block">
+                                              <input type="checkbox" value="">
+                                              <span class="cr">
+                                                  <i class="cr-icon icofont icofont-ui-check txt-default"></i>
+                                              </span>
+                                              <span><h6>{{category.sport}}<span class="label bg-c-green m-l-10 f-10"></span></h6></span>
+                                              <div class="task-card-img m-l-40">
+                                                  <a href="#!"><img src="{{category.ImageURL3}}" data-toggle="tooltip" title="Lary Doe" alt="" class="img-40"></a>
+                                                  <!-- <a href="#!"><img src="{% static 'assets/images/avatar-3.jpg' %}" data-toggle="tooltip" title="Alia" alt="" class="img-40 m-l-10"></a> -->
+                                              </div>
+                                          </label>
+                                      </div>
+                                  </div>
+                                  {% endfor %}
+                                  </div>
+                              </div>
+                          </div>
+                          <!-- Data widget End -->
+                          
+                      </div>
+                  </div>
+              </div>
+
+              <div id="styleSelector">
+
+              </div>
           </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button>
-        </div>
       </div>
+  </div>
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-
-     
-    </main>
+  <script>
+    var yearData1 = "{{book_y1}}"
+    var yearData2 = '{{book_y2}}'
+    var yearData3 = '{{book_y3}}'
+    var yearData4 = '{{book_y4}}'
+    var yearData5 = '{{book_y5}}'
+    var y_1 = '{{y_1}}'
+    var y_2 = '{{y_2}}'
+    var y_3 = '{{y_3}}'
+    var y_4 = '{{y_4}}'
+    var y_5 = '{{y_5}}'
+    // var users = '{{users}}'
+    // var Vendors = '{{vendors}}'
+    // var turfs = '{{turfs}}'
+    // var bookings = '{{bookings}}'
+  </script>
     {% endblock %}
-  

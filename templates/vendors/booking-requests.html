@@ -1,46 +1,71 @@
 {% extends 'vendors/base.html' %}
 {% block content %}
-<nav class="navbar col-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
-    <p style="color: brown;text-align: center; font-size: 4rem; padding: 2rem; font: bolder;">Book Requests</p>
-    
-    </nav>
-<table class="table" id="table" style="align-items: center; padding: 2rem;">
-    <thead>
-      <tr>       
-        <th scope="col">S. no</th>
-        <th scope="col">Booking id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Phone</th>
-        <th scope="col">Turf Name</th>
-        <th scope="col">Sport Chosen</th>
-        <th scope="col">Date</th>
-        <th scope="col">Hour</th>
-        <th scope="col">Amount Paid</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for booking in booking %}
-      <tr>
-        <th scope="row">{{forloop.counter}}</th>
-        <td>{{ booking.id }}</td>
-        <td>{{ booking.name }}</td>
-        <td>{{ booking.email }}</td>
-        <td>{{ booking.phone }}</td>
-        <td >{{ booking.turf.turfName }} </div></td>
-        <td>{{ booking.sport.sport }}</td>
-        <td>{{ booking.date }}</td>
-        <td>{{ booking.hour }}</td>
-        <td>{{  booking.price }}</td>
-        <td><a href="/vendor/accept/{{booking.id}}/"><button type="button" class="btn-success" style= "text-align: center; border-radius: 1rem;  border: none;  ">Accept</button></a></td>
-        <td><a href="/vendor/reject/{{booking.id}}/"><button type="button" class="btn-danger" style="text-align: center; border-radius: 1rem; border: none; ">Reject</button></a></td>
+{% load static %}
 
-        </tr> 
-      {% endfor %}
-    </tbody>
-  </table>
+    <div class="row">
+      <div class="col-xl-12">
+          <div class="card m-b-30">
+              <div class="card-body">
+                  <h4 class="mt-0 header-title mb-4">Book Requests</h4>
+                  <div class="table-responsive">
+                      <table class="table table-hover">
+                          <thead>
+                              <tr>
+                                  <th scope="col">Name</th>
+                                  <th scope="col">Email</th>
+                                  <th scope="col">Phone</th>
+                                  <th scope="col">Turf Name</th>
+                                  <th scope="col">Sport Chosen</th>
+                                  <th scope="col">Date</th>
+                                  <th scope="col">Hour</th>
+                                  <th scope="col">Amount Paid</th>
+                                  <th scope="col"></th>
+                                  <th scope="col"></th>
+
+
+                              </tr>
+                          </thead>
+                          <tbody>
+                            {% for booking in booking %}
+                              <tr>
+                                  <td>
+                                    <div>
+                                    <img src="{{booking.user_data.ProfileURL}}" alt="" class="thumb-md rounded-circle mr-2">{{booking.name}}
+                                </div>
+                              </td>
+                              <td>
+                                {{booking.email}}
+                                  
+                              </td>
+                              <td>{{booking.phone}}</td>
+                              <td>{{booking.turf.turfName}}</td>
+                              <td>{{booking.sport.sport}}</td>
+                              <td>{{booking.date}}</td>
+                              <td>{{booking.hour}}</td>
+
+                                  <td>{{booking.price}}</td>
+                                  <td>
+                                      <div>
+                                          <a href="#" class="btn btn-success btn-sm">Accept</a>
+                                      </div>
+                                  </td>
+                                  <td>
+                                    <div>
+                                        <a href="#" class="btn btn-danger btn-sm">Reject</a>
+                                    </div>
+                                </td>
+                              </tr>
+                              {% endfor %}
+                              
+                          </tbody>
+                      </table>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+
+  </div>
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>

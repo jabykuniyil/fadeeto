@@ -100,6 +100,10 @@ def editTurf(request,id):
         else:
             image2 = turf.image2
         turf.image2 = image2
+        turf.latitude = request.POST['lat']
+        turf.longitude = request.POST['lng']
+        geolocator = Nominatim(user_agent='vendor')
+        turf.address = geolocator.reverse(turf.latitude+","+turf.longitude) 
         am67 = request.POST.getlist('6AM-7AM')
         am78 = request.POST.getlist('7AM-8AM')
         am89 = request.POST.getlist('8AM-9AM')
@@ -118,7 +122,6 @@ def editTurf(request,id):
         pm910 = request.POST.getlist('9PM-10PM')
         pm1011 = request.POST.getlist('10PM-11PM')
         pm1112 = request.POST.getlist('11PM-12PM')
-        turf.address = request.POST['address']
         turf.description = request.POST['description']
         timePeriod = am67 + am78 + am89 + am910 + am1011 + am1112 + am121 + pm12 + pm23 + pm34 + pm45 + pm56 + pm67 + pm78 + pm89 + pm910 + pm1011 + pm1112
         turf.timePeriod = timePeriod
@@ -148,6 +151,7 @@ def editTurf(request,id):
         sport_price = sportPrice.objects.filter(turf_id=turf.id)
         for x in sport_price:
             sportprice_list.append(x.category.sport)
+        print(turf.longitude)
         return render(request, 'vendors/editturf.html', {'turfs' : turf, 'turffacilitylist' : turf_facility_list, 'facility' : facility, 'sportpricelist' : sportprice_list, 'sportprice' : sport_price, 'sport' : sport} )
 
 
@@ -168,7 +172,6 @@ def addTurf(request):
             location = geolocator.reverse(Latitude+","+Longitude) 
             
             # Display 
-            print(location)
             image1 = request.FILES.get('image1')
             image2 = request.FILES.get('image2')
             am67 = request.POST.getlist('6AM-7AM')
@@ -195,7 +198,7 @@ def addTurf(request):
             timePeriod = am67 + am78 + am89 + am910 + am1011 + am1112 + am121 + pm12 + pm23 + pm34 + pm45 + pm56 + pm67 + pm78 + pm89 + pm910 + pm1011 + pm1112
             turf = Turf.objects.create(turfName=turfName, 
                                 timePeriod=timePeriod, image1=image1, image2=image2,
-                                address=location, description=description, is_active=True,vendor_id=vendor_id, status='pending')
+                                address=location, description=description, is_active=True,vendor_id=vendor_id, status='pending', latitude=lat, longitude=lng)
             category = request.POST.getlist('category')            
             for categories in category:
                 name=categories+'-price'
@@ -282,7 +285,7 @@ def vendor_booking(request, id):
             elif Booking.objects.filter(date=date, turf_id = turf.id) and Booking.objects.filter(hour=hour, turf_id = turf.id).exists() and Booking.objects.filter(status='pending', turf_id = turf.id).exists() :
                 return JsonResponse('exists', safe=False)
             else:
-                booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, exists=False, status='accept')
+                booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, exists=False, status='accept', type_of_booking = 'vendor side')
                 data = {'id': booking.id}
                 # print(data.id)
                 return JsonResponse(data)
@@ -323,7 +326,10 @@ def logout(request):
         return redirect(signin)
     else:
         return redirect(signin)
-    
+
+def index(request):
+    return render(request, 'vendors/index.html')
+  
 # @app.template_filter()
 # def key(d, key_name):
 #     return d[key_name]

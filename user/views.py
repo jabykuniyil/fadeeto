@@ -53,15 +53,18 @@ def turfview(request, id):
     if request.method == 'POST':
         review = request.POST['review']
         user = request.user
-        Comment.objects.create(comment=review, user=user)
+        user_data = userData.objects.get(user=user)
+        turf = Turf.objects.get(id=id)
+        Comment.objects.create(comment=review, turf_id=turf.id, userDetails_id=user_data.id, user=user)
         return redirect(home)
     else:
         turf = Turf.objects.get(id=id)
+        comment = Comment.objects.filter(turf=turf)
         sport_price = sportPrice.objects.filter(turf_id=turf.id )
         facility = turfFacility.objects.filter(turf_id=turf.id)
         # turf_facility = turfFacility.objects.get(id=id)'turffacility' : turf_facility,
         turf.timePeriod = ast.literal_eval(turf.timePeriod)
-        return render(request, 'users/turf.html', {'turf' : turf,   'sportprice' : sport_price, 'facility' : facility})
+        return render(request, 'users/turf.html', {'turf' : turf,   'sportprice' : sport_price, 'facility' : facility, 'comment' : comment})
 
 
 def usersignin(request):
@@ -305,7 +308,8 @@ def userbooking(request, id):
                     price = x.price
             print(type(price))
             user = request.user
-            print(user)
+            user_data = userData.objects.get(user_id=user.id)
+            print(user_data.phone)
             context = {'price' : price}
             sport = Category.objects.get(sport=sport)
             if Booking.objects.filter(date=date, turf_id = turf.id).exists() and Booking.objects.filter(hour=hour, turf_id = turf.id).exists() and Booking.objects.filter(turf_id = turf.id, status='pending').exists():
@@ -313,7 +317,7 @@ def userbooking(request, id):
             if Booking.objects.filter(date=date, turf_id = turf.id).exists() and Booking.objects.filter(hour=hour, turf_id = turf.id).exists() and Booking.objects.filter(turf_id = turf.id, status='accept').exists():
                 return JsonResponse('exists', safe=False)
             else:
-                booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, user=user, exists=False, payment_option=payment_option)
+                booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, user=user, exists=False, payment_option=payment_option, type_of_booking = 'user side', user_data=user_data)
                 data = {'id': booking.id, 'price' : booking.price}
                 return JsonResponse(data)
         else:

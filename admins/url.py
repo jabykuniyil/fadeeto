@@ -25,5 +25,8 @@ urlpatterns = [
     path('reject/<int:id>/', views.reject_turf, name='reject'),
     path('blockturf/<int:id>/', views.block_turf, name='blockturf'),
     path('blockedturfs/', views.blocked_turfs, name='blockedturfs'),
-    path('bookingsummary/', views.bookingSummary, name='bookingsummary')
+    path('bookingsummary/', views.bookingSummary, name='bookingsummary'),
+    path('reviews/', views.reviews, name='reports'),
+    path('reviewspecific/<int:id>/', views.reviewspecific, name='reportspecific'),
+    path('index/', views.index, name='index')
 ]

@@ -5,9 +5,6 @@ from vendor.models import Vendor
 
 # Create your models here.
 
-class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    comment = models.CharField(max_length=2500, null=True, blank=True)
 
 class userData(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
@@ -35,12 +32,11 @@ class Turf(models.Model):
     image2 = models.ImageField(null=True, blank=True)
     mapImage = models.ImageField( null=True, blank=True)
     description = models.TextField( null=True, blank=True)
-    latitude = models.BigIntegerField(null=True, blank=True)
-    longitude = models.BigIntegerField(null=True, blank=True)
+    latitude = models.DecimalField(max_digits=10, decimal_places=8, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=10, decimal_places=8, null=True, blank=True)
     address = models.TextField( null=True, blank=True)
     is_active = models.BooleanField(null=True, blank=True)
     status = models.CharField(null=True, blank=True, default='pending', max_length=20)
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
     
     @property
     def ImageURL(self):
@@ -59,6 +55,12 @@ class Turf(models.Model):
         return url
     
 
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    userDetails = models.ForeignKey(userData, on_delete=models.CASCADE, null=True, blank=True)
+    comment = models.CharField(max_length=2500, null=True, blank=True)
+    turf = models.ForeignKey(Turf, on_delete=models.CASCADE, null=True, blank=True)
+
     
     
     
@@ -73,6 +75,7 @@ class turfFacility(models.Model):
 
 
 class Booking(models.Model):
+    user_data = models.ForeignKey(userData, on_delete=models.CASCADE, null=True, blank=True)
     sport = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     turf = models.ForeignKey(Turf, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -86,6 +89,7 @@ class Booking(models.Model):
     email = models.EmailField(null=True, blank=True)
     exists = models.BooleanField(default=False)
     status = models.CharField(null=True, blank=True, default='pending', max_length=20)
+    type_of_booking = models.CharField(null=True, blank=True, max_length=20)
     # exists = models.CharField(max_length=20, null=True, blank=True, default='not')
     
  

@@ -19,5 +19,6 @@ urlpatterns = [
     path('bookrequests/', views.book_requests, name='bookrequests'),
     path('accept/<int:id>/', views.accept_booking, name='acceptbooking'),
     path('reject/<int:id>/', views.reject_booking, name='rejectbooking'),
-    path('logout/', views.logout, name='logout')
+    path('logout/', views.logout, name='logout'),
+    path('index/', views.index, name='index')
 ]

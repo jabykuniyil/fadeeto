@@ -3,9 +3,9 @@ from django.http import JsonResponse
 from . models import Category, Facilities
 from django.core.files import File
 from vendor.models import Vendor
-from user.models import userData, Turf, turfFacility, sportPrice, Booking
+from user.models import userData, Turf, turfFacility, sportPrice, Booking, Comment
 from django.contrib.auth.models import User
-
+from datetime import datetime, date
 # Create your views here.
 
 
@@ -28,7 +28,38 @@ def adminsignin(request):
 
 def adminhome(request):
     if request.session.has_key('isAdmin'):
-        return render(request, 'admin/home.html')
+        user = User.objects.all().count()
+        vendor = Vendor.objects.all().count()
+        turf = Turf.objects.all().count()
+        booking = Booking.objects.all().count()
+        y_1 = datetime.now().year
+        y_2 = y_1 - 1
+        y_3 = y_1 - 2
+        y_4 = y_1 - 3
+        y_5 = y_1 - 4
+        book_y1 = Booking.objects.filter(date__year=y_1).count()
+        book_y2 = Booking.objects.filter(date__year=y_2).count()
+        book_y3 = Booking.objects.filter(date__year=y_3).count()
+        book_y4 = Booking.objects.filter(date__year=y_4).count()
+        book_y5 = Booking.objects.filter(date__year=y_5).count()
+        turfs = Turf.objects.all()
+        category = Category.objects.all()
+        facilities = Facilities.objects.all()
+        comment = Comment.objects.all().count()
+        price = 0
+        amount = Booking.objects.all()
+        for x in amount:
+            price = price + x.price
+        print(price)
+        month = datetime.now().month
+        this_month_price = 0
+        price_month = Booking.objects.filter(date__month=month)
+        for x in price_month:
+            this_month_price = this_month_price + x.price
+        turf_accept = Turf.objects.filter(status='accept').count()
+        turf_pending = Turf.objects.filter(status='pending').count()
+        context = {'book_y1' : book_y1, 'book_y2' : book_y2, 'book_y3' : book_y3, 'book_y4' : book_y4, 'book_y5' : book_y5, 'y_1' : y_1, 'y_2' : y_2, 'y_3' : y_3, 'y_4' : y_4, 'users' : user, 'vendors' : vendor, 'turfs' : turf, 'bookings' : booking, 'turf' : turfs, 'category' : category, 'facilities' : facilities, 'comment' : comment, 'price' : price, 'this_month_price' : this_month_price, 'turf_accept' : turf_accept, 'turf_pending' : turf_pending}
+        return render(request, 'admin/home.html', context)
     else:
         return redirect(adminsignin)
 
@@ -256,6 +287,29 @@ def bookingSummary(request):
         return render(request, 'admin/bookingsummary.html', {'booking' : booking})
     else:
         return redirect(adminsignin)
+
+
+def reviews(request):
+    if request.session.has_key('isAdmin'):
+        turf = Turf.objects.all()
+        context = {'turf' : turf}
+        return render(request, 'admin/reviews.html', context)
+    else:
+        return redirect(adminsignin)
+
+        
+
+def reviewspecific(request, id):
+    if request.session.has_key('isAdmin'):
+        turf = Turf.objects.get(id=id)
+        context = {'turf' : turf}
+        return render(request, 'admin/reviewspecific.html', context)
+    else:
+        return redirect(adminsignin)
+
+def index(request):
+    return render(request, 'admin/index.html')
+
 
 
 def logout(request):

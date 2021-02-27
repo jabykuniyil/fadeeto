@@ -133,8 +133,8 @@ body { margin: 0; padding: 0; }
     <div class="row">
 
     {% for game in game %}
-      <div class="col-lg-4"  style="margin-top: 1rem;">
-        <a href="/map/{{game.id}}/"><input type="button" id="near" class="btn btn-lg btn-primary btn-block" style="margin: auto; display: list-item;" value="{{game.sport}}"></a>
+      <div class="col-lg-4"  style="margin-top: 1rem; text-align: center;">
+        <a href="/map/{{game.id}}/"><input type="button" id="near" class="btn btn-lg btn-primary btn-block" style="margin: auto; display: list-item; text-align: center;" value="{{game.sport}}"></a>
 
       </div>
       {% endfor %}

@@ -1,0 +1,137 @@
+{% extends 'vendors/base.html' %}
+{% block content %}
+
+<div class="container" style="text-align: center;">
+    <form >
+     
+        <br>
+      <br>
+      
+      <h1 style="color: rgb(163, 15, 15);" class="h3 mb-3 font-weight-normal">Add a Coupon</h1>
+      <br><br>
+      <div class="row"style="margin-left: 10rem; margin-right: 10rem;">
+        <div class="col-md-12 col-12">
+         
+            <select  class="form-control" id="turfspan"style="text-align: center;">
+              <option >choose Turf...</option>
+              {% for turf in turf %}
+             <option value="{{ turf.id }}">{{  turf.turfName }}</option>
+             {% endfor %}
+              </select>
+              <span style="color: red;" id="errorturf"></span>
+    
+            </div>
+          <br>
+</div>
+<br>
+<div class="row" style="margin-left: 10rem; margin-right: 10rem;">
+    <div class="col-md-12 col-12" >
+<input type="text" id="name" name="name"   class="form-control" placeholder="Coupon name" required autofocus>
+<span id="errorname" style="text-align: center; color: red;"></span>
+<br>
+</div>
+</div>
+<div class="row" style="margin-left: 10rem; margin-right: 10rem;">
+    <div class="col-md-12 col-12" >
+<input type="text" id="code" name="code"   class="form-control" placeholder="Coupon code" required autofocus>
+<span id="errorcode" style="text-align: center; color: red;"></span>
+<br>
+</div>
+</div>
+
+<div class="row" style="margin-left: 10rem; margin-right: 10rem;">
+    <div class="col-md-12 col-12" >
+<input type="number" id="discount" name="discount"   class="form-control" placeholder="Discount in percentage" required autofocus>
+<span id="errordiscount" style="text-align: center; color: red;"></span>
+<br>
+</div>
+</div>
+
+<div class="row" style="margin-left: 10rem; margin-right: 10rem;">
+    <div class="col-md-12 col-12" >
+        <label for="end_date" style="float: left;">Coupon begin from</label>
+
+<input type="date" id="start_date" name="start_date"   class="form-control" placeholder="Coupon begins from" required autofocus>
+<span id="errorstart_date" style="text-align: center; color: red;"></span>
+<br>
+</div>
+</div>
+
+<div class="row" style="margin-left: 10rem; margin-right: 10rem;">
+    <div class="col-md-12 col-12" >
+        <label for="end_date" style="float: left;">Coupon valid till</label>
+<input type="date" id="end_date" name="end_date"   class="form-control" placeholder="Coupon Valid till" required autofocus>
+<span id="errorend_date" style="text-align: center; color: red;"></span>
+<br>
+</div>
+</div>
+<div class="form-btn "style="margin-left: 11rem; margin-right: 11rem;">
+
+    <button class="btn btn-lg btn-primary btn-block"    name="add" id="add" type="button">Add Coupon</Button>
+</div>
+    </div>
+    
+    </form>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+    $('#add').click(function(){
+        var name = $('#name').val()
+        var code = $('#code').val()
+        var discount = $('#discount').val()
+        var e = document.getElementById("turfspan");
+        var turf = e.options[e.selectedIndex].value;
+        var start_date = $('#start_date').val()
+        var end_date = $('#end_date').val()
+        var data = {
+            'csrfmiddlewaretoken' : '{{csrf_token}}',
+            'name' : name,
+            'code' : code,
+            'discount' : discount,
+            'turf' : turf,
+            'start_date' : start_date,
+            'end_date' : end_date
+
+        }
+        if (turf == 'choose Turf...'){
+            $('#errorturf').html('Please choose any of the turf')
+        }
+        if (name == ''){
+            $('#errorname').html('Coupon name required')
+        }
+        if(code == ''){
+            $('#errorcode').html('Coupon code required')
+        }
+        if (discount == ''){
+            $('#errordiscount').html('Disount required')
+        }
+        if (start_date ==''){
+            $('#errorstart_date').html('start date required')
+        }
+        if(end_date == ''){
+            $('#errorend_date').html('End date required')
+        }
+        else{
+            $.ajax({
+                url : '/vendor/addcoupons/',
+                method : 'POST',
+                data: data,
+                dataType : 'json',
+                success : function(data){
+                    if (data == 'true'){
+                        window.location.replace('/vendor/coupons/')
+                    }
+                    if(data=='name'){
+                        $('#errorname').html('Coupon name already exists')
+                    }
+                    if (data=='code'){
+                        $('#errorcode').html('Coupon code already exists')
+                    }
+                }
+            })
+        }
+    })
+</script>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'users/base.html' %}
 {% block content %}
 <div class="container marketing" style="margin-top: 3rem;">
-    <div class="row">
+    <div class="row text-center">
      
   
 {% for turf in turf %}
@@ -10,7 +10,7 @@
 
         <img src="{{ turf.ImageURL }}" width="140" height="140" class="rounded-circle" alt="" srcset="">
         <h2>{{ turf.turfName }}</h2>
-        <p>{{ turf.description }}</p>
+        <p>{{ turf.address }}</p>
         <p><a class="btn btn-lg btn-primary" href="/userturfview/{{ turf.id  }}">View details &raquo;</a></p>
       </div>
     {% endfor %}

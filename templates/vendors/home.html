@@ -1,24 +1,219 @@
 {% extends 'vendors/base.html' %}
 {% block content %}
-    
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group mr-2">
-            <a href="/vendor/index/"><button type="button" class="btn btn-sm btn-outline-secondary">Share</button></a>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+{% load static %}
+<div class="row">
+
+  <div class="col-sm-6 col-xl-3">
+      <div class="card">
+          <div class="card-heading p-4">
+              <div class="mini-stat-icon float-right">
+                  <i class="mdi mdi-store bg-primary  text-white"></i>
+              </div>
+              <div>
+                  <h5 class="font-16">Turfs</h5>
+              </div>
+              <h3 class="mt-4">{{turf}}</h3>
+              <div class="progress mt-4" style="height: 4px;">
+                  <div class="progress-bar bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">75%</span></p>
           </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button>
-        </div>
+      </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+      <div class="card">
+          <div class="card-heading p-4">
+              <div class="mini-stat-icon float-right">
+                  <i class="mdi mdi-briefcase-check bg-success text-white"></i>
+              </div>
+              <div>
+                  <h5 class="font-16">Total Revenue</h5>
+              </div>
+              <h3 class="mt-4">Rs. {{price}}</h3>
+              <div class="progress mt-4" style="height: 4px;">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 88%" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">88%</span></p>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+      <div class="card">
+          <div class="card-heading p-4">
+              <div class="mini-stat-icon float-right">
+                  <i class="mdi mdi-tag-text-outline bg-warning text-white"></i>
+              </div>
+              <div>
+                  <h5 class="font-16">Reviews</h5>
+              </div>
+              <h3 class="mt-4">{{review}}</h3>
+              <div class="progress mt-4" style="height: 4px;">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: 68%" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">68%</span></p>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+      <div class="card">
+          <div class="card-heading p-4">
+              <div class="mini-stat-icon float-right">
+                  <i class="mdi mdi-buffer bg-danger text-white"></i>
+              </div>
+              <div>
+                  <h5 class="font-16">Bookings</h5>
+              </div>
+              <h3 class="mt-4">{{booking_count}}</h3>
+              <div class="progress mt-4" style="height: 4px;">
+                  <div class="progress-bar bg-danger" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <p class="text-muted mt-2 mb-0">Previous period<span class="float-right">82%</span></p>
+          </div>
+      </div>
+  </div>
+
+</div>
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">Charts</h1>
+  
+  <!-- Content Row -->
+  <div class="row">
+
+      <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+          </div>
+          <div class="card-body">
+              <div class="chart-bar">
+                  <canvas id="myBarChart"></canvas>
+              </div>
+              <hr>
+              Styling for the bar chart can be found in the
+          </div>
+      </div>
       </div>
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+      <!-- Donut Chart -->
+      <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Donut Chart</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+                <hr>
+                Styling for the donut chart can be found in the
+            </div>
+        </div>
+    </div>
+</div>
+          <!-- Bar Chart -->
+         
 
-     
-    </main>
+
+     <!-- Area Chart -->
+     <div class="card shadow mb-4">
+      <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
+      </div>
+      <div class="card-body">
+          <div class="chart-area">
+              <canvas id="myAreaChart"></canvas>
+          </div>
+          <hr>
+          Styling for the area chart can be found in the
+      </div>
+  </div>
+</div>  
+<!-- end row -->
+
+<div class="row">
+  <div class="col-xl-4">
+      <div class="card m-b-30">
+          <div class="card-body">
+              <h4 class="mt-0 header-title mb-4">Customer Reviews</h4>
+              {% for turf, comments in comment_dict.items %}
+              <div class="friends-suggestions">
+                  <a href="" class="friends-suggestions-list">
+                      <div class="border-bottom position-relative">
+                        {% for x in comments %}
+                        <img src="{{x.userDetails.ProfileURL}}" class="rounded" style="height: 2rem; width: 2rem;" alt=""> 
+                        
+                        <p style="margin-bottom:4rem;" class="text-muted  mb-0">{{ x.user.username}}</p>
+                        <div>
+                         {{x.comment}}
+                       </div>
+                       <br>
+                    {% endfor %}
+                          
+
+                          
+                      </div>
+                  </a>
+
+                 
+
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+  </div>
+
+  <div class="col-xl-4">
+      <div class="card m-b-30">
+          <div class="card-body">
+              <h4 class="mt-0 header-title mb-4">My Turf Gallery</h4>
+              {% for turf in turfs %}
+              <div style="margin-top: .5rem;">
+              <img src="{{turf.ImageURL}}" style="height: 9rem; width:9rem;" alt="">
+              <img src="{{turf.ImageURL2}}"style="height: 9rem; width:9rem;" alt="">
+              <br>
+
+            </div>
+              {% endfor %}
+          </div>
+      </div>
+
+  </div>
+
+  <div class="col-xl-4">
+      <div class="card m-b-30">
+          <div class="card-body">
+
+              <h4 class="mt-0 header-title mb-4">My Turfs</h4>
+              {% for turf in turfs %}
+              <ol class="activity-feed mb-0">
+                  <li class="feed-item">
+                      <div class="feed-item-list">
+                          <p class="text-c-pink mb-1">{{turf.turfName}}</p>
+                          <p class="font-15 mt-0 mb-0">{{turf.address}} <a href="/userturfview/{{turf.id}}/"> <b class="text-success">View</b></a></p>
+                      </div>
+                  </li>
+                 
+
+              </ol>
+              {% endfor %}
+          </div>
+      </div>
+  </div>
+</div>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'assets copy/js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'assets copy/js/chart-area-demo.js' %}"></script>
+    <script src="{% static 'assets copy/js/chart-pie-demo.js' %}"></script>
+    <script src="{% static 'assets copy/js/chart-bar-demo.js' %}"></script>
     {% endblock %}
   

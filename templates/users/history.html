@@ -63,17 +63,30 @@
     <!-- <img class="mb-4"
       src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-silhouette-of-creative-football-players-png-image_4266550.jpg"
       alt="" width="72" height="72"> -->
-    <h2 style="color: crimson;">FADEETO</h2>
+      <h2 style="color: crimson;">FADEETO</h2>
+
+      <table>
+        <thead>
+
+        </thead>
+      </table>
     <h1 class="h3 mb-3 font-weight-normal" style="color: olive; font:bolder;">Book History</h1>
-    <h5 style="color: rgb(133, 130, 130); text-align: left;">Booking id&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.id }}</h5>
-    <h5 style="color: rgb(133, 130, 130); text-align: left;">Name&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.name }}</h5>
-    <h5 style="color: rgb(133, 130, 130); text-align: left;">Mobile&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.phone }}</h5>
-    <h5 for=""  style="text-align: left; color: rgb(133, 130, 130);">Turf Chosen &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.turf.turfName}}</h5>
-    <h5 for=""  style="text-align: left; color: rgb(133, 130, 130);">Sport Chosen :&nbsp;{{ booking.sport.sport }}</h5>
-    <h5 style="color: rgb(133, 130, 130); text-align: left;">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.date }}</h5>
-    <h5 style="color: rgb(133, 130, 130); text-align: left;">Time&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.hour }}</h5>
+    <th style="color: rgb(133, 130, 130); text-align: left;">Booking id</th><tbody><td>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.id }}</td></tbody>
+    <br>
+    <th style="color: rgb(133, 130, 130); text-align: left;">Name</th><tbody><td>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.name }}</td></tbody>
+    <br>
+    <th style="color: rgb(133, 130, 130); text-align: left;">Phone</th><tbody><td> &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.phone }}</td></tbody>
+    <br>
+    <th for=""  style="text-align: left; color: rgb(133, 130, 130);">Turf Chosen</th><tbody><td> &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.turf.turfName }}</td></tbody>
+    <br>
+    <th for=""  style="text-align: left; color: rgb(133, 130, 130);">Sport Chosen</th><tbody><td> &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.sport.sport }}</td></tbody>
+    <br>
+    <th style="color: rgb(133, 130, 130); text-align: left;">Date</th><tbody><td> &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.date }}</td></tbody>
+    <br>
+    <th style="color: rgb(133, 130, 130); text-align: left;">Time</th><tbody><td> &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ booking.hour }}</td></tbody>
+    <br>
     
-    <h5 style="color: rgb(133, 130, 130); text-align: left;">Amount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rs. {{ booking.price }}/-</h5>
+    <th style="color: rgb(133, 130, 130); text-align: left;">Amount </th><tbody><td> &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rs. {{ booking.price }}/-</td></tbody>
     
     
     <h4 style="margin-top: 2rem; color: green;">Thank you for booking !</h4>

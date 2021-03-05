@@ -46,12 +46,12 @@
                                   <td>{{booking.price}}</td>
                                   <td>
                                       <div>
-                                          <a href="#" class="btn btn-success btn-sm">Accept</a>
+                                          <a href="/vendor/accept/{{booking.id}}/" class="btn btn-success btn-sm">Accept</a>
                                       </div>
                                   </td>
                                   <td>
                                     <div>
-                                        <a href="#" class="btn btn-danger btn-sm">Reject</a>
+                                        <a href="/vendor/reject/{{booking.id}}/" class="btn btn-danger btn-sm">Reject</a>
                                     </div>
                                 </td>
                               </tr>
@@ -66,6 +66,7 @@
       </div>
 
   </div>
+
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>

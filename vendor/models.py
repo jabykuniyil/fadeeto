@@ -11,5 +11,5 @@ class Vendor(models.Model):
     is_active = models.BooleanField(null=True, blank=True)
     password = models.CharField(max_length=200, null=True, blank=True)
     
- 
+
     

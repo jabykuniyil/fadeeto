@@ -9,6 +9,7 @@
             <input type="file" name="inputprofileimage" id="inputprofileimage" hidden required>
             <p><a class="btn btn-lg btn-primary" href="">Edit Photo &raquo;</a></p>
     </div>
+    
     <div class="col-md-4">
         <div class="row container" style="display: table;">
             <br>
@@ -26,12 +27,45 @@
     <label for="inputphone" style="color: darkslategray;" >Phone</label>
     <input type="number" id="phone" name="phone" value="{{ userdata.phone }}"  class="form-control" placeholder="phone" required autofocus>
     <span id="errorphone" style="text-align: center; color: red;"></span>
-
+<br>
+    <div >
+      <input type="submit"style="margin: auto; display: block;" class="btn btn-primary btn-lg  btn-block"  id="update" style="  color: seashell;" value="Update&raquo;" >
+      </div>
     </div>
     
-</div>
-<div style="padding: 5rem;">
-<input type="submit" class="btn btn-primary btn-lg  btn-block"  id="update" style="  color: seashell;" value="Update&raquo;" >
+    <div class="row container">
+      <h5 class="p-3" style="color: #367f7c; font-weight: 700;">Available Coupons</h5>
+      <br>
+    {% for coupon in coupon %}
+
+     
+    <div class="col-sm-6 col-lg-4" style="float: left;">
+        <div class="card" style=" background-color: #367f7c;">
+            <div class="card-heading p-4">
+                <div class="mini-stat-icon float-right">
+                  <i class="bi bi-dice-1" style="color: white;"></i>
+                </div>
+                <div>
+                    <h5 class="font-16 text-white">GET</h5>
+                </div>
+                <div>
+                    <h5 class="font-16 text-white">{{coupon.coupon_name}}</h5>
+                </div>
+                <div class="row">
+                <h3 class="mt-4 text-white">{{coupon.discount}} %</h3>   <h6 style="margin-top: 2rem;
+                margin-left: 1rem;
+                color: white;">OFF</h6>
+            </div>
+            <h5 class="font-16 text-white">{{coupon.turf.turfName}}</h5>
+            <div class="row">
+                <p class="text-white mt-2 mb-0">USE CODE : </p><span style="float: right;" class="float-right text-white">{{coupon.coupon_code}}</span>
+              </div>
+              </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    </div>
 </div>
 </div>
 

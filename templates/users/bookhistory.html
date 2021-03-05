@@ -1,13 +1,13 @@
 {% extends 'users/base.html' %}
 {% block content %}
 <div class="container-fluid">
-<nav class="navbar col-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
+  <nav class="navbar col-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
     <p style="color: brown;text-align: center; font-size: 4rem; padding: 2rem; font: bolder;">Book History</p>
-    
-    </nav>
-<table class="table" id="table" style="align-items: center; padding: 2rem;">
+
+  </nav>
+  <table class="table" id="table" style="align-items: center; padding: 2rem;">
     <thead>
-      <tr>       
+      <tr>
         <th scope="col">S. no</th>
         <th scope="col">Booking id</th>
         <th scope="col">Name</th>
@@ -20,6 +20,7 @@
         <th scope="col">Payment Option</th>
         <th scope="col">Status</th>
         <th scope="col">Amount Paid</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -30,24 +31,71 @@
         <td>{{ booking.name }}</td>
         <td>{{ booking.email }}</td>
         <td>{{ booking.phone }}</td>
-        <td >{{ booking.turf.turfName }} </div></td>
-        <td>{{ booking.sport.sport }}</td>
+        <td>{{ booking.turf.turfName }}</td>
+        <td>{{ booking.game }}</td>
         <td>{{ booking.date }}</td>
         <td>{{ booking.hour }}</td>
         <td>{{ booking.payment_option }}</td>
         <td>{{ booking.status }}</td>
-        <td>{{  booking.price }}</td>
-        </tr> 
+        <td>{{ booking.price }}</td>
+
+        <td><button data-toggle="modal" onclick="review('{{booking.turf.id}}')" data-target=".bd-example-modal-sm"
+            style="border: none; background-color: teal; border-radius: 1rem; color: white;">Your Feedback</button></td>
+
+
+      </tr>
       {% endfor %}
     </tbody>
   </table>
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
-  <script>
-      $(document).ready(function() {
-            $('#table').DataTable();
-        });
-  </script>
+</div>
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <input type="text" name="review" id="review" style="height: 7rem; width: 100%;" required>
+
+      <div class="modal-footer">
+        <button style="margin: auto; display: flex;" id="submit" value="SUBMIT" type="button"
+          class="btn btn-primary text-center" onclick="submit_review()">SUBMIT</button>
+      </div>
+
+    </div>
   </div>
-  {% endblock %}
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+  integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+     function submit_review(){
+    console.log('hello');
+    var review = $('#review').val()
+    var data = {
+      'csrfmiddlewaretoken' : '{{csrf_token}}',
+      'review' : review
+    }
+    console.log(review);
+    $.ajax({
+    url : '/customer-review/'+ turfId+ '/',
+    method : 'POST',
+    data : data,
+    dataType : 'json',
+    success : function(data){
+      if(data == 'true'){
+        console.log(review);
+        window.location.reload()
+      }
+
+    }
+  })
+     }
+  var turfId;
+  function review(id) {
+    turfId = id
+  }
+
+</script>
+{% endblock %}

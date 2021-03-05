@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from admins.models import Facilities, Category
 from vendor.models import Vendor
-
+from datetime import date
 # Create your models here.
 
 
@@ -90,6 +90,27 @@ class Booking(models.Model):
     exists = models.BooleanField(default=False)
     status = models.CharField(null=True, blank=True, default='pending', max_length=20)
     type_of_booking = models.CharField(null=True, blank=True, max_length=20)
+    game = models.CharField(null=True, blank=True, max_length=20)
     # exists = models.CharField(max_length=20, null=True, blank=True, default='not')
     
  
+class Coupon(models.Model):
+    coupon_name = models.CharField(max_length=20, null=True, blank=True)
+    coupon_code = models.CharField(max_length=20, null=True, blank=True)
+    turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
+    discount = models.IntegerField(null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    
+    @property
+    def is_started(self):
+        return date.today() >= self.start_date  
+    
+    @property
+    def is_end(self):
+        return date.today() > self.end_date
+
+
+class UsedCoupons(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE, null=True, blank=True)

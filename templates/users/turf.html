@@ -1,8 +1,8 @@
 {% extends 'users/base.html' %}
 {% block content %}
 
-<body>
-  <section style="margin-top: 3rem; margin-left: 5rem; margin-right: 5rem;">
+<body style="font-family: 'Open Sans';">
+  <section  style="padding-top: 3rem; margin-top: 3rem; margin-left: 5rem; margin-right: 5rem;">
 
     <div class="container">
 
@@ -17,8 +17,8 @@
         <img src="{{ turf.ImageURL }}" width="100%" alt="" srcset="">
         <img src="{{ turf.ImageURL2 }}" style="margin-top: 1rem;" width="100%" alt="" srcset="">
        
-        <div style="margin-top: 3rem; padding: 1rem;" >
-          <button type="button" class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#exampleModalLong">
+        <div style="margin-top: 3rem; padding: 1rem; " >
+          <button type="button" style="margin: auto; display: block;" class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#exampleModalLong">
             Reviews&raquo;
           </button>
 
@@ -53,7 +53,8 @@
                 </div>
               </div>
             </div>
-          </div>        </div>
+          </div>     
+           </div>
       </div>
 
       <div class="col-md-8 col-12">
@@ -121,7 +122,7 @@
             </div>
             <div class="row" style="justify-content: center;" >
               {% for sport in sportprice %}
-              <img src="{{ sport.category.ImageURL3 }}" style="margin: auto;" width="30%" height="30%"
+              <img src="{{ sport.category.ImageURL3 }}" style="margin: auto; width: 7rem; height: 7rem;"
                 alt="" srcset="">
               {% endfor %}
                
@@ -135,18 +136,13 @@
             </div>
             {% endfor %}
 
-{% if request.user.is_authenticated %}
-            <h3 style=" color: firebrick; text-align: center; margin-top: 1rem;">Customer Review</h3>
-            <form action="" method="POST">
-              {% csrf_token %}
-            <input type="text" name="review" id="review" placeholder="Review"
-              style="display: flex; margin-top: 1rem; justify-content: center; border-radius: 1rem;  border-color: rgb(177, 43, 43); margin: auto; width: 16rem; height: 6rem;">
-            <br>
-            <input type="submit"  class="btn-primary" name="submit" value="Submit"
-              style="height: 3rem; display: flex; margin: auto; width: 16rem; border-radius: 1rem;  justify-content: center;"
-              id="">
-            </form>
-            {% endif %}
+            <h3 style=" color: firebrick; text-align: center; margin-top: 2rem;">Social media</h3>
+            <div style="text-align: center; ">
+<br>
+            <h5 style="color: olive;">. Instagram</h5>
+            <h5 style="color: olive;">. Facebook</h5>
+            <h5 style="color: olive;">. Whatsapp</h5>
+            </div>
           </div>
 
         </div>

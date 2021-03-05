@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.models import User, auth
-from . models  import userData, Turf, Booking, sportPrice, turfFacility, Category, Comment
+from . models  import userData, Turf, Booking, sportPrice, turfFacility, Category, Comment, Coupon, UsedCoupons
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 import ast
 import json
-import datetime
+from datetime import datetime, date
 import requests
 import random
 import http.client
@@ -41,30 +41,21 @@ def category(request, id):
     turf_id_list = []
     for x in sport:
         turf_id_list.append(x.turf.id)
-    print(turf_id_list)
     turf = Turf.objects.filter(id__in=turf_id_list)
-    print(turf)
     context = {'turf' : turf}
     return render(request, 'users/category.html', context)
 
 
 
 def turfview(request, id):
-    if request.method == 'POST':
-        review = request.POST['review']
-        user = request.user
-        user_data = userData.objects.get(user=user)
-        turf = Turf.objects.get(id=id)
-        Comment.objects.create(comment=review, turf_id=turf.id, userDetails_id=user_data.id, user=user)
-        return redirect(home)
-    else:
-        turf = Turf.objects.get(id=id)
-        comment = Comment.objects.filter(turf=turf)
-        sport_price = sportPrice.objects.filter(turf_id=turf.id )
-        facility = turfFacility.objects.filter(turf_id=turf.id)
-        # turf_facility = turfFacility.objects.get(id=id)'turffacility' : turf_facility,
-        turf.timePeriod = ast.literal_eval(turf.timePeriod)
-        return render(request, 'users/turf.html', {'turf' : turf,   'sportprice' : sport_price, 'facility' : facility, 'comment' : comment})
+    turf = Turf.objects.get(id=id)
+    user = User.objects.all()
+    user_data = userData.objects.filter(user=user)
+    comment = Comment.objects.filter(turf=turf)
+    sport_price = sportPrice.objects.filter(turf_id=turf.id )
+    facility = turfFacility.objects.filter(turf_id=turf.id)
+    turf.timePeriod = ast.literal_eval(turf.timePeriod)
+    return render(request, 'users/turf.html', {'turf' : turf,   'sportprice' : sport_price, 'facility' : facility, 'comment' : comment})
 
 
 def usersignin(request):
@@ -110,8 +101,6 @@ def phone(request):
                 dict=json.loads(data.decode('utf8'))
                 otp_id = dict["otp_id"]
                 request.session['otp_id']=otp_id
-                print(request.session['otp_id'])
-                print(response.text.encode('utf8'))
                 return JsonResponse('true',safe=False)
             else:
                 return JsonResponse('false',safe=False)
@@ -127,12 +116,9 @@ def otp(request):
             phone = request.session['phone']
             url = "https://d7networks.com/api/verifier/verify"
             otp = request.POST['otp']
-            print(otp)
-            print(phone)
             userDat = userData.objects.get(phone=phone)
             user = User.objects.get(id=userDat.user_id)
             otp_id = request.session['otp_id']
-            print(otp_id)
             payload = {'otp_id': otp_id , 'otp_code': otp}
             files = [
 
@@ -143,7 +129,6 @@ def otp(request):
 
             response = requests.request("POST", url, headers=headers, data = payload, files = files)
             
-            print(response.text.encode('utf8'))
             data = response.text.encode('utf8')
             dict=json.loads(data.decode('utf8'))
             status = dict['status']
@@ -199,12 +184,8 @@ def usersignup(request):
                 dict=json.loads(data.decode('utf8'))
                 otp_id = dict["otp_id"]
                 request.session['otp_id_signup']=otp_id
-                print(request.session['otp_id_signup'])
-                print(response.text.encode('utf8'))
                 user = User.objects.create_user(first_name=firstName, email=email, username=username, password=password)
                 userData.objects.create(user=user, phone=phone)
-                # send_otp(mobile, otp)
-                # request.session['mobile'] = mobile
                 return JsonResponse('true', safe=False)
         else:    
             return render(request, 'users/usersignup.html')
@@ -218,12 +199,9 @@ def otp_signin(request):
             phone = request.session['phone_signup']
             url = "https://d7networks.com/api/verifier/verify"
             otp = request.POST['otp']
-            print(otp)
-            print(phone)
             userDat = userData.objects.get(phone=phone)
             user = User.objects.get(id=userDat.user_id)
             otp_id = request.session['otp_id_signup']
-            print(otp_id)
             payload = {'otp_id': otp_id , 'otp_code': otp}
             files = [
 
@@ -234,7 +212,6 @@ def otp_signin(request):
 
             response = requests.request("POST", url, headers=headers, data = payload, files = files)
             
-            print(response.text.encode('utf8'))
             data = response.text.encode('utf8')
             dict=json.loads(data.decode('utf8'))
             status = dict['status']
@@ -269,13 +246,17 @@ def profile(request, id):
         else:
             user = request.user
             userdata = userData.objects.get(user=user.id) 
-            print( user)
-            context = {'userdata' : userdata}
-            return render(request, 'users/profile.html', context)
+            current_date = date.today()
+            if Coupon.objects.exists():
+                coupon = Coupon.objects.filter(start_date__lt=current_date, end_date__gt=current_date) 
+                context = {'userdata' : userdata, 'coupon' : coupon}
+                return render(request, 'users/profile.html', context)
+            else:
+                context = {'userdata' : userdata}
+                return render(request, 'users/profile.html', context)
+
     else:
         return redirect(usersignin)
-
-
 
 
 def user_history(request):
@@ -292,34 +273,39 @@ def user_history(request):
 def userbooking(request, id):
     if request.user.is_authenticated:
         if request.method =='POST':
-            print("Muth")
             name = request.POST['name']
             phone = request.POST['phone']
             email = request.POST['email']
             sport = request.POST['sport']
-            date = request.POST['date']
+            date_ = request.POST['date']
             hour = request.POST['hour']
-            payment_option = request.POST['payment']
-            print(payment_option)
+            coupon = request.POST['coupon']
+            user = request.user
+            userdata = userData.objects.get(user=user) 
             turf = Turf.objects.get(id=id)
             sport_price = sportPrice.objects.filter(turf_id=turf.id)
             for x in sport_price:
                 if x.category.sport == sport:
-                    price = x.price
-            print(type(price))
-            user = request.user
-            user_data = userData.objects.get(user_id=user.id)
-            print(user_data.phone)
-            context = {'price' : price}
-            sport = Category.objects.get(sport=sport)
-            if Booking.objects.filter(date=date, turf_id = turf.id).exists() and Booking.objects.filter(hour=hour, turf_id = turf.id).exists() and Booking.objects.filter(turf_id = turf.id, status='pending').exists():
-                return JsonResponse('exists', safe=False)
-            if Booking.objects.filter(date=date, turf_id = turf.id).exists() and Booking.objects.filter(hour=hour, turf_id = turf.id).exists() and Booking.objects.filter(turf_id = turf.id, status='accept').exists():
-                return JsonResponse('exists', safe=False)
+                    price = x.price  
+            current_date = date.today()
+            if Coupon.objects.filter(coupon_code=coupon, turf_id=id, start_date__lte=current_date, end_date__gt=current_date).exists() and not UsedCoupons.objects.filter(user = user, coupon__coupon_code=coupon).exists():
+                coupon_discount = Coupon.objects.get(coupon_code=coupon, turf_id=turf.id, start_date__lte=current_date, end_date__gt=current_date)
+                discount = coupon_discount.discount
+                discounted_amount = (price * discount)/100
+                amount_after_discount = price - discounted_amount
+                razorpay_amount = amount_after_discount * 100
+                paypal_amount = amount_after_discount / 70
+                context = {'name' : name, 'phone' : phone, 'coupon' : coupon_discount.coupon_code, 'sport' : sport,  'email' : email, 'date' : date_, 'hour' : hour, 'amount' : amount_after_discount, 'razorpay_amount' : razorpay_amount, 'paypal_amount' : paypal_amount, 'turf_id' : id, 'user_id' : user.id, 
+                'userdata_id' : userdata.id}             
+                request.session['context'] = json.dumps(context)
+                return JsonResponse('true', safe=False)
             else:
-                booking = Booking.objects.create(name=name, phone=phone, email=email, date=date, price=price, hour=hour, turf_id = id, sport=sport, user=user, exists=False, payment_option=payment_option, type_of_booking = 'user side', user_data=user_data)
-                data = {'id': booking.id, 'price' : booking.price}
-                return JsonResponse(data)
+                amount_after_discount = price
+                razorpay_amount = amount_after_discount * 100
+                paypal_amount = amount_after_discount / 70
+                context = {'name' : name, 'phone' : phone, 'email' : email, 'sport' : sport, 'date' : date_, 'hour' : hour, 'amount' : amount_after_discount, 'razorpay_amount' : razorpay_amount, 'paypal_amount' : paypal_amount, 'turf_id' : id}             
+                request.session['context'] = json.dumps(context)
+                return JsonResponse('true', safe=False)
         else:
             user = request.user
             turf = Turf.objects.get(id=id)
@@ -327,20 +313,108 @@ def userbooking(request, id):
             userdata = userData.objects.get(user_id=user.id)
             sport_price = sportPrice.objects.filter(turf_id=turf.id)
             booking = Booking.objects.all()
-            context = {'user' : user, 'turfs' : turf, 'userData' : userdata, 'sportprice' : sport_price, 'booking' : booking}
+            available = Booking.objects.filter(status='accept', turf_id=turf.id) and Booking.objects.filter(status='pending', turf_id=turf.id)
+            booked = {}
+            for x in available:
+                if x.date in booked.keys():
+                    booked[x.date].append(x.hour)
+                else:
+                    booked[x.date] = [x.hour]
+            coupon = Coupon.objects.all()
+            context = {'user' : user, 'turfs' : turf, 'available' : available, 'userData' : userdata, 'sportprice' : sport_price, 'booking' : booking, 'coupon' : coupon}
             return render(request, 'users/booking.html', context)
     else:
         return redirect(usersignin)
-
-
-def bookHistory(request, id):
+    
+def summary(request):
     if request.user.is_authenticated:
-        booking = Booking.objects.get(id=id)
-        price = sportPrice.objects.all()
-        context = {'booking' : booking, 'price' : price}
-        return render(request, 'users/history.html', context)
+        if request.method =='POST':
+            payment_option = request.POST['payment']
+            data = request.session['context']
+            context = json.loads(data)
+            print(context)
+            user = request.user
+            user_data = userData.objects.get(user=user)
+            if 'coupon' in context:
+                coupon = Coupon.objects.get(coupon_code=context['coupon'])
+                UsedCoupons.objects.create(user=user, coupon=coupon)
+            Booking.objects.create(payment_option=payment_option, user_data_id=user_data.id, user_id=user.id, game=context['sport'],   turf_id= context['turf_id'], type_of_booking = 'user side', name= context['name'], phone= context['phone'], email= context['email'], date= context['date'], hour= context['hour'], price= context['amount'], status='accept')
+            request.session['context'] = ''
+            return JsonResponse('true', safe=False)
+        else:
+            if request.session['context'] != '':
+                data = request.session['context']
+                context = json.loads(data)
+                return render(request,'users/summary.html', context)
+            else:
+                return redirect(home)
     else:
-        return redirect(usersignin)
+        return redirect(home)
+
+def coupon_selected(request, id):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            coupon = request.GET['coupon']
+            sport = request.GET['sport']
+            turf = Turf.objects.get(id=id)
+            today = date.today()
+            print(coupon, turf.id)
+            user = request.user
+            sport_price = sportPrice.objects.filter(turf_id=turf.id)
+            for x in sport_price:
+                if x.category.sport == sport:
+                    price = x.price
+            if Coupon.objects.filter(coupon_code=coupon, turf_id=turf.id).exists():
+                coupon_discount = Coupon.objects.get(coupon_code=coupon, turf_id=turf.id)
+                if coupon_discount.start_date <= today and coupon_discount.end_date > today :
+                    if not UsedCoupons.objects.filter(user=user, coupon=coupon_discount):
+                        discount = coupon_discount.discount
+                        discounted_amount = (price * discount)/100
+                        amount_after_discount = price - discounted_amount
+                        context = {'amount_after_discount' : amount_after_discount, 'discount' : discounted_amount}
+                        return JsonResponse(context)
+                    else:
+                        return JsonResponse('used', safe=False)
+                else:
+                    return JsonResponse('expired', safe=False)
+            else:
+                print(coupon)
+                return JsonResponse('false', safe=False)   
+    else:
+        return redirect(home)
+
+def customer_review(request, id):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            review = request.POST['review']
+            print(review)
+            user = request.user
+            user_data = userData.objects.get(user=user)
+            turf = Turf.objects.get(id=id)
+            Comment.objects.create(comment=review, turf_id=turf.id, userDetails_id=user_data.id, user=user)
+            return JsonResponse('true', safe=False)
+        else:
+            return redirect(home)
+    else:
+        return redirect(home)
+
+
+def time_slots(request, id):
+    date = request.GET['date_selected']
+    booking = Booking.objects.filter(date=date, turf_id=id, status__in=['accept', 'pending'])
+    used_hours = []
+    for x in booking:
+        used_hours.append(x.hour)
+    return JsonResponse({'used_hours':used_hours})
+
+
+# def bookHistory(request, id):
+#     if request.user.is_authenticated:
+#         booking = Booking.objects.get(id=id)
+#         context = {'booking' : booking}
+#         return render(request, 'users/history.html', context)
+#     else:
+#         return redirect(usersignin)
 
 
 def logout(request):
@@ -350,8 +424,4 @@ def logout(request):
         return redirect(home)
     else:
         return redirect(usersignin)
-    
-
-
-
 

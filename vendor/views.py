@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from user.models import userData, Turf, sportPrice, turfFacility, Booking
+from user.models import userData, Turf, sportPrice, turfFacility, Booking, Comment, Coupon
 from django.contrib.auth.models import  User
 from django.http import JsonResponse
 from . models import Vendor
@@ -55,8 +55,26 @@ def signup(request):
 
 def home(request):
     if request.session.has_key('isVendor'):
-        # sport_price = sportPrice.objects.all()
-        return render(request, 'vendors/home.html')
+        vendor = request.session['vendor_id']
+        turf_count = Turf.objects.filter(vendor=vendor, status='accept').count()
+        turf = Turf.objects.filter(vendor_id=vendor, status='accept')
+        for x in turf:
+            print(x.id)
+        price_zero = 0
+        booking = Booking.objects.filter(status='accept', turf__vendor_id=vendor)
+        for x in booking:
+            price_zero = price_zero + x.price
+        review = Comment.objects.filter(turf__vendor_id=vendor).count()
+        booking_count = Booking.objects.filter(turf__vendor_id=vendor, status='accept').count()
+        comment = Comment.objects.filter(turf__vendor_id=vendor)
+        comment_dict = {}
+        for x in comment:
+            if x.turf in comment_dict.keys():
+                comment_dict[x.turf].append(x)
+            else:
+                comment_dict[x.turf] = [x]
+        context = {'turf' : turf_count, 'price' : price_zero, 'review' : review, 'comment_dict' : comment_dict, 'booking_count' : booking_count, 'turfs' : turf}
+        return render(request, 'vendors/home.html', context)
     else:
         return redirect(signin)
 
@@ -168,10 +186,7 @@ def addTurf(request):
             geolocator = Nominatim(user_agent='vendor')
             Latitude = lat
             Longitude = lng
-            
             location = geolocator.reverse(Latitude+","+Longitude) 
-            
-            # Display 
             image1 = request.FILES.get('image1')
             image2 = request.FILES.get('image2')
             am67 = request.POST.getlist('6AM-7AM')
@@ -266,6 +281,7 @@ def reject_booking(request, id):
 def vendor_booking(request, id):
     if request.session.has_key('isVendor'):
         if request.method =='POST':
+            vendor = request.session['vendor_id']
             name = request.POST['name']
             phone = request.POST['phone']
             email = request.POST['email']
@@ -298,7 +314,7 @@ def vendor_booking(request, id):
             return render(request, 'vendors/vendorbooking.html', context)
     else:
         return redirect(signin)
-    
+
 
 def book_summary(request, id):
     if request.session.has_key('isVendor'):
@@ -318,6 +334,87 @@ def book_requests(request):
         return render(request, 'vendors/booking-requests.html', context)
     else:
         return redirect(signin)
+
+def reviews(request):
+    if request.session.has_key('isVendor'):
+        vendor = request.session['vendor_id']
+        comment = Comment.objects.filter(turf__vendor_id=vendor)
+        comment_dict = {}
+        for x in comment:
+            if x.turf in comment_dict.keys():
+                comment_dict[x.turf].append(x)
+            else:
+                comment_dict[x.turf] = [x]
+        context = {'comment_dict' : comment_dict}
+        return render(request, 'vendors/reviews.html', context)
+    else:
+        return redirect(home)
+
+def reports(request):
+    if request.session.has_key('isVendor'):
+        vendor = request.session['vendor_id']
+        if request.method == 'POST':
+            from_date = request.POST['from']
+            to_date = request.POST['to']
+            booking = Booking.objects.filter(vendor_id=vendor, date__range=(from_date, to_date))
+            context = {'booking' : booking}
+            for c in booking:
+                print(c.name)
+            return render(request, 'vendors/reports.html', context)
+        return render(request, 'vendors/reports.html')
+    else:
+        return redirect(home)
+
+def coupons(request):
+    if request.session.has_key('isVendor'):
+        if Coupon.objects.exists():
+            vendor = request.session['vendor_id']
+            coupon = Coupon.objects.filter(turf__vendor_id=vendor, turf__status='accept')
+            context = {'coupon' : coupon}
+            return render(request, 'vendors/coupons.html', context)
+        else:
+            return render(request, 'vendors/coupons.html')
+    else:
+        return redirect(home)
+
+def add_coupons(request):
+    if request.session.has_key('isVendor'):
+        if request.method == 'POST':
+            name = request.POST['name']
+            code = request.POST['code']
+            discount = request.POST['discount']
+            turf = int(request.POST['turf'])
+            start_date = request.POST['start_date']
+            end_date = request.POST['end_date']
+            if Coupon.objects.filter(coupon_name=name).exists():
+                return JsonResponse('name', safe=False)
+            elif Coupon.objects.filter(coupon_code=code).exists():
+                return JsonResponse('code', safe=False)
+            else:
+                Coupon.objects.create(coupon_name=name, coupon_code=code, turf_id=turf, discount=discount, start_date=start_date, end_date=end_date)
+                return JsonResponse('true', safe=False)
+        else:    
+            vendor = request.session['vendor_id']
+            turf = Turf.objects.filter(vendor=vendor, status='accept')
+            for x in turf:
+                print(x.image1)
+            context = {'turf' : turf}
+            return render(request, 'vendors/addcoupons.html', context)
+    else:
+        return redirect(home)
+
+def offers(request):
+    if request.session.has_key('isVendor'):
+        return render(request, 'vendors/offers.html')
+    else:
+        return redirect(home)
+
+
+def add_offers(request):
+    if request.session.has_key('isVendor'):
+        return render(request, 'vendors/addoffers.html')
+    else:
+        return redirect(home)
 
 
 def logout(request):

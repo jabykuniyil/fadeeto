@@ -53,7 +53,7 @@ def adminhome(request):
         print(price)
         month = datetime.now().month
         this_month_price = 0
-        price_month = Booking.objects.filter(date__month=month)
+        price_month = Booking.objects.filter(date__month=month, status='accept')
         for x in price_month:
             this_month_price = this_month_price + x.price
         turf_accept = Turf.objects.filter(status='accept').count()
@@ -291,7 +291,7 @@ def bookingSummary(request):
 
 def reviews(request):
     if request.session.has_key('isAdmin'):
-        turf = Turf.objects.all()
+        turf = Turf.objects.filter(status='accept')
         context = {'turf' : turf}
         return render(request, 'admin/reviews.html', context)
     else:
@@ -302,7 +302,8 @@ def reviews(request):
 def reviewspecific(request, id):
     if request.session.has_key('isAdmin'):
         turf = Turf.objects.get(id=id)
-        context = {'turf' : turf}
+        comment = Comment.objects.filter(turf=turf)
+        context = {'turf' : turf, 'comment' : comment}
         return render(request, 'admin/reviewspecific.html', context)
     else:
         return redirect(adminsignin)

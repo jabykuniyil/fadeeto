@@ -1,4 +1,27 @@
 {% extends 'admin/adminbase.html' %}
 {% block content %}
-{{turf.turfName}}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+  
+                <div class="page-body">
+{% for x in comment %}
+<div style="height: 3rem; width: 3rem; ">
+  <img src="{{x.userDetails.ProfileURL}}" class="rounded" alt="" height="25rem" width="25rem">
+</div>
+<div style="color: grey;margin-top: -2.95rem;
+margin-left: 1.8rem;">
+  {{x.user.username}}
+</div>
+<div>
+{{x.comment}}
+</div>
+<br>
+{% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

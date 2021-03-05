@@ -1,0 +1,82 @@
+{% extends 'vendors/base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card m-b-30">
+            <div class="card-body">
+                <h4 class="mt-0 header-title mb-4">Booking Reports</h4>
+                <li class="d-none d-md-inline-block">
+                    <form role="search" method="POST" class="app-search">
+                        {% csrf_token %}
+                        <div class="form-group ml-1 mb-0 row">
+                            <h5 class=" header-title">From</h5>
+                            <input name="from" type="date" class="form-control" required>
+                            <h5 class="ml-1 header-title">To</h5>
+                            <input name="to" type="date" class="form-control" required>
+                            <input class="btn btn-lg btn-primary" name="check" value="Check" id="check" type="submit">
+
+                        </div>
+                    </form>
+                    <br>
+                </li>
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Turf Name</th>
+                                <th scope="col">Sport Chosen</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Hour</th>
+                                <th scope="col">Amount Paid</th>
+                                
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for booking in booking %}
+                            <tr>
+                                <td>
+                                  <div>
+                                  <img src="{{booking.user_data.ProfileURL}}" alt="" class="thumb-md rounded-circle mr-2">{{booking.name}}
+                              </div>
+                            </td>
+                            <td>
+                              {{booking.email}}
+                                
+                            </td>
+                            <td>{{booking.phone}}</td>
+                            <td>{{booking.turf.turfName}}</td>
+                            <td>{{booking.sport.sport}}</td>
+                            <td>{{booking.date}}</td>
+                            <td>{{booking.hour}}</td>
+
+                                <td>{{booking.price}}</td>
+                                
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+          $('#table').DataTable();
+      });
+</script>
+{% endblock %}

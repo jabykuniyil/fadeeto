@@ -1,0 +1,38 @@
+{% extends 'vendors/base.html' %}
+{% block content %}
+    <div class="row p-3">
+        {% for coupon in coupon %}
+
+       
+        <div class="col-sm-6 col-xl-3" style="float: left;">
+            <div class="card" style=" background-color: rgb(52, 74, 146);">
+                <div class="card-heading p-4">
+                    <div class="mini-stat-icon float-right">
+                        <i class="mdi mdi-store bg-white  text-rgb(52, 74, 146)"></i>
+                    </div>
+                    <div>
+                        <h5 class="font-16 text-white">GET</h5>
+                    </div>
+                    <div>
+                        <h5 class="font-16 text-white">{{coupon.coupon_name}}</h5>
+                    </div>
+                    <div class="row">
+                    <h3 class="mt-4 text-white">{{coupon.discount}} %</h3> 
+                      <h6 style="margin-top: 2rem;
+                    margin-left: 1rem;
+                    color: white;">OFF</h6>
+                   
+                </div>
+                <h6 style="margin-top: 2rem;
+                margin-left: 1rem;
+                color: white;">{{coupon.start_date}} to {{coupon.end_date}}</h6>
+                <h5 class="font-16 text-white">{{coupon.turf.turfName}}</h5>
+
+                    <p class="text-white mt-2 mb-0">USE CODE<span class="float-right text-white">{{coupon.coupon_code}}</span></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>      
+{% endblock %}

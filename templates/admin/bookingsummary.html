@@ -1,53 +1,79 @@
 {% extends 'admin/adminbase.html' %}
 {% block content %}
-
 <div class="row">
   <div class="col-lg-3"></div>
-  <div class="col-lg-9" >
-<nav class="navbar col-12 col-md-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
-  <p style="color: brown;text-align: center; font-size: 3rem; padding: 2rem; font: bolder;">Booking Summary</p>
+  <div class="col-lg-9">
+
   
-  </nav>
-  <div style="overflow: auto;width: 53rem;">
 
-  <table class="table" id="table" style="align-items: center; padding: 2rem;">
-    <thead>
-      <tr>       
-        <th scope="col">S. no</th>
-        <th scope="col">Booking id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Phone</th>
-        <th scope="col">Turf Name</th>
-        <th scope="col">Turf Owner</th>
-        <th scope="col">Sport Chosen</th>
-        <th scope="col">Date</th>
-        <th scope="col">Hour</th>
-        <th scope="col">Amount Paid</th>
-        <th scope="col">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for booking in booking %}
-      <tr>
-        <th scope="row">{{forloop.counter}}</th>
-        <td>{{ booking.id }}</td>
-        <td>{{ booking.name }}</td>
-        <td>{{ booking.email }}</td>
-        <td>{{ booking.phone }}</td>
-        <td >{{ booking.turf.turfName }} </div></td>
-        <td >{{ booking.turf.vendor.name }} </div></td>
-        <td>{{ booking.sport.sport }}</td>
-        <td>{{ booking.date }}</td>
-        <td>{{ booking.hour }}</td>
-        <td>{{  booking.price }}</td>
-        <td>{{  booking.status }}</td>
+<div class="row">
+  <div class="col-xl-12">
+      <div class="card m-b-30">
+          <div class="card-body">
+              <h4 class="mt-0 header-title mb-4">Book Summary</h4>
+              <div class="table-responsive">
+                  <table class="table table-hover">
+                      <thead>
+                          <tr>
+                            <th scope="col">S. no</th>
+                            <th scope="col">Booking id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Turf Name</th>
+                            <th scope="col">Turf Owner</th>
+                            <th scope="col">Sport Chosen</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Hour</th>
+                            <th scope="col">Amount Paid</th>
+                            <th scope="col">Status</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% for booking in booking %}
+                        <tr>
+                          <th scope="row">{{forloop.counter}}</th>
+                          <td>{{ booking.id }}</td>
+                          <td>{{ booking.name }}</td>
+                          <td>{{ booking.email }}</td>
+                          <td>{{ booking.phone }}</td>
+                          <td >{{ booking.turf.turfName }} </div></td>
+                          <td >{{ booking.turf.vendor.name }} </div></td>
+                          <td>{{ booking.sport.sport }}</td>
+                          <td>{{ booking.date }}</td>
+                          <td>{{ booking.hour }}</td>
+                          <td>{{  booking.price }}</td>
+                          <td>
+                            {% if booking.status == 'pending' %}
+                            <span class="badge badge-primary">{{booking.status}}</span></td>
+                      {% endif %}
+                      {% if booking.status == 'Rejected' %}
+                      <span class="badge badge-danger">{{booking.status}}</span></td>
+                      {% endif %}
+                      {% if booking.status == 'accept' %}
+                      <span class="badge badge-success">{{booking.status}}</span></td>
+                      {% endif %}
+                          </tr> 
+                        {% endfor %}    
+                      </tbody>
+                  </table>
+              </div>
 
-        </tr> 
-      {% endfor %}
-    </tbody>
-  </table>
+          </div>
+      </div>
+  </div>
+
 </div>
 </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script>
+  $(document).ready(function() {
+        $('#table').DataTable();
+    });
+</script>
+
 {% endblock %}

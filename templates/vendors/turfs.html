@@ -2,30 +2,32 @@
 <!-- {% block link %}
 {% endblock %} -->
 {% block  content %}
-<nav class="navbar col-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; margin-left: 3rem; height: 8rem;">
-<p style="color: brown;text-align: center; font-size: 4rem; padding: 2rem; font: bolder;">All Turfs</p>
+   <div class="row">
+    <div class="col-xl-12">
+        <div class="card m-b-30">
+            <div class="card-body">
+                <h4 class="mt-0 header-title mb-4">All Turfs</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Turf Name</th>
+                                <th scope="col">Time Periods</th>
+                                <th scope="col">Sports Available</th>
+                                <th scope="col">Facilities</th>
+                                <th scope="col">Images</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
 
-</nav>
-<table class="table" id="table" style="align-items: center; padding: 2rem;">
-    <thead>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for turf in turfs %}
       <tr>
-        <th scope="col">id</th>
-        <th scope="col">Turf Name</th>
-        <th scope="col">Time Periods</th>
-        <th scope="col">Sports Available</th>
-        <th scope="col">Facilities</th>
-        <th scope="col">Images</th>
-        <th scope="col">Address</th>
-        <th scope="col">Description</th>
-        <th scope="col">Status</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for turf in turfs %}
-      <tr>
-        <th scope="row">{{forloop.counter}}</th>
         <td>{{ turf.turfName }}</td>
         <td>{{ turf.timePeriod }}</td>
         <td>
@@ -45,19 +47,35 @@
         <td ><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL2 }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div></td>
         <td>{{ turf.address }}</td>
         <td>{{ turf.description }}</td>
-        <td>{{ turf.status }}</td>
+        <td> {% if turf.status == 'pending' %}
+          <span class="badge badge-primary">{{turf.status}}</span></td>
+    {% endif %}
+    {% if turf.status == 'Rejected' %}
+    <span class="badge badge-danger">{{turf.status}}</span></td>
+    {% endif %}
+    {% if turf.status == 'accept' %}
+    <span class="badge badge-success">{{turf.status}}</span></td>
+    {% endif %}</td>
         <td><a href="/vendor/editturf/{{ turf.id }}/"><button type="button" class="btn-primary" style= "text-align: center; border-radius: 1rem;  border: none;  ">Edit</button></a></td>
        <td><a href="/vendor/deleteturf/{{turf.id}}/"><button type="button" class="btn-danger" style="text-align: center; border-radius: 1rem; border: none; ">Delete</button></a></td>
         </tr> 
       {% endfor %}
-    </tbody>
-  </table>
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
-  <script>
-      $(document).ready(function() {
-            $('#table').DataTable();
-        });
-  </script>
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+          $('#table').DataTable();
+      });
+</script>
   {% endblock %}

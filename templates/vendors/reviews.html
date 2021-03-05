@@ -1,0 +1,31 @@
+{% extends 'vendors/base.html' %}
+{% block content %}
+<div class="row">
+{% for turf, comments in comment_dict.items %}
+    <div class="col-sm-6 col-xl-3">
+        <div class="card">
+            <div class="card-heading p-4">
+                <div class="mini-stat-icon float-right">
+                <img class="rounded" style="height: 5rem; width: 5rem;" src="{{turf.ImageURL}}" alt="">    
+                </div>
+                <div>
+                    <h5 class="font-16">{{turf.turfName}}</h5>
+                </div>
+                <!-- <br>
+                <br> -->
+                <h6 class="mt-4">Total Reviews 
+                    <br>{{comments|length}}</h6>
+               {% for x in comments %}
+               <img src="{{x.userDetails.ProfileURL}}" class="rounded" style="height: 2rem; width: 2rem;" alt=""> 
+               <p style="margin-bottom:4rem;" class="text-muted  mb-0">{{ x.user.username}}</p>
+               <div>
+                {{x.comment}}
+              </div>
+              <br>
+           {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+{% endblock %}

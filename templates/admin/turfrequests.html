@@ -1,32 +1,36 @@
 {% extends 'admin/adminbase.html' %}
 {% block content %}
-
 <div class="row">
   <div class="col-lg-3"></div>
-  <div class="col-lg-9" style="padding-right: 13rem;">
-<nav class="navbar col-12 col-md-12 navbar-dark sticky-top bg-light" style=" margin-bottom: 2rem; height: 8rem;">
-  <p style="color: brown;text-align: center; font-size: 3rem; padding: 2rem; font: bolder;">Turf Requests</p>
+  <div class="col-lg-9">
 
-  </nav>
-  <div style="overflow: auto;">
-  <table class="table" id="table" style="align-items: center; padding: 2rem;">
-    <thead>
-      <tr>
-        <th scope="col">S.no</th>
-        <th scope="col">Turf Name</th>
-        <th scope="col">Vendor</th>
-        <th scope="col">Time Periods</th>
-        <th scope="col">Sports Available</th>
-        <th scope="col">Facilities</th>
-        <th scope="col">Images</th>
-        <th scope="col">Address</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
+  
 
-      </tr>
-    </thead>
-  <tbody>
-    {% for turf in turf %}
+<div class="row">
+  <div class="col-xl-12">
+      <div class="card m-b-30">
+          <div class="card-body">
+              <h4 class="mt-0 header-title mb-4">Turf Requests</h4>
+              <div class="table-responsive">
+                  <table class="table table-hover">
+                      <thead>
+                          <tr>
+                            <th scope="col">S.no</th>
+                            <th scope="col">Turf Name</th>
+                            <th scope="col">Vendor</th>
+                            <th scope="col">Time Periods</th>
+                            <th scope="col">Sports Available</th>
+                            <th scope="col">Facilities</th>
+                            <th scope="col">Images</th>
+                            <th scope="col">Address</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+
+
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% for turf in turf %}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
       <td>{{ turf.turfName }}</td>
@@ -48,14 +52,30 @@
       </td>
       <td><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div><div style="margin: 0.5rem;"><img src="{{ turf.ImageURL2 }}" style="width: 3rem; height: 3rem;" alt="" srcset=""></div></td>
       <td>{{ turf.address }}</td>
-      <td><a href="{% url 'accept' turf.id %}"><button type="button" class="btn-success" style= "text-align: center; border-radius: 1rem;  border: none;  ">Accept</button></a></td>
-      <td><a href="{% url 'reject' turf.id %}"><button type="button" class="btn-danger" style="text-align: center; border-radius: 1rem; border: none; ">Reject</button></a></td>
+      <td><a href="{% url 'accept' turf.id %}"><button type="button" class="badge badge-success" style= "text-align: center; border-radius: 1rem;  border: none;  ">Accept</button></a></td>
+      <td><a href="{% url 'reject' turf.id %}"><button type="button" class="badge badge-danger" style="text-align: center; border-radius: 1rem; border: none; ">Reject</button></a></td>
 
     </tr> 
     {% endfor %}
-  </tbody>
-</table>
+                          
+                      </tbody>
+                  </table>
+              </div>
+
+          </div>
+      </div>
   </div>
+
 </div>
 </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script>
+  $(document).ready(function() {
+        $('#table').DataTable();
+    });
+</script>
 {% endblock %}

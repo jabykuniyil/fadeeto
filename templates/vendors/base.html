@@ -96,7 +96,6 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                 <!-- item-->
-                                <a class="dropdown-item" href="/vendor/profile/"><i class="mdi mdi-account-circle"></i> Profile</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" href="/vendor/logout/"><i class="mdi mdi-power text-danger"></i> Logout</a>
                             </div>
@@ -111,14 +110,14 @@
                             <i class="mdi mdi-menu"></i>
                         </button>
                     </li>
-                    <li class="d-none d-md-inline-block">
-                        <form role="search" class="app-search">
-                            <div class="form-group mb-0">
-                                <input type="text" class="form-control" placeholder="Search..">
-                                <button type="submit"><i class="fa fa-search"></i></button>
-                            </div>
-                        </form>
-                    </li>
+                        <li class="d-none d-md-inline-block">
+                            <form role="search" class="app-search">
+                                <div class="form-group mb-0">
+                                    <input type="text" class="form-control" placeholder="Search..">
+                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                </div>
+                            </form>
+                        </li>
                 </ul>
 
             </nav>
@@ -162,8 +161,27 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="" class="waves-effect"><i class="icon-calendar"></i><span> Reviews </span></a>
+                            <a href="/vendor/reviews/" class="waves-effect"><i class="icon-calendar"></i><span> Reviews </span></a>
                         </li>
+                        <li>
+                            <a href="/vendor/reports/" class="waves-effect"><i class="icon-calendar"></i><span> Reports </span></a>
+                        </li>
+                        <li>
+                        <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Coupons <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                            <ul class="submenu">
+                                <li><a href="/vendor/coupons/">All Coupons</a></li>
+                                <li><a href="/vendor/addcoupons/">Add Coupons</a></li>
+                               
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-paper-sheet"></i><span> Offers <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                <ul class="submenu">
+                                    <li><a href="/vendor/offers/">All offers</a></li>
+                                    <li><a href="/vendor/addoffers/">Add Offers</a></li>
+                                   
+                                </ul>
+                            </li>
                         <li>
                             <a href="/vendor/logout/" class="waves-effect"><i class="icon-calendar"></i><span> Logout </span></a>
                         </li>

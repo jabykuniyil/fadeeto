@@ -8,19 +8,16 @@
     <div class="row" style="text-align: center; margin-top: 1rem;">
 
 {% for turf in turf %}
-    <!-- Three columns of text below the carousel -->
       <div class="col-lg-4 col-md-4" >
         <img src="{{ turf.ImageURL }}" width="140" height="140" class="rounded-circle" alt="" srcset="">
-        <!-- <svg class="bd-placeholder-img rounded-circle"  width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> -->
         <h2>{{ turf.turfName }}</h2>
         <p>{{ turf.address }}</p>
         <p>{{ turf.distance }} {% if turf.distance is not None %}Km {% endif %}</p>
 
         <p><a class="btn btn-lg btn-primary" href="/turfadmin/reviewspecific/{{turf.id}}/">Reviews &raquo;</a></p>
-      </div><!-- /.col-lg-4 -->
-      <!-- /.col-lg-4 -->
+      </div>
     {% endfor %}
-  </div><!-- /.row -->
+  </div>
   </div>
   </div>
   </div>

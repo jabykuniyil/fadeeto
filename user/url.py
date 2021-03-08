@@ -19,6 +19,5 @@ urlpatterns = [
     path('coupon-selected/<int:id>/', views.coupon_selected, name='coupon-selected'),
     path('time-slots/<int:id>/', views.time_slots, name='time-slots'),
     path('userlogout/', views.logout, name='logout'),
-    # path('bookhistory/<int:id>/', views.bookHistory, name='bookhistory'),
     path('customer-review/<int:id>/', views.customer_review, name='customer-review')
 ]

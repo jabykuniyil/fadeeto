@@ -249,6 +249,10 @@ def profile(request, id):
             current_date = date.today()
             if Coupon.objects.exists():
                 coupon = Coupon.objects.filter(start_date__lt=current_date, end_date__gt=current_date) 
+                print(type(coupon))
+                for x in coupon:
+                    if UsedCoupons.objects.get(user=user):
+                        print(x.coupon_code)
                 context = {'userdata' : userdata, 'coupon' : coupon}
                 return render(request, 'users/profile.html', context)
             else:
@@ -332,7 +336,6 @@ def summary(request):
             payment_option = request.POST['payment']
             data = request.session['context']
             context = json.loads(data)
-            print(context)
             user = request.user
             user_data = userData.objects.get(user=user)
             if 'coupon' in context:
@@ -358,7 +361,6 @@ def coupon_selected(request, id):
             sport = request.GET['sport']
             turf = Turf.objects.get(id=id)
             today = date.today()
-            print(coupon, turf.id)
             user = request.user
             sport_price = sportPrice.objects.filter(turf_id=turf.id)
             for x in sport_price:
@@ -378,7 +380,6 @@ def coupon_selected(request, id):
                 else:
                     return JsonResponse('expired', safe=False)
             else:
-                print(coupon)
                 return JsonResponse('false', safe=False)   
     else:
         return redirect(home)
@@ -387,7 +388,6 @@ def customer_review(request, id):
     if request.user.is_authenticated:
         if request.method == 'POST':
             review = request.POST['review']
-            print(review)
             user = request.user
             user_data = userData.objects.get(user=user)
             turf = Turf.objects.get(id=id)
@@ -406,15 +406,6 @@ def time_slots(request, id):
     for x in booking:
         used_hours.append(x.hour)
     return JsonResponse({'used_hours':used_hours})
-
-
-# def bookHistory(request, id):
-#     if request.user.is_authenticated:
-#         booking = Booking.objects.get(id=id)
-#         context = {'booking' : booking}
-#         return render(request, 'users/history.html', context)
-#     else:
-#         return redirect(usersignin)
 
 
 def logout(request):

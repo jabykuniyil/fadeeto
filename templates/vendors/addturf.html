@@ -1,9 +1,5 @@
 {% extends 'vendors/base.html' %}
 {% block content %}
-<!-- {% block vendor %}
-<a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">edh</a>
-
-{% endblock %} -->
 {% block head %}
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
             <link rel="stylesheet"
@@ -62,19 +58,9 @@
         <input type="text" id="turfname" name="turfName" placeholder="turf name" class="form-control"   required autofocus>
         <span id="errorfirst_name" style="text-align: center; color: red;"></span>
     </div>
-    <!-- <div class="col-md-6 col-12">
-
-        <label for="inputPassword" class="sr-only">Password</label> -->
-        <!-- <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Mobile</span>
-
-        <input type="number" name="mobile" id="mobile" class="form-control" placeholder="mobile" required>
-        
-        <span id="errormobile" style="text-align: center; color: red;"></span> -->
-    <!-- </div>  -->
 
     </div>
         <div class="row">
-            <!-- <span class="form-label">Min</span> -->
             <div class="col-md-6 col-12">
                 <br>
                 <span style="color: rgb(4, 5, 4); font-size: larger;  font-weight: bolder ; color: seagreen;">Address</span>
@@ -83,9 +69,11 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                     Choose Location
                   </button>
+                <br><br><br>
+                Latitude = <input type="number" name="latitude" id="latitude" readonly="readonly" required>
                 <br><br>
-                <p id="latitudeShow"></p>
-                <br><br>
+                Longitude = <input type="number" name="longitude" id="longitude" readonly="readonly" required>
+                <br><br><br>
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Photos(2)</span>
                 <input type="file" id="image1" name="image1" accept="image/*" class="form-control" required>
                 <input type="file" id="image2" name="image2" accept="image/*" class="form-control" required>
@@ -108,17 +96,6 @@
                 <br>
                 {% endfor %}
           
-                <!-- <input type="checkbox" id="football" name="football" value="football" >
-                <label for="football" style="text-align: center;">Football</label>
-                <input type="number" name="footballprice" id="inputfootball" class="form-control" placeholder="price" >
-
-                <br>
-                <input type="checkbox" id="badminton" name="badminton" value="badminton" >
-                <label for="badminton" style="text-align: center;">Badminton</label>
-                
-                
-                <input type="number" name="badmintonprice" id="inputbadminton" class="form-control" placeholder="price" >
-                 -->
                 <br>
                 <br>
                 <br>
@@ -128,7 +105,6 @@
         <div class="row" >
             <div class="col-md-6" >
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Time Periods</span>
-                <!-- <input type="time"  id="price" class="form-control" placeholder="price" required> -->
                 <br>
                 <input type="checkbox" id="6 AM - 7 AM" name="6AM-7AM" value="6 AM - 7 AM">
                 <label for="6 AM - 7 AM">6 AM - 7 AM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -187,10 +163,6 @@
 
             </div>
         </div>
-        <input type="text" id="lat" name="lat"  hidden>
-            <input type="text" id="lng" name="lng" hidden>
-            
-    
         <input  class="btn btn-lg  btn-block" id="addturf" style="margin-top: 2rem; background-color: seagreen; color: seashell;" value="Save" type="submit">
       </form>
     </div>
@@ -264,47 +236,10 @@
                 function (error, image) {
                     if (error) throw error;
                     map.addImage('custom-marker', image);
-                    // Add a GeoJSON source with 2 points
-                    // map.addSource('points', {
-                    //     'type': 'geojson',
-                    //     'data': {
-                    //         'type': 'FeatureCollection',
-                    //         'features': [
-                    //             {
-                    //                 // feature for Mapbox DC
-                    //                 'type': 'Feature',
-                    //                 'geometry': {
-                    //                     'type': 'Point',
-                    //                     'coordinates': [
-                    //                         -77.03238901390978,
-                    //                         38.913188059745586
-                    //                     ]
-                    //                 },
-                    //                 'properties': {
-                    //                     'title': 'Mapbox DC'
-                    //                 }
-                    //             },
-                    //             {
-                    //                 // feature for Mapbox SF
-                    //                 'type': 'Feature',
-                    //                 'geometry': {
-                    //                     'type': 'Point',
-                    //                     'coordinates': [75.780411, 11.258753]
-                    //                 },
-                    //                 'properties': {
-                    //                     'title': 'Azco Turf'
-
-                    //                 }
-                    //             }
-                    //         ]
-                    //     }
-                    // });
+                    
                     let markers = []
                     map.on('click', function (e) {
-                        // The event object (e) contains information like the
-                        // coordinates of the point on the map that was clicked.
-                        // var marker = new mapboxgl.Marker()
-                        // .addTo(map);
+                       
                         if (markers !== null) {
                             for (var i = markers.length - 1; i >= 0; i--) {
                                 markers[i].remove();
@@ -318,15 +253,10 @@
                         markers.push(marker1)
                         latitude = es.lat
                         longitude = es.lng
-                        $('#lat').val(latitude)
-                        $('#lng').val(longitude)
-                        console.log(latitude,longitude,"=============");
-                        document.getElementById('latitudeShow').innerHTML =` lat =  ${latitude} <br> lon = ${longitude}`
+                        $('#latitude').val(latitude)
+                        $('#longitude').val(longitude)
                     });
-                    // create the popup
-                    // var popup = new mapboxgl.Popup({ offset: 25 }).setText(
-                    // 'Palazhi, Calicut'
-                    // );
+                   
                     console.log('hello');
 
                     // Add a symbol layer
@@ -363,23 +293,7 @@
 //   $select_value = $("#exampleSelect").value();
 console.log('he');
 });
-        //    var data = {
-        //        'csrfmiddlewaretoken' : '{{csrf_token}}',
-        //        'latitude' : latitude,
-        //        'longitude' : longitude
-        //    }
-        //    console.log(data);
-        //    $.ajax({
-        //        url : '/vendor/addturf/',
-        //        method : 'POST',
-        //        data : data,
-        //        dataType : 'json',
-        //        success : function(data){
-        //            if(data == 'location'){
-        //                window.location.reload
-        //            }
-        //        } 
-        //    })
+        
        
    </script>      
 

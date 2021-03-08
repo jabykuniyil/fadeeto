@@ -59,15 +59,6 @@
         <input type="text" id="turfName" name="turfName" value="{{ turfs.turfName }}" class="form-control"   required autofocus>
         <span id="errorfirst_name" style="text-align: center; color: red;"></span>
     </div>
-    <!-- <div class="col-md-6 col-12">
-
-        <label for="inputPassword" class="sr-only">Password</label> -->
-        <!-- <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Mobile</span>
-
-        <input type="number" name="mobile" id="mobile" class="form-control" placeholder="mobile" required>
-        
-        <span id="errormobile" style="text-align: center; color: red;"></span> -->
-    <!-- </div>  -->
 
     </div>
         <div class="row">
@@ -81,8 +72,11 @@
                     Choose Location
                   </button>
                 <br><br>
-                <p id="latitudeShow"></p>
-                <br><br>
+                    latitude = <input type="number" name="latitude" id="latitude" value="{{turfs.latitude}}" readonly="readonly">
+                    <br>
+                    <br>
+                    longitude = <input type="number" name="longitude" id="longitude" value="{{turfs.longitude}}" readonly="readonly">
+                <br><br><br>
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Photos(2)</span>
                 <br>
                 <h6 style="color: rgb(83, 35, 35);">Click on the images to edit</h6>
@@ -115,7 +109,6 @@
         <div class="row" style="margin-top: 1rem;">
             <div class="col-md-6" >
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder; color: seagreen;">Time Periods</span>
-                <!-- <input type="time"  id="price" class="form-control" placeholder="price" required> -->
                 <br>
                 <input type="checkbox" id="6 AM - 7 AM" name="6AM-7AM" value="6 AM - 7 AM"{% if '6 AM - 7 AM' in turfs.timePeriod %} checked {% endif %}>
                 <label for="6 AM - 7 AM">6 AM - 7 AM</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -175,8 +168,8 @@
 
             </div>
         </div>
-        <input type="text" id="lat" name="lat"  hidden>
-            <input type="text" id="lng" name="lng" hidden>
+        <!-- <input type="text" id="lat" name="lat"  hidden>
+            <input type="text" id="lng" name="lng" hidden> -->
             
     
         <input type="submit" class="btn btn-lg  btn-block"  id="save" style="margin-top: 2rem; background-color: seagreen; color: seashell;" value="Save" >
@@ -314,10 +307,11 @@ $("#inputimage2").change(function() {
                   markers.push(marker1)
                   latitude = es.lat
                   longitude = es.lng
-                  $('#lat').val(latitude)
-                  $('#lng').val(longitude)
-                  console.log(latitude,longitude,"=============");
-                  document.getElementById('latitudeShow').innerHTML =` lat =  ${latitude} <br> lon = ${longitude}`
+                //   $('#lat').val(latitude)
+                //   $('#lng').val(longitude)
+                //   console.log(latitude,longitude,"=============");
+                  $('#latitude').val(latitude)
+                  $('longitude').val(longitude)
               });
               // create the popup
               // var popup = new mapboxgl.Popup({ offset: 25 }).setText(

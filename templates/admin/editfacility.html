@@ -1,9 +1,9 @@
 {% extends 'admin/adminbase.html' %}
 {% block content %}
-<div style=" padding: 4rem; padding-top: 2rem;">
+<div style="margin-left: 13rem;">
     <form style="padding: 7rem; padding-top: 3rem;" method="POST" action="/turfadmin/editfacilities/{{facilities.id}}/" enctype="multipart/form-data">
       {% csrf_token %} 
-      <h1 class="h3 mb-3 font-weight-normal" style="color: rgb(151, 10, 10); font-weight: bold;">Edit Category</h1>
+      <h1 class="h3 mb-3 font-weight-normal" style="color: rgb(151, 10, 10); font-weight: bold;">Edit Facility</h1>
         <div class="row" style="margin-top: 2rem;">
             <div class="col-md-12 col-12">
                 <span style="color: rgb(4, 5, 4); font-size: larger; font-weight: bolder;color: seagreen;">Sport Name</span>
@@ -18,7 +18,7 @@
       </div>
         </div>
     </form>
-</div>
+  </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

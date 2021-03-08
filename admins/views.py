@@ -14,7 +14,6 @@ def adminsignin(request):
         return redirect(adminhome)
     else:
         if request.method == 'POST':
-            print('hellooo')
             username = request.POST['username']
             password = request.POST['password']
             if username == 'admin' and password == 'admin':
@@ -50,7 +49,6 @@ def adminhome(request):
         amount = Booking.objects.all()
         for x in amount:
             price = price + x.price
-        print(price)
         month = datetime.now().month
         this_month_price = 0
         price_month = Booking.objects.filter(date__month=month, status='accept')
@@ -66,7 +64,6 @@ def adminhome(request):
 
 def users(request):
     if request.session.has_key('isAdmin'):
-        # user = request.user
         userdata = userData.objects.all()
         return render(request, 'admin/users.html', {"userdata" : userdata})
     else:
@@ -133,11 +130,9 @@ def addFacilities(request):
     if request.session.has_key('isAdmin'):
         if request.method=='POST':
             facility = request.POST['facility']
-            print("facility")
             Facilities.objects.create(facility=facility)
             return redirect(facilities)
         else:
-            print("hooy")
             return render(request, 'admin/addfacility.html')
     else:
         return redirect(adminsignin)
@@ -147,7 +142,6 @@ def addFacilities(request):
 def addCategory(request):
     if request.session.has_key('isAdmin'):
         if request.method=='POST':
-            print('hello')
             category1 = request.POST['category']
             icon = request.FILES.get('icon')
             Category.objects.create(sport=category1, icon=icon)
@@ -173,7 +167,6 @@ def editFacilities(request, id):
 def editCategory(request, id):
     if request.session.has_key('isAdmin'):
         if request.method == 'POST':
-            print('post')
             category_sport = Category.objects.get(id=id)
             category_sport.sport = request.POST['category']
             if 'iconfile' not in request.POST:
@@ -181,7 +174,6 @@ def editCategory(request, id):
             else:
                 icon = category_sport.icon
             category_sport.icon = icon
-            print(category_sport.sport)
             category_sport.save()
             return redirect(category)
         else:
@@ -211,7 +203,6 @@ def deleteCategory(request, id):
 def block_user(request, id):
     if request.session.has_key('isAdmin'):
         user = User.objects.get(id=id)
-        print(user.is_active)
         if user.is_active == True:
             user.is_active = False 
         else:
@@ -263,8 +254,6 @@ def blocked_turfs(request):
             x.is_active = False
             x.save()
         context = {'turfs' : status}
-        for x in status:
-            print(x.status)
         return render(request, 'admin/blocked-turfs.html', context)
     else:
         return redirect(adminsignin)
@@ -273,7 +262,6 @@ def blocked_turfs(request):
 def turf_requests(request):
     if request.session.has_key('isAdmin'):
         status = Turf.objects.filter(status='pending')
-        print(status)
         context = {'turf' : status}
         return render(request, 'admin/turfrequests.html', context)
     else:
@@ -307,10 +295,6 @@ def reviewspecific(request, id):
         return render(request, 'admin/reviewspecific.html', context)
     else:
         return redirect(adminsignin)
-
-def index(request):
-    return render(request, 'admin/index.html')
-
 
 
 def logout(request):

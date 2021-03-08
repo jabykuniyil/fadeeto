@@ -28,5 +28,4 @@ urlpatterns = [
     path('bookingsummary/', views.bookingSummary, name='bookingsummary'),
     path('reviews/', views.reviews, name='reports'),
     path('reviewspecific/<int:id>/', views.reviewspecific, name='reportspecific'),
-    path('index/', views.index, name='index')
 ]

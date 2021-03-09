@@ -248,10 +248,6 @@ def profile(request, id):
             current_date = date.today()
             if Coupon.objects.exists():
                 coupon = Coupon.objects.filter(start_date__lt=current_date, end_date__gt=current_date) 
-                print(type(coupon))
-                for x in coupon:
-                    if UsedCoupons.objects.get(user=user):
-                        print(x.coupon_code)
                 context = {'userdata' : userdata, 'coupon' : coupon}
                 return render(request, 'users/profile.html', context)
             else:

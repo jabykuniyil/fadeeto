@@ -1,7 +1,8 @@
 {% extends 'users/base.html' %}
 {% block content %}
 <!-- <div class="container"> -->
-    <form>
+    <form action="/profile/{{userdata.id}}/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
 <div class="row" style="padding: 3rem; margin-top: 4rem;">
     <div class="col-md-6" style="margin: auto; display: block;">
             <img src="{{ userdata.ProfileURL }}" width="140" id="profileimage" height="140" class="rounded-circle" alt="" srcset="">
@@ -28,7 +29,7 @@
     <span id="errorphone" style="text-align: center; color: red;"></span>
 <br>
     <div >
-      <input type="button"style="margin: auto; display: block;" class="btn btn-primary btn-lg  btn-block"  id="update" style="  color: seashell;" value="Update&raquo;" >
+      <input type="submit"style="margin: auto; display: block;" class="btn btn-primary btn-lg  btn-block"  id="update" style="  color: seashell;" value="Update&raquo;" >
       </div>
     </div>
     
@@ -73,21 +74,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-    <script>
+    <!-- <script>
         $('#update').click(function(){
           var name = $('#name').val()
           var phone = $('#phone').val()
           var email = $('#email').val()
-          var image = $('#profileimage').val()
           data = {
             'csrfmiddlewaretoken' : '{{csrf_token}}',
             'name' : name,
             'phone' : phone,
             'email' : email,
-           'image' : image
+           
           }
             $.ajax({
-              url : '/profile/{{userdata.id}}/',
+              url : '/profile/',
               method : 'POST',
               data : data,
               dataType : 'json',
@@ -103,7 +103,7 @@
               }
             })
         })
-        </script>
+        </script> -->
 <script>
     
 $('#profileimage').click(function(){

@@ -120,9 +120,6 @@ $('#signup').click(function(){
       data : data,
       dataType : 'json',
       success : function(data){
-        if(data == 'true'){
-          window.location.replace('/otpsignin/')
-        }
         
         if(data == 'email'){
           $('#spanemail').html("Email Already exists")
@@ -132,6 +129,9 @@ $('#signup').click(function(){
         }
         if(data == 'mobile'){
           $('#errormobile').html('Mobile Number already exists')
+        }
+        if(data == 'true'){
+          window.location.replace('/usersignin/')
         }
       }
     })

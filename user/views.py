@@ -157,7 +157,6 @@ def usersignup(request):
             email = request.POST['email']
             username = request.POST['username']
             password = request.POST['password']
-            # otp = str(random.randint(1000, 9999))            
             if User.objects.filter(email=email).exists():
                 return JsonResponse('email', safe=False)
             elif User.objects.filter(username=username).exists():
@@ -165,25 +164,25 @@ def usersignup(request):
             elif userData.objects.filter(phone=phone).exists():
                 return JsonResponse('mobile', safe=False)
             else:
-                request.session['phone_signup'] = phone
-                url = "https://d7networks.com/api/verifier/send"
-                phone1 = '91'+str(phone)
-                payload = {'mobile': phone1,
-                'sender_id': 'SMSINFO',
-                'message': 'Your Fadeeto verification code is {code}',
-                'expiry': '900'} 
-                files = [
+                # request.session['phone_signup'] = phone
+                # url = "https://d7networks.com/api/verifier/send"
+                # phone1 = '91'+str(phone)
+                # payload = {'mobile': phone1,
+                # 'sender_id': 'SMSINFO',
+                # 'message': 'Your Fadeeto verification code is {code}',
+                # 'expiry': '900'} 
+                # files = [
 
-                ]
-                headers = {
-                'Authorization': 'Token 0826e09c83c02826d9767d57fed74ead46c7660a'
-                }
+                # ]
+                # headers = {
+                # 'Authorization': 'Token 0826e09c83c02826d9767d57fed74ead46c7660a'
+                # }
 
-                response = requests.request("POST", url, headers=headers, data = payload, files = files)
-                data = response.text.encode('utf8')
-                dict=json.loads(data.decode('utf8'))
-                otp_id = dict["otp_id"]
-                request.session['otp_id_signup']=otp_id
+                # response = requests.request("POST", url, headers=headers, data = payload, files = files)
+                # data = response.text.encode('utf8')
+                # dict=json.loads(data.decode('utf8'))
+                # otp_id = dict["otp_id"]
+                # request.session['otp_id_signup']=otp_id
                 user = User.objects.create_user(first_name=firstName, email=email, username=username, password=password)
                 userData.objects.create(user=user, phone=phone)
                 return JsonResponse('true', safe=False)
@@ -191,42 +190,42 @@ def usersignup(request):
             return render(request, 'users/usersignup.html')
 
 
-def otp_signin(request):
-    if request.user.is_authenticated:
-        return redirect(home)
-    else:
-        if request.method == 'POST':
-            phone = request.session['phone_signup']
-            url = "https://d7networks.com/api/verifier/verify"
-            otp = request.POST['otp']
-            userDat = userData.objects.get(phone=phone)
-            user = User.objects.get(id=userDat.user_id)
-            otp_id = request.session['otp_id_signup']
-            payload = {'otp_id': otp_id , 'otp_code': otp}
-            files = [
+# def otp_signin(request):
+#     if request.user.is_authenticated:
+#         return redirect(home)
+#     else:
+#         if request.method == 'POST':
+#             phone = request.session['phone_signup']
+#             url = "https://d7networks.com/api/verifier/verify"
+#             otp = request.POST['otp']
+#             userDat = userData.objects.get(phone=phone)
+#             user = User.objects.get(id=userDat.user_id)
+#             otp_id = request.session['otp_id_signup']
+#             payload = {'otp_id': otp_id , 'otp_code': otp}
+#             files = [
 
-            ]
-            headers = {
-            'Authorization': 'Token 0826e09c83c02826d9767d57fed74ead46c7660a'
-            }
+#             ]
+#             headers = {
+#             'Authorization': 'Token 0826e09c83c02826d9767d57fed74ead46c7660a'
+#             }
 
-            response = requests.request("POST", url, headers=headers, data = payload, files = files)
+#             response = requests.request("POST", url, headers=headers, data = payload, files = files)
             
-            data = response.text.encode('utf8')
-            dict=json.loads(data.decode('utf8'))
-            status = dict['status']
-            if status == 'success':
-                auth.login(request,user)
-                return JsonResponse('true', safe=False)
-            else:
-                return JsonResponse('false', safe=False)
-        else:
-            if request.session.has_key('otp_id_signup'):
-                phone = request.session['phone_signup']
-                context = {'phone':phone}
-                return render(request,'users/otp-signin.html',context)
-            else:
-                return redirect(home)   
+#             data = response.text.encode('utf8')
+#             dict=json.loads(data.decode('utf8'))
+#             status = dict['status']
+#             if status == 'success':
+#                 auth.login(request,user)
+#                 return JsonResponse('true', safe=False)
+#             else:
+#                 return JsonResponse('false', safe=False)
+#         else:
+#             if request.session.has_key('otp_id_signup'):
+#                 phone = request.session['phone_signup']
+#                 context = {'phone':phone}
+#                 return render(request,'users/otp-signin.html',context)
+#             else:
+#                 return redirect(home)   
 
 
 def profile(request, id):

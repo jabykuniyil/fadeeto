@@ -232,14 +232,16 @@ def profile(request, id):
     if request.user.is_authenticated:
         if request.method == 'POST':
             user = userData.objects.get(id = id)
-            user.user.first_name = request.POST['name']
-            user.user.email = request.POST['email']
+            user1 = User.objects.get(id=user.user.id)
+            user1.first_name = request.POST['name']
+            user1.email = request.POST['email']
             user.phone = request.POST['phone']
             if 'inputprofileimage' not in request.POST:
                 image = request.FILES.get('inputprofileimage')
             else:
                 image = user.photo
             user.photo = image
+            user1.save()
             user.save()
             return redirect(home)
         else:

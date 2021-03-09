@@ -174,8 +174,8 @@ def addTurf(request):
             vendor_id = request.session['vendor_id']
             turfName = request.POST['turfName']
             turfName.capitalize()
-            lat = request.POST['lat']
-            lng = request.POST['lng']
+            lat = request.POST['latitude']
+            lng = request.POST['longitude']
             geolocator = Nominatim(user_agent='vendor')
             Latitude = lat
             Longitude = lng
